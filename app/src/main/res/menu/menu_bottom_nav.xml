@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/fragment_my_game"
+        android:icon="@drawable/ic_my_game"
+        android:title="@string/item_nav_my_game" />
+
+    <item
+        android:id="@+id/fragment_with_pool_live"
+        android:icon="@drawable/ic_with_pool_live"
+        android:title="@string/item_nav_with_pool_live" />
+
+    <item
+        android:id="@+id/fragment_database"
+        android:icon="@drawable/ic_database"
+        android:title="@string/item_nav_database" />
+
+</menu>

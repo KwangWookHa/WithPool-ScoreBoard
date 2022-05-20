@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">board-withpool</string>
+
+    <string name="label_fragment_main">fragment_main</string>
+
+    <string name="item_nav_score_board">ScoreBoard</string>
+    <string name="item_nav_my_game">My game</string>
+    <string name="item_nav_with_pool_live">WithPool LIVE</string>
+    <string name="item_nav_database">Database</string>
+    <string name="item_nav_profile">Profile</string>
+
 </resources>

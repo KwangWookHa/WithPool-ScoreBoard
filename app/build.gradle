@@ -92,4 +92,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
     implementation "androidx.lifecycle:lifecycle-process:2.4.1"
     implementation "androidx.lifecycle:lifecycle-common:2.4.1"
+
+    // SmoothBottomBar (MIT License, https://github.com/ibrahimsn98/SmoothBottomBar)
+    implementation 'com.github.ibrahimsn98:SmoothBottomBar:1.7.9'
+
 }
