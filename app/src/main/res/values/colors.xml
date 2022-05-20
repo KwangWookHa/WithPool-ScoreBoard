@@ -6,10 +6,18 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
 
-
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00000000</color>
+
+    <!--Style Guide-->
+    <color name="main">@color/blue_4855ed</color>
+    <color name="light_gray">#f6f7f8</color>
+    <color name="gray">#e4e4e4</color>
+    <color name="dark_gray">#4c4c4c</color>
+    <color name="medium_gray">#bebdbd</color>
+    <color name="deep_gray">#848484</color>
+
 
 
     <color name="blue_4855ed">#4855ed</color>

@@ -6,7 +6,7 @@
 
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -16,8 +16,11 @@
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             app:defaultNavHost="true"
+            app:layout_constraintBottom_toTopOf="@+id/viewBottomBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/nav_main" />
 
         <me.ibrahimsn.lib.SmoothBottomBar
@@ -25,8 +28,25 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             app:backgroundColor="@color/blue_4855ed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/menu_bottom_nav" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/purple_200"
+            android:contentDescription="@null"
+            android:foregroundGravity="center"
+            android:src="@drawable/ic_score_board_48"
+            app:borderWidth="0dp"
+            app:elevation="8dp"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/fragmentContainerView"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
