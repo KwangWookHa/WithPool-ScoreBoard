@@ -26,7 +26,7 @@ android {
     def isImmediateUpdate = 0
 
     defaultConfig {
-        applicationId "board.withpool.wook"
+        applicationId "wook.withpool.board"
         minSdk 23
         targetSdk 32
 
