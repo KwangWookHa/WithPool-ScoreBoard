@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="poppins_semibold_10" parent="poppins_semibold">
+        <item name="android:textSize">10dp</item>
+    </style>
+
+    <style name="poppins_semibold_12" parent="poppins_semibold">
+        <item name="android:textSize">12dp</item>
+    </style>
+
+    <style name="poppins_semibold_13" parent="poppins_semibold">
+        <item name="android:textSize">13dp</item>
+    </style>
+
+    <style name="poppins_semibold_14" parent="poppins_semibold">
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="poppins_semibold_16" parent="poppins_semibold">
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="poppins_semibold_18" parent="poppins_semibold">
+        <item name="android:textSize">18dp</item>
+    </style>
+
+    <style name="poppins_semibold_20" parent="poppins_semibold">
+        <item name="android:textSize">20dp</item>
+    </style>
+
+    <style name="poppins_semibold_22" parent="poppins_semibold">
+        <item name="android:textSize">22dp</item>
+    </style>
+
+    <style name="poppins_semibold_24" parent="poppins_semibold">
+        <item name="android:textSize">24dp</item>
+    </style>
+
+    <style name="poppins_semibold_26" parent="poppins_semibold">
+        <item name="android:textSize">26dp</item>
+    </style>
+
+    <style name="poppins_semibold_28" parent="poppins_semibold">
+        <item name="android:textSize">28dp</item>
+    </style>
+
+    <style name="poppins_semibold_30" parent="poppins_semibold">
+        <item name="android:textSize">30dp</item>
+    </style>
+
+    <style name="poppins_semibold_32" parent="poppins_semibold">
+        <item name="android:textSize">30dp</item>
+    </style>
+
+    <style name="poppins_semibold_34" parent="poppins_semibold">
+        <item name="android:textSize">34dp</item>
+    </style>
+
+    <style name="poppins_semibold_36" parent="poppins_semibold">
+        <item name="android:textSize">36dp</item>
+    </style>
+
+    <style name="poppins_semibold_38" parent="poppins_semibold">
+        <item name="android:textSize">38dp</item>
+    </style>
+
+    <style name="poppins_semibold_40" parent="poppins_semibold">
+        <item name="android:textSize">40dp</item>
+    </style>
+
+</resources>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="notosans_regular_10" parent="notosans_regular">
+        <item name="android:textSize">10dp</item>
+    </style>
+
+    <style name="notosans_regular_12" parent="notosans_regular">
+        <item name="android:textSize">12dp</item>
+    </style>
+
+    <style name="notosans_regular_14" parent="notosans_regular">
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="notosans_regular_16" parent="notosans_regular">
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="notosans_regular_18" parent="notosans_regular">
+        <item name="android:textSize">18dp</item>
+    </style>
+
+    <style name="notosans_regular_20" parent="notosans_regular">
+        <item name="android:textSize">20dp</item>
+    </style>
+
+    <style name="notosans_regular_22" parent="notosans_regular">
+        <item name="android:textSize">22dp</item>
+    </style>
+
+    <style name="notosans_regular_24" parent="notosans_regular">
+        <item name="android:textSize">24dp</item>
+    </style>
+
+    <style name="notosans_regular_26" parent="notosans_regular">
+        <item name="android:textSize">26dp</item>
+    </style>
+
+    <style name="notosans_regular_28" parent="notosans_regular">
+        <item name="android:textSize">28dp</item>
+    </style>
+
+    <style name="notosans_regular_30" parent="notosans_regular">
+        <item name="android:textSize">30dp</item>
+    </style>
+
+    <style name="notosans_regular_32" parent="notosans_regular">
+        <item name="android:textSize">30dp</item>
+    </style>
+
+    <style name="notosans_regular_34" parent="notosans_regular">
+        <item name="android:textSize">34dp</item>
+    </style>
+
+    <style name="notosans_regular_36" parent="notosans_regular">
+        <item name="android:textSize">36dp</item>
+    </style>
+
+    <style name="notosans_regular_38" parent="notosans_regular">
+        <item name="android:textSize">38dp</item>
+    </style>
+
+    <style name="notosans_regular_40" parent="notosans_regular">
+        <item name="android:textSize">40dp</item>
+    </style>
+
+</resources>
