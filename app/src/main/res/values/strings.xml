@@ -3,6 +3,13 @@
 
     <string name="label_fragment_main">fragment_main</string>
 
+    <string name="common_confirm">확인</string>
+    <string name="common_complete">완료</string>
+    <string name="common_cancel">취소</string>
+    <string name="common_delete">삭제</string>
+    <string name="common_add">추가</string>
+    <string name="common_next">다음</string>
+
     <string name="item_nav_score_board">ScoreBoard</string>
     <string name="item_nav_my_game">My game</string>
     <string name="item_nav_with_pool_live">WithPool LIVE</string>

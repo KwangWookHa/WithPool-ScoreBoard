@@ -19,6 +19,40 @@
     <color name="deep_gray">#848484</color>
 
 
+    <!--Black-->
+    <color name="black_20">#33000000</color>
+    <color name="black_30">#4d000000</color>
+    <color name="black_50">#80000000</color>
+    <color name="black_70">#b3000000</color>
 
+    <!--White-->
+    <color name="white_20">#33ffffff</color>
+    <color name="white_30">#4dffffff</color>
+
+    <!--Purple-->
+    <color name="purple_9844fc">#9844fc</color>
+
+    <!--Blue-->
+    <color name="blue_3a32f5_20">#333a32f6</color>
     <color name="blue_4855ed">#4855ed</color>
+
+    <!--Gray-->
+    <color name="gray_4c4c4c">#4c4c4c</color>
+    <color name="gray_efefef">#efefef</color>
+    <color name="gray_f6f7f8">#f6f7f8</color>
+    <color name="gray_f6f7f8_50">#7ff6f7f8</color>
+    <color name="gray_e4e4e4">#e4e4e4</color>
+    <color name="gray_e4e4e4_10">#1ae4e4e4</color>
+    <color name="gray_e4e4e4_30">#4de4e4e4</color>
+    <color name="gray_e4e4e4_60">#99e4e4e4</color>
+    <color name="gray_848484">#848484</color>
+    <color name="gray_bebdbd">#bebdbd</color>
+    <color name="gray_bebdbd_25">#40bebdbd</color>
+    <color name="gray_fafafa">#fafafa</color>
+
+    <!--Red-->
+    <color name="red_f44426">#f44426</color>
+    <color name="red_ed697d">#ed697d</color>
+    <color name="red_ff6f5e">#ff6f5e</color>
+
 </resources>

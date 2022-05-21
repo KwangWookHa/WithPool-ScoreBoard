@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="wook.withpool.board.screen.dialog.DefaultDialog" />
+
+        <import type="wook.withpool.board.screen.dialog.DefaultDialog.DialogType" />
+
+        <variable
+            name="dialog"
+            type="DefaultDialog" />
+
+        <variable
+            name="onClickLeft"
+            type="Function1&lt;DefaultDialog, Unit>" />
+
+        <variable
+            name="onClickRight"
+            type="Function1&lt;DefaultDialog, Unit>" />
+
+        <variable
+            name="type"
+            type="DialogType" />
+
+        <variable
+            name="isIconVisible"
+            type="Boolean" />
+
+        <variable
+            name="imgResourceId"
+            type="Integer" />
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="message"
+            type="String" />
+
+        <variable
+            name="btnLeftText"
+            type="String" />
+
+        <variable
+            name="gravity"
+            type="Integer" />
+
+        <variable
+            name="btnRightText"
+            type="String" />
+
+        <import type="kotlin.jvm.functions.Function1" />
+
+        <import type="kotlin.Unit" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/bg_ffffff_round_24"
+            android:paddingBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgIcon"
+                bindImgResourceId="@{imgResourceId}"
+                bindVisibleOrGone="@{isIconVisible}"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textTitle"
+                style="@style/notosans_medium_18"
+                bindVisibleOrGone="@{title.length() != 0}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="@{title}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgIcon"
+                app:layout_goneMarginTop="40dp"
+                tools:text="title" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textMessage"
+                style="@style/notosans_regular_14"
+                bindVisibleOrGone="@{message != null}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="@{gravity}"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:text="@{message}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textTitle"
+                app:layout_goneMarginTop="40dp"
+                tools:text="message" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnLeft"
+                style="@style/whiteButton"
+                bindVisibleOrGone="@{type == DialogType.DIALOG_OK_CANCEL}"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:onClick="@{() -> onClickLeft.invoke(dialog)}"
+                android:text="@{btnLeftText}"
+                android:textAllCaps="false"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/btnRight"
+                app:layout_constraintTop_toBottomOf="@+id/textMessage"
+                tools:text="btnLeftText" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnRight"
+                style="@style/redButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="center"
+                android:onClick="@{() -> onClickRight.invoke(dialog)}"
+                android:text="@{btnRightText}"
+                android:textAllCaps="false"
+                app:layout_constraintLeft_toRightOf="@+id/btnLeft"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textMessage"
+                app:layout_goneMarginStart="20dp"
+                tools:text="btnRightText" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

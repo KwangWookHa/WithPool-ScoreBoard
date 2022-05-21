@@ -1,4 +1,4 @@
-package wook.withpool.board.ui.activity
+package wook.withpool.board.screen.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

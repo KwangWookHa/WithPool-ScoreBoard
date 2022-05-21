@@ -1,4 +1,4 @@
-package wook.withpool.board.ui.base
+package wook.withpool.board.base
 
 import android.content.Context
 import android.os.Bundle
