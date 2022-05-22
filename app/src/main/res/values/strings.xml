@@ -9,11 +9,25 @@
     <string name="common_delete">삭제</string>
     <string name="common_add">추가</string>
     <string name="common_next">다음</string>
+    <string name="common_player">Player</string>
+
+
+    <string name="fragment_choice_player">선수 선택</string>
+    <string name="fragment_choice_player_change">선수 변경</string>
+    <string name="fragment_choice_player_start_game">경기 시작</string>
+    <string name="fragment_choice_player_change_first">선공 변경</string>
+    <string name="fragment_choice_player_close">경기 취소</string>
+    <string name="fragment_choice_player_first">선공</string>
+    <string name="fragment_choice_player_info_title">도움말</string>
+    <string name="fragment_choice_player_select_mode">게임 선택</string>
 
     <string name="item_nav_score_board">ScoreBoard</string>
     <string name="item_nav_my_game">My game</string>
     <string name="item_nav_with_pool_live">WithPool LIVE</string>
     <string name="item_nav_database">Database</string>
     <string name="item_nav_profile">Profile</string>
+
+    <string name="activity_score_board_rack">%d Rack</string>
+    <string name="activity_score_board_inning">%d Inning</string>
 
 </resources>

@@ -6,8 +6,8 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
 
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
     <color name="transparent">#00000000</color>
 
     <!--Style Guide-->
@@ -28,6 +28,13 @@
     <!--White-->
     <color name="white_20">#33ffffff</color>
     <color name="white_30">#4dffffff</color>
+
+    <!--Yellow-->
+    <color name="yellow_FFFF8D">#FFFF8D</color>
+    <color name="yellow_FFD180">#FFD180</color>
+
+    <!--Green-->
+    <color name="green_43A047">#43A047</color>
 
     <!--Purple-->
     <color name="purple_9844fc">#9844fc</color>
