@@ -1,11 +1,11 @@
-package wook.withpool.board.base
+package wook.pool.board.base
 
 import androidx.lifecycle.ViewModel
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import org.greenrobot.eventbus.EventBus
-import wook.withpool.board.data.ThrowableEvent
+import wook.pool.board.data.ThrowableEvent
 
 abstract class BaseViewModel : ViewModel() {
 

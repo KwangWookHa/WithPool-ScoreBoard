@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="wook.withpool.board.screen.scoreboard.ScoreBoardViewModel" />
+            type="wook.pool.board.screen.scoreboard.ScoreBoardViewModel" />
 
     </data>
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">board-withpool</string>
+    <string name="app_name">pool-board</string>
 
     <string name="label_fragment_main">fragment_main</string>
 

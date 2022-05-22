@@ -1,9 +1,9 @@
-package wook.withpool.board.screen.main
+package wook.pool.board.screen.main
 
 import android.os.Bundle
-import wook.withpool.board.R
-import wook.withpool.board.databinding.FragmentMainBinding
-import wook.withpool.board.base.BaseFragment
+import wook.pool.board.R
+import wook.pool.board.databinding.FragmentMainBinding
+import wook.pool.board.base.BaseFragment
 
 class MainFragment(
     override val layoutResId: Int = R.layout.fragment_main

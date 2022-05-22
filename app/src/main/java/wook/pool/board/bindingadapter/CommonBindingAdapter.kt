@@ -1,4 +1,4 @@
-package wook.withpool.board.bindingadapter
+package wook.pool.board.bindingadapter
 
 import android.text.SpannableString
 import android.text.style.UnderlineSpan

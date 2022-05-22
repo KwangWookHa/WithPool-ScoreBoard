@@ -1,4 +1,4 @@
-package wook.withpool.board
+package wook.pool.board
 
 import org.junit.Test
 

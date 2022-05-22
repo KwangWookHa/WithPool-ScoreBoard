@@ -1,4 +1,4 @@
-package wook.withpool.board
+package wook.pool.board
 
 import android.app.Application
 import com.orhanobut.logger.AndroidLogAdapter

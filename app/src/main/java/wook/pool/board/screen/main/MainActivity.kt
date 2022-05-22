@@ -1,12 +1,12 @@
-package wook.withpool.board.screen.main
+package wook.pool.board.screen.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import wook.withpool.board.R
-import wook.withpool.board.databinding.ActivityMainBinding
+import wook.pool.board.R
+import wook.pool.board.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 

@@ -1,4 +1,4 @@
-package wook.withpool.board.base
+package wook.pool.board.base
 
 import android.content.Intent
 import android.view.Gravity
@@ -7,9 +7,9 @@ import com.orhanobut.logger.Logger
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import wook.withpool.board.R
-import wook.withpool.board.data.ThrowableEvent
-import wook.withpool.board.screen.dialog.DefaultDialog
+import wook.pool.board.R
+import wook.pool.board.data.ThrowableEvent
+import wook.pool.board.screen.dialog.DefaultDialog
 
 open class BaseActivity : AppCompatActivity() {
 

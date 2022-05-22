@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragment_score_board"
-        android:name="wook.withpool.board.screen.main.MainFragment"
+        android:name="wook.pool.board.screen.main.MainFragment"
         android:label="@string/label_fragment_main"
         tools:layout="@layout/fragment_main" />
 

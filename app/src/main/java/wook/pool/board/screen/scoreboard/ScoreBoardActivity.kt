@@ -1,11 +1,11 @@
-package wook.withpool.board.screen.scoreboard
+package wook.pool.board.screen.scoreboard
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
-import wook.withpool.board.R
-import wook.withpool.board.base.BaseActivity
-import wook.withpool.board.databinding.ActivityScoreBoardBinding
+import wook.pool.board.R
+import wook.pool.board.base.BaseActivity
+import wook.pool.board.databinding.ActivityScoreBoardBinding
 
 
 class ScoreBoardActivity: BaseActivity() {

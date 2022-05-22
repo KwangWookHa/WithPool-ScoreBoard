@@ -1,12 +1,12 @@
-package wook.withpool.board.screen.scoreboard
+package wook.pool.board.screen.scoreboard
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import wook.withpool.board.R
-import wook.withpool.board.base.BaseFragment
-import wook.withpool.board.databinding.FragmentChoicePlayerBinding
+import wook.pool.board.R
+import wook.pool.board.base.BaseFragment
+import wook.pool.board.databinding.FragmentChoicePlayerBinding
 
 class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_choice_player) : BaseFragment<FragmentChoicePlayerBinding>() {
 

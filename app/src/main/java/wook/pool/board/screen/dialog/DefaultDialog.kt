@@ -1,4 +1,4 @@
-package wook.withpool.board.screen.dialog
+package wook.pool.board.screen.dialog
 
 import android.app.Dialog
 import android.content.Context
@@ -8,8 +8,8 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.WindowManager
-import wook.withpool.board.R
-import wook.withpool.board.databinding.DialogDefaultBinding
+import wook.pool.board.R
+import wook.pool.board.databinding.DialogDefaultBinding
 
 
 class DefaultDialog(context: Context) : Dialog(context, R.style.DialogTheme) {
