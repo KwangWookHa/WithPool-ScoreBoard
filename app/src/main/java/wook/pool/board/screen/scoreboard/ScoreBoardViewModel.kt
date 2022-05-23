@@ -20,4 +20,8 @@ class ScoreBoardViewModel : BaseViewModel() {
     private val _isKickOffLeft: MutableLiveData<Boolean> = MutableLiveData(true)
     val isKickOffLeft: LiveData<Boolean> = _isKickOffLeft
 
+    fun switchKickOff() {
+        _isKickOffLeft.value = !(_isKickOffLeft.value!!)
+    }
+
 }

@@ -9,6 +9,10 @@
             name="viewModel"
             type="wook.pool.board.screen.scoreboard.ScoreBoardViewModel" />
 
+        <variable
+            name="listener"
+            type="android.view.View.OnClickListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,6 +61,7 @@
                 android:id="@+id/imgLeftCircle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:onClick="@{listener::onClick}"
                 android:src="@drawable/circle_gray_size_16"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
@@ -112,19 +117,19 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textLeftPlayerHandicap"
-                style="@style/notosans_bold_30"
+                style="@style/poppins_bold_30"
                 bindUnderLine="@{true}"
                 bindVisibleOrGone="@{viewModel.playerLeft != null}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@{@string/common_x_handicap(viewModel.playerLeft.handicap)}"
+                android:text="@{String.valueOf(viewModel.playerLeft.handicap)}"
                 app:layout_constraintBottom_toBottomOf="@+id/imgLeftCircle"
                 app:layout_constraintEnd_toEndOf="@+id/textLeftPlayerName"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/textLeftPlayerName"
                 app:layout_constraintTop_toBottomOf="@+id/textLeftPlayerName"
-                tools:text="5점" />
+                tools:text="5" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgBtnLeftChangePlayer"
@@ -132,6 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
+                android:onClick="@{listener::onClick}"
                 android:src="@drawable/ic_change_48"
                 app:layout_constraintBottom_toBottomOf="@+id/textBtnLeftChangePlayer"
                 app:layout_constraintEnd_toStartOf="@+id/textBtnLeftChangePlayer" />
@@ -144,6 +150,7 @@
                 android:layout_height="0dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
+                android:onClick="@{listener::onClick}"
                 android:text="@string/fragment_choice_player_change"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -191,6 +198,7 @@
                 android:id="@+id/imgRightCircle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:onClick="@{listener::onClick}"
                 android:src="@drawable/circle_gray_size_16"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
@@ -246,19 +254,19 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textRightPlayerHandicap"
-                style="@style/notosans_bold_30"
+                style="@style/poppins_bold_30"
                 bindUnderLine="@{true}"
                 bindVisibleOrGone="@{viewModel.playerRight != null}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@{@string/common_x_handicap(viewModel.playerRight.handicap)}"
+                android:text="@{String.valueOf(viewModel.playerRight.handicap)}"
                 app:layout_constraintBottom_toBottomOf="@+id/imgRightCircle"
                 app:layout_constraintEnd_toEndOf="@+id/textRightPlayerName"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/textRightPlayerName"
                 app:layout_constraintTop_toBottomOf="@+id/textRightPlayerName"
-                tools:text="5점" />
+                tools:text="5" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgBtnRightChangePlayer"
@@ -266,10 +274,10 @@
                 android:layout_width="24dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="2dp"
+                android:onClick="@{listener::onClick}"
                 android:src="@drawable/ic_change_48"
                 app:layout_constraintBottom_toBottomOf="@+id/textBtnRightChangePlayer"
-                app:layout_constraintEnd_toStartOf="@+id/textBtnRightChangePlayer"
-                app:layout_constraintTop_toTopOf="@+id/textBtnRightChangePlayer" />
+                app:layout_constraintEnd_toStartOf="@+id/textBtnRightChangePlayer" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textBtnRightChangePlayer"
@@ -279,6 +287,7 @@
                 android:layout_height="0dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
+                android:onClick="@{listener::onClick}"
                 android:text="@string/fragment_choice_player_change"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -291,6 +300,7 @@
             android:layout_height="48dp"
             android:layout_marginHorizontal="16dp"
             android:background="@drawable/bg_main_round_6"
+            android:onClick="@{listener::onClick}"
             app:layout_constraintBottom_toBottomOf="@+id/layoutLeftPlayer"
             app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
             app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer">
@@ -330,6 +340,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/bg_43a047_round_6"
+            android:onClick="@{listener::onClick}"
             app:layout_constraintBottom_toTopOf="@+id/layoutBtnStartGame"
             app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
             app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer">
@@ -369,6 +380,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/bg_gray_round_6"
+            android:onClick="@{listener::onClick}"
             app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
             app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer"
             app:layout_constraintTop_toTopOf="@+id/layoutLeftPlayer">
@@ -401,56 +413,17 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgGame"
+            android:id="@+id/imgBtnSelectGame"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="16dp"
+            android:onClick="@{listener::onClick}"
             android:src="@drawable/ic_9ball"
-            app:layout_constraintBottom_toTopOf="@+id/layoutBtnSelectGame"
+            app:layout_constraintBottom_toTopOf="@+id/layoutBtnChangeFirst"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
             app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer"
             app:layout_constraintTop_toBottomOf="@+id/layoutBtnClose" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutBtnSelectGame"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/bg_ffd180_round_6"
-            app:layout_constraintBottom_toTopOf="@+id/layoutBtnChangeFirst"
-            app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
-            app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgSelectGame"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_two_ball_24_black"
-                app:layout_constraintBottom_toBottomOf="@+id/textSelectGame"
-                app:layout_constraintEnd_toStartOf="@+id/textSelectGame"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textSelectGame" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textSelectGame"
-                style="@style/notosans_bold_20"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/fragment_choice_player_select_mode"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/imgSelectGame"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

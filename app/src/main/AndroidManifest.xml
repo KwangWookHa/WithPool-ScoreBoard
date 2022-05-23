@@ -17,6 +17,14 @@
         <activity
             android:name="wook.pool.board.screen.main.MainActivity"
             android:exported="true">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+
+        <activity android:name=".screen.scoreboard.ScoreBoardActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

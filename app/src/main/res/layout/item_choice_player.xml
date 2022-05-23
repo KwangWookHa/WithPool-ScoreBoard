@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="player"
+            type="wook.pool.board.data.model.Player" />
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/notosans_medium_16"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="35"
+            android:gravity="center"
+            android:text="@{player.club}"
+            tools:text="위드풀" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/notosans_medium_16"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40"
+            android:gravity="center"
+            android:text="@{player.name}"
+            tools:text="하광욱" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/notosans_medium_16"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="25"
+            android:gravity="center"
+            android:text="@{@string/common_x_handicap(player.handicap)}"
+            tools:text="5점" />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>
