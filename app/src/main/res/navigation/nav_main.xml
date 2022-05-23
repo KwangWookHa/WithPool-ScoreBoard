@@ -2,13 +2,4 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_main"
-    app:startDestination="@id/fragment_score_board">
-
-    <fragment
-        android:id="@+id/fragment_score_board"
-        android:name="wook.pool.board.screen.main.MainFragment"
-        android:label="@string/label_fragment_main"
-        tools:layout="@layout/fragment_main" />
-
-</navigation>
+    android:id="@+id/nav_main" />

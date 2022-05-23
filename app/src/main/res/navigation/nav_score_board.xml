@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_score_board"
+    app:startDestination="@id/fragment_choice_player">
+
+    <fragment
+        android:id="@+id/fragment_choice_player"
+        android:name="wook.pool.board.screen.scoreboard.ChoicePlayerFragment"
+
+        tools:layout="@layout/fragment_choice_player"/>
+
+
+
+</navigation>

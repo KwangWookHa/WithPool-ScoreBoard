@@ -29,6 +29,7 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgLeftFirst"
+                bindVisibleOrGone="@{viewModel.isKickOffLeft}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_flag_24_black"
@@ -42,6 +43,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textLeftFirst"
                 style="@style/notosans_medium_18"
+                bindVisibleOrGone="@{viewModel.isKickOffLeft}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -64,8 +66,9 @@
                 app:layout_constraintWidth_percent="0.7" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textLeftPlayerName"
+                android:id="@+id/textLeftPlayer"
                 style="@style/notosans_bold_24"
+                bindVisibleOrGone="@{viewModel.playerLeft == null}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/common_player"
@@ -73,26 +76,59 @@
                 app:layout_constraintEnd_toEndOf="@+id/imgLeftCircle"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/imgLeftCircle"
-                app:layout_constraintTop_toBottomOf="@+id/imgLeftCircle"
+                app:layout_constraintTop_toTopOf="@+id/imgLeftCircle"
                 app:layout_constraintVertical_chainStyle="packed" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textBtnLeftChoicePlayer"
                 style="@style/notosans_medium_18"
+                bindVisibleOrGone="@{viewModel.playerLeft == null}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/bg_ffffff_round_6"
                 android:padding="8dp"
                 android:text="@string/fragment_choice_player"
-                app:layout_constraintBottom_toTopOf="@+id/imgLeftCircle"
+                app:layout_constraintBottom_toBottomOf="@+id/imgLeftCircle"
+                app:layout_constraintEnd_toEndOf="@+id/textLeftPlayer"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/textLeftPlayer"
+                app:layout_constraintTop_toBottomOf="@+id/textLeftPlayer" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textLeftPlayerName"
+                style="@style/notosans_bold_36"
+                bindVisibleOrGone="@{viewModel.playerLeft != null}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.playerLeft.name}"
+                app:layout_constraintBottom_toTopOf="@+id/textLeftPlayerHandicap"
+                app:layout_constraintEnd_toEndOf="@+id/imgLeftCircle"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/imgLeftCircle"
+                app:layout_constraintTop_toTopOf="@+id/imgLeftCircle"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="하광욱" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textLeftPlayerHandicap"
+                style="@style/notosans_bold_30"
+                bindUnderLine="@{true}"
+                bindVisibleOrGone="@{viewModel.playerLeft != null}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{@string/common_x_handicap(viewModel.playerLeft.handicap)}"
+                app:layout_constraintBottom_toBottomOf="@+id/imgLeftCircle"
                 app:layout_constraintEnd_toEndOf="@+id/textLeftPlayerName"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/textLeftPlayerName"
-                app:layout_constraintTop_toBottomOf="@+id/textLeftPlayerName" />
+                app:layout_constraintTop_toBottomOf="@+id/textLeftPlayerName"
+                tools:text="5점" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgBtnLeftChangePlayer"
+                bindVisibleOrGone="@{viewModel.playerLeft != null}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
@@ -103,6 +139,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textBtnLeftChangePlayer"
                 style="@style/notosans_medium_18"
+                bindVisibleOrGone="@{viewModel.playerLeft != null}"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginEnd="8dp"
@@ -118,7 +155,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="16dp"
-            android:background="@drawable/bg_ffff8d_round_12"
+            android:background="@drawable/bg_ffffff_round_12"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -126,6 +163,7 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgRightFirst"
+                bindVisibleOrGone="@{!viewModel.isKickOffLeft}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_flag_24_black"
@@ -139,6 +177,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textRightFirst"
                 style="@style/notosans_medium_18"
+                bindVisibleOrGone="@{!viewModel.isKickOffLeft}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -161,8 +200,9 @@
                 app:layout_constraintWidth_percent="0.7" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textRightPlayerName"
+                android:id="@+id/textRightPlayer"
                 style="@style/notosans_bold_24"
+                bindVisibleOrGone="@{viewModel.playerRight == null}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/common_player"
@@ -170,26 +210,59 @@
                 app:layout_constraintEnd_toEndOf="@+id/imgRightCircle"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/imgRightCircle"
-                app:layout_constraintTop_toBottomOf="@+id/imgRightCircle"
+                app:layout_constraintTop_toTopOf="@+id/imgRightCircle"
                 app:layout_constraintVertical_chainStyle="packed" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textBtnRightChoicePlayer"
                 style="@style/notosans_medium_18"
+                bindVisibleOrGone="@{viewModel.playerRight == null}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/bg_ffffff_round_6"
                 android:padding="8dp"
                 android:text="@string/fragment_choice_player"
-                app:layout_constraintBottom_toTopOf="@+id/imgRightCircle"
+                app:layout_constraintBottom_toBottomOf="@+id/imgRightCircle"
+                app:layout_constraintEnd_toEndOf="@+id/textRightPlayer"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/textRightPlayer"
+                app:layout_constraintTop_toBottomOf="@+id/textRightPlayer" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textRightPlayerName"
+                style="@style/notosans_bold_36"
+                bindVisibleOrGone="@{viewModel.playerRight != null}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.playerRight.name}"
+                app:layout_constraintBottom_toTopOf="@+id/textRightPlayerHandicap"
+                app:layout_constraintEnd_toEndOf="@+id/imgRightCircle"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/imgRightCircle"
+                app:layout_constraintTop_toTopOf="@+id/imgRightCircle"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="하광욱" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textRightPlayerHandicap"
+                style="@style/notosans_bold_30"
+                bindUnderLine="@{true}"
+                bindVisibleOrGone="@{viewModel.playerRight != null}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{@string/common_x_handicap(viewModel.playerRight.handicap)}"
+                app:layout_constraintBottom_toBottomOf="@+id/imgRightCircle"
                 app:layout_constraintEnd_toEndOf="@+id/textRightPlayerName"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/textRightPlayerName"
-                app:layout_constraintTop_toBottomOf="@+id/textRightPlayerName" />
+                app:layout_constraintTop_toBottomOf="@+id/textRightPlayerName"
+                tools:text="5점" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgBtnRightChangePlayer"
+                bindVisibleOrGone="@{viewModel.playerRight != null}"
                 android:layout_width="24dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="2dp"
@@ -201,6 +274,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textBtnRightChangePlayer"
                 style="@style/notosans_medium_18"
+                bindVisibleOrGone="@{viewModel.playerRight != null}"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginEnd="8dp"
@@ -325,6 +399,18 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgGame"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_9ball"
+            app:layout_constraintBottom_toTopOf="@+id/layoutBtnSelectGame"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
+            app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer"
+            app:layout_constraintTop_toBottomOf="@+id/layoutBtnClose" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutBtnSelectGame"

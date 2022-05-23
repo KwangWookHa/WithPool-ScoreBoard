@@ -10,6 +10,8 @@
     <string name="common_add">추가</string>
     <string name="common_next">다음</string>
     <string name="common_player">Player</string>
+    <string name="common_x_handicap">%d점</string>
+
 
 
     <string name="fragment_choice_player">선수 선택</string>
