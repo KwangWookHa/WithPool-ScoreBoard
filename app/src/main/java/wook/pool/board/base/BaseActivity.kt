@@ -8,7 +8,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import wook.pool.board.R
-import wook.pool.board.data.ThrowableEvent
+import wook.pool.board.data.model.ThrowableEvent
 import wook.pool.board.screen.dialog.DefaultDialog
 
 open class BaseActivity : AppCompatActivity() {

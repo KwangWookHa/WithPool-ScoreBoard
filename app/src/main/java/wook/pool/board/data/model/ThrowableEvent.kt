@@ -1,3 +1,3 @@
-package wook.pool.board.data
+package wook.pool.board.data.model
 
 class ThrowableEvent(val throwable: Throwable)

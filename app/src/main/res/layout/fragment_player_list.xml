@@ -154,16 +154,6 @@
             tools:itemCount="10"
             tools:listitem="@layout/item_choice_player" />
 
-        <View
-            android:id="@+id/viewDividerVertical"
-            android:layout_width="1dp"
-            android:layout_height="0dp"
-            android:background="@color/gray_e4e4e4"
-            app:layout_constraintBottom_toBottomOf="@id/recyclerPlayersLeft"
-            app:layout_constraintEnd_toStartOf="@id/recyclerPlayersRight"
-            app:layout_constraintStart_toEndOf="@id/recyclerPlayersLeft"
-            app:layout_constraintTop_toTopOf="@id/layoutHeaderLeft" />
-
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/layoutHeaderRight"
             android:layout_width="0dp"

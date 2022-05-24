@@ -5,7 +5,7 @@ import com.orhanobut.logger.Logger
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import org.greenrobot.eventbus.EventBus
-import wook.pool.board.data.ThrowableEvent
+import wook.pool.board.data.model.ThrowableEvent
 
 abstract class BaseViewModel : ViewModel() {
 

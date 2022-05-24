@@ -1,7 +1,7 @@
 package wook.pool.board.data.model
 
 data class Player(
-    val club: String,
-    val name: String,
-    val handicap: Int,
+    val club: String? = null,
+    val name: String? = null,
+    val handicap: Int? = null,
 )
