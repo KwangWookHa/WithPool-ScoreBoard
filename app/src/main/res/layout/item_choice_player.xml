@@ -8,11 +8,22 @@
             name="player"
             type="wook.pool.board.data.model.Player" />
 
+        <import type="wook.pool.board.data.model.Player" />
+
+        <variable
+            name="onClickPlayer"
+            type="Function1&lt;Player,Unit>" />
+
+        <import type="kotlin.jvm.functions.Function1" />
+
+        <import type="kotlin.Unit" />
+
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:onClick="@{() -> onClickPlayer.invoke(player)}"
         android:orientation="horizontal"
         android:weightSum="100">
 

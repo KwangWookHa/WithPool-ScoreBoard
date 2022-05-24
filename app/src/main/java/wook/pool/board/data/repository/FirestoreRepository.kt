@@ -7,9 +7,9 @@ import com.google.firebase.ktx.Firebase
 import wook.pool.board.data.model.Player
 import javax.inject.Inject
 
-class FirestoreRepository @Inject constructor(
+class FirestoreRepository @Inject constructor() {
+
     private val db: FirebaseFirestore = Firebase.firestore
-) {
 
     fun insertPlayer(player: Player, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         player.name?.let {

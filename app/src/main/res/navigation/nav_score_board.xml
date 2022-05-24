@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/fragment_choice_player"
         android:name="wook.pool.board.screen.scoreboard.ChoicePlayerFragment"
-        tools:layout="@layout/fragment_choice_player" >
+        tools:layout="@layout/fragment_choice_player">
         <action
             android:id="@+id/action_fragment_choice_player_to_fragment_player_list"
             app:destination="@id/fragment_player_list" />
@@ -17,7 +17,16 @@
     <fragment
         android:id="@+id/fragment_player_list"
         android:name="wook.pool.board.screen.scoreboard.PlayerListFragment"
-        tools:layout="@layout/fragment_player_list" />
+        tools:layout="@layout/fragment_player_list">
+        <action
+            android:id="@+id/action_fragment_player_list_to_fragment_choice_player"
+            app:destination="@id/fragment_choice_player" />
+        <argument
+            android:name="onChoiceLeft"
+            android:defaultValue="true"
+            app:argType="boolean"
+            app:nullable="false" />
+    </fragment>
 
 
 </navigation>

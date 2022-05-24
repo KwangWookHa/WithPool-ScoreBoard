@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import wook.pool.board.R
 import wook.pool.board.base.BaseFragment
+import wook.pool.board.base.Constant.BundleKey.BUNDLE_KEY_ON_CHOICE_LEFT
 import wook.pool.board.databinding.FragmentChoicePlayerBinding
 
 class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_choice_player) :
@@ -26,16 +28,19 @@ class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_cho
 
     override fun onClick(v: View?) {
         with(binding!!) {
-            when(v) {
+            when (v) {
                 imgLeftCircle,
                 imgBtnLeftChangePlayer,
                 textBtnLeftChangePlayer -> {
-
+                    scoreBoardViewModel.setScreenAction(R.id.action_fragment_choice_player_to_fragment_player_list)
                 }
                 imgRightCircle,
                 imgBtnRightChangePlayer,
-                textBtnRightChangePlayer-> {
-
+                textBtnRightChangePlayer -> {
+                    scoreBoardViewModel.setScreenAction(
+                        R.id.action_fragment_choice_player_to_fragment_player_list,
+                        bundleOf(BUNDLE_KEY_ON_CHOICE_LEFT to false)
+                    )
                 }
                 layoutBtnClose -> {
                     activity?.finish()

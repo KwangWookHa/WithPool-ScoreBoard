@@ -4,7 +4,7 @@ import wook.pool.board.data.model.Player
 import wook.pool.board.data.repository.FirestoreRepository
 import javax.inject.Inject
 
-class InsertPlayersUseCase @Inject constructor(
+class InsertPlayerUseCase @Inject constructor(
     private val firebaseRepository: FirestoreRepository,
 ) {
 

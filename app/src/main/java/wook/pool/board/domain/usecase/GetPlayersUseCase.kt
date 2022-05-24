@@ -1,7 +1,6 @@
 package wook.pool.board.domain.usecase
 
 import com.google.firebase.firestore.QuerySnapshot
-import wook.pool.board.data.model.Player
 import wook.pool.board.data.repository.FirestoreRepository
 import javax.inject.Inject
 

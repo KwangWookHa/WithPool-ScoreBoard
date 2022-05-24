@@ -5,22 +5,42 @@
 
     <data>
 
+        <variable
+            name="selectedHandicapIndex"
+            type="Integer" />
+
+        <variable
+            name="listener"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="viewModel"
+            type="wook.pool.board.screen.scoreboard.ScoreBoardViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/appCompatImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:paddingHorizontal="16dp"
+            android:src="@drawable/ic_ico_24_arrow_left_b"
+            app:layout_constraintBottom_toBottomOf="@+id/textTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textTitle" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textTitle"
             style="@style/notosans_medium_20"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:background="@color/gray_e4e4e4"
+            android:layout_marginTop="8dp"
             android:gravity="center"
             android:text="@string/fragment_choice_player"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -48,8 +68,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:background="@drawable/bg_gray_round_6"
+                android:background="@{selectedHandicapIndex == 0 ? @drawable/bg_main_round_6: @drawable/bg_gray_round_6}"
                 android:gravity="center"
+                android:onClick="@{listener::onClick}"
                 android:paddingVertical="8dp"
                 android:text="3 - 4" />
 
@@ -59,8 +80,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:background="@drawable/bg_gray_round_6"
+                android:background="@{selectedHandicapIndex == 1 ? @drawable/bg_main_round_6: @drawable/bg_gray_round_6}"
                 android:gravity="center"
+                android:onClick="@{listener::onClick}"
                 android:paddingVertical="8dp"
                 android:text="5 - 6" />
 
@@ -70,8 +92,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:background="@drawable/bg_gray_round_6"
+                android:background="@{selectedHandicapIndex == 2 ? @drawable/bg_main_round_6: @drawable/bg_gray_round_6}"
                 android:gravity="center"
+                android:onClick="@{listener::onClick}"
                 android:paddingVertical="8dp"
                 android:text="7 - 8" />
 
@@ -81,8 +104,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:background="@drawable/bg_gray_round_6"
+                android:background="@{selectedHandicapIndex == 3 ? @drawable/bg_main_round_6: @drawable/bg_gray_round_6}"
                 android:gravity="center"
+                android:onClick="@{listener::onClick}"
                 android:paddingVertical="8dp"
                 android:text="9 - 10" />
 
@@ -92,7 +116,6 @@
             android:id="@+id/layoutHeaderLeft"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:orientation="horizontal"
             android:paddingVertical="8dp"
             android:weightSum="100"
@@ -145,6 +168,7 @@
             android:layout_marginHorizontal="2dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/bg_ffffff_round_6"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/recyclerPlayersRight"
             app:layout_constraintHorizontal_bias="0.5"
@@ -211,6 +235,7 @@
             android:layout_height="0dp"
             android:layout_marginHorizontal="8dp"
             android:background="@drawable/bg_ffffff_round_6"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="@+id/recyclerPlayersLeft"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
