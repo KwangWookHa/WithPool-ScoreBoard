@@ -8,11 +8,19 @@ import androidx.fragment.app.activityViewModels
 import wook.pool.board.R
 import wook.pool.board.base.BaseFragment
 import wook.pool.board.base.Constant
+import wook.pool.board.data.model.Player
 import wook.pool.board.databinding.FragmentPlayerListBinding
 
 class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_player_list) :
     BaseFragment<FragmentPlayerListBinding>(),
     View.OnClickListener {
+
+    companion object {
+        const val POSITION_HANDICAP_3_4 = 0
+        const val POSITION_HANDICAP_5_6 = 1
+        const val POSITION_HANDICAP_7_8 = 2
+        const val POSITION_HANDICAP_9_10 = 3
+    }
 
     private val scoreBoardViewModel: ScoreBoardViewModel by activityViewModels()
 
@@ -22,35 +30,70 @@ class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_playe
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         super.onCreateView(inflater, container, savedInstanceState).apply {
             binding.apply {
-                this?.selectedHandicapIndex = 1
-                this?.viewModel = this@PlayerListFragment.scoreBoardViewModel
-                this?.listener = this@PlayerListFragment
+                selectedHandicapIndex = POSITION_HANDICAP_5_6
+                viewModel = this@PlayerListFragment.scoreBoardViewModel
+                listener = this@PlayerListFragment
             }
-            arguments?.let { scoreBoardViewModel.initArguments(it) }
+            arguments?.getBoolean(Constant.BundleKey.BUNDLE_KEY_ON_CHOICE_LEFT)?.let {
+                scoreBoardViewModel.initMode(it)
+            }
             initObserver()
             scoreBoardViewModel.getPlayers()
         }
 
     private fun initObserver() {
         with(scoreBoardViewModel) {
-            playersHandicap5.observe(viewLifecycleOwner) {
-                leftAdapter = ChoicePlayerAdapter(it) {}
-                binding?.recyclerPlayersLeft?.adapter = leftAdapter
+            playersByHandicap.observe(viewLifecycleOwner) {
+                leftAdapter = getPlayerAdapter(it[5], true)
+                binding.recyclerPlayersLeft.adapter = leftAdapter
+                rightAdapter = getPlayerAdapter(it[6], false)
+                binding.recyclerPlayersRight.adapter = rightAdapter
             }
-            playersHandicap6.observe(viewLifecycleOwner) {
-                rightAdapter = ChoicePlayerAdapter(it) {}
-                binding?.recyclerPlayersRight?.adapter = rightAdapter
-            }
+        }
+    }
+
+    private fun getPlayerAdapter(players: List<Player>, isLeft: Boolean) =
+        ChoicePlayerAdapter(players) { player ->
+            scoreBoardViewModel.setPlayer(player, isLeft)
+            activity?.onBackPressed()
+        }
+
+    private fun setPlayers(leftHandicap: Int, rightHandicap: Int) {
+        scoreBoardViewModel.playersByHandicap.value?.let {
+            leftAdapter.setPlayers(it[leftHandicap])
+            rightAdapter.setPlayers(it[rightHandicap])
         }
     }
 
     override fun onClick(v: View?) {
         with(binding) {
             when (v) {
-                this?.textBtnHandicap34 -> binding?.selectedHandicapIndex = 0
-                this?.textBtnHandicap56 -> binding?.selectedHandicapIndex = 1
-                this?.textBtnHandicap78 -> binding?.selectedHandicapIndex = 2
-                this?.textBtnHandicap910 -> binding?.selectedHandicapIndex = 3
+                textBtnHandicap34 -> {
+                    if (selectedHandicapIndex == POSITION_HANDICAP_3_4) return
+                    selectedHandicapIndex = POSITION_HANDICAP_3_4
+                    setPlayers(3, 4)
+                }
+                textBtnHandicap56 -> {
+                    if (selectedHandicapIndex == POSITION_HANDICAP_5_6) return
+                    selectedHandicapIndex = POSITION_HANDICAP_5_6
+                    setPlayers(5, 6)
+                }
+                textBtnHandicap78 -> {
+                    if (selectedHandicapIndex == POSITION_HANDICAP_7_8) return
+                    selectedHandicapIndex = POSITION_HANDICAP_7_8
+                    setPlayers(7, 8)
+                }
+                textBtnHandicap910 -> {
+                    if (selectedHandicapIndex == POSITION_HANDICAP_9_10) return
+                    selectedHandicapIndex = POSITION_HANDICAP_9_10
+                    setPlayers(9, 10)
+                }
+                imgBtnBack -> {
+                    activity?.onBackPressed()
+                }
+                else -> {
+
+                }
             }
         }
     }

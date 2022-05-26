@@ -23,10 +23,11 @@
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/appCompatImageView"
+            android:id="@+id/imgBtnBack"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:paddingHorizontal="16dp"
+            android:onClick="@{listener::onClick}"
+            android:paddingHorizontal="8dp"
             android:src="@drawable/ic_ico_24_arrow_left_b"
             app:layout_constraintBottom_toBottomOf="@+id/textTitle"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,13 +35,14 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textTitle"
-            style="@style/notosans_medium_20"
+            style="@style/notosans_bold_16"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:text="@string/fragment_choice_player"
-            app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayoutLeft"
+            app:layout_constraintStart_toEndOf="@+id/imgBtnBack"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -52,13 +54,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textTitle"
-            app:layout_constraintWidth_percent="0.2">
+            app:layout_constraintWidth_percent="0.15">
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/poppins_bold_20"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
+                android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:text="Handicap" />
 
@@ -72,7 +74,8 @@
                 android:gravity="center"
                 android:onClick="@{listener::onClick}"
                 android:paddingVertical="8dp"
-                android:text="3 - 4" />
+                android:text="3 - 4"
+                android:textColor="@{selectedHandicapIndex == 0 ? @color/white : @color/black}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textBtnHandicap56"
@@ -84,7 +87,8 @@
                 android:gravity="center"
                 android:onClick="@{listener::onClick}"
                 android:paddingVertical="8dp"
-                android:text="5 - 6" />
+                android:text="5 - 6"
+                android:textColor="@{selectedHandicapIndex == 1 ? @color/white : @color/black}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textBtnHandicap78"
@@ -96,7 +100,8 @@
                 android:gravity="center"
                 android:onClick="@{listener::onClick}"
                 android:paddingVertical="8dp"
-                android:text="7 - 8" />
+                android:text="7 - 8"
+                android:textColor="@{selectedHandicapIndex == 2 ? @color/white : @color/black}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textBtnHandicap910"
@@ -108,142 +113,167 @@
                 android:gravity="center"
                 android:onClick="@{listener::onClick}"
                 android:paddingVertical="8dp"
-                android:text="9 - 10" />
+                android:text="9 - 10"
+                android:textColor="@{selectedHandicapIndex == 3 ? @color/white : @color/black}" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/layoutHeaderLeft"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingVertical="8dp"
-            android:weightSum="100"
-            app:layout_constraintEnd_toEndOf="@+id/recyclerPlayersLeft"
-            app:layout_constraintStart_toStartOf="@+id/recyclerPlayersLeft"
-            app:layout_constraintTop_toBottomOf="@+id/textTitle">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/poppins_bold_16"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="35"
-                android:gravity="center"
-                android:text="Club"
-                android:textColor="@color/gray_848484" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/poppins_bold_16"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="40"
-                android:gravity="center"
-                android:text="Name"
-                android:textColor="@color/gray_848484" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/poppins_bold_16"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="25"
-                android:gravity="center"
-                android:text="Handi"
-                android:textColor="@color/gray_848484" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <View
-            android:id="@+id/viewDivider"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="@color/gray_e4e4e4"
-            app:layout_constraintEnd_toEndOf="@id/layoutHeaderLeft"
-            app:layout_constraintStart_toStartOf="@+id/layoutHeaderLeft"
-            app:layout_constraintTop_toBottomOf="@id/layoutHeaderLeft" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerPlayersLeft"
+            android:id="@+id/linearLayoutLeft"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="2dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/bg_ffffff_round_6"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_marginVertical="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/bg_ffffff_r_6_bd_e4e4e4"
+            android:orientation="vertical"
+            android:padding="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/recyclerPlayersRight"
+            app:layout_constraintEnd_toStartOf="@+id/layoutRight"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@+id/layoutHandicapSelector"
-            app:layout_constraintTop_toBottomOf="@+id/viewDivider"
-            tools:itemCount="10"
-            tools:listitem="@layout/item_choice_player" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/layoutHeaderRight"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:orientation="horizontal"
-            android:paddingVertical="8dp"
-            android:weightSum="100"
-            app:layout_constraintBottom_toBottomOf="@+id/layoutHeaderLeft"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/recyclerPlayersRight"
-            app:layout_constraintTop_toTopOf="@+id/layoutHeaderLeft">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layoutHeaderLeft"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="4dp"
+                android:weightSum="100">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/poppins_bold_16"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="40"
-                android:gravity="center"
-                android:text="Club"
-                android:textColor="@color/gray_848484" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/poppins_bold_16"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="35"
+                    android:gravity="center"
+                    android:text="Club"
+                    android:textColor="@color/gray_848484" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/poppins_bold_16"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="40"
-                android:gravity="center"
-                android:text="Name"
-                android:textColor="@color/gray_848484" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/poppins_bold_16"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="40"
+                    android:gravity="center"
+                    android:text="Name"
+                    android:textColor="@color/gray_848484" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/poppins_bold_16"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="20"
-                android:gravity="center"
-                android:text="Handi"
-                android:textColor="@color/gray_848484" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/poppins_bold_16"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="25"
+                    android:gravity="center"
+                    android:text="Handi"
+                    android:textColor="@color/gray_848484" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:id="@+id/viewDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="4dp"
+                android:background="@color/gray_e4e4e4"
+                app:layout_constraintEnd_toEndOf="@id/layoutHeaderLeft"
+                app:layout_constraintStart_toStartOf="@+id/layoutHeaderLeft"
+                app:layout_constraintTop_toBottomOf="@id/layoutHeaderLeft" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerPlayersLeft"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_ffffff_round_6"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="10"
+                tools:layout_editor_absoluteX="156dp"
+                tools:layout_editor_absoluteY="88dp"
+                tools:listitem="@layout/item_choice_player" />
+
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <View
-            android:id="@+id/viewDivider2"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="@color/gray_e4e4e4"
-            app:layout_constraintEnd_toEndOf="@+id/layoutHeaderRight"
-            app:layout_constraintStart_toStartOf="@+id/layoutHeaderRight"
-            app:layout_constraintTop_toBottomOf="@id/layoutHeaderLeft" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerPlayersRight"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layoutRight"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="8dp"
-            android:background="@drawable/bg_ffffff_round_6"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="@+id/recyclerPlayersLeft"
+            android:layout_marginVertical="16dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bg_ffffff_r_6_bd_e4e4e4"
+            android:orientation="vertical"
+            android:padding="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/recyclerPlayersLeft"
-            app:layout_constraintTop_toBottomOf="@+id/viewDivider2"
-            tools:itemCount="10"
-            tools:listitem="@layout/item_choice_player" />
+            app:layout_constraintStart_toEndOf="@+id/linearLayoutLeft"
+            app:layout_constraintTop_toTopOf="parent">
 
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layoutHeaderRight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="4dp"
+                android:weightSum="100">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/poppins_bold_16"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="35"
+                    android:gravity="center"
+                    android:text="Club"
+                    android:textColor="@color/gray_848484" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/poppins_bold_16"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="40"
+                    android:gravity="center"
+                    android:text="Name"
+                    android:textColor="@color/gray_848484" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/poppins_bold_16"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="25"
+                    android:gravity="center"
+                    android:text="Handi"
+                    android:textColor="@color/gray_848484" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:id="@+id/viewDivider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="4dp"
+                android:background="@color/gray_e4e4e4"
+                app:layout_constraintEnd_toEndOf="@+id/layoutHeaderRight"
+                app:layout_constraintStart_toStartOf="@+id/layoutHeaderRight"
+                app:layout_constraintTop_toBottomOf="@id/layoutHeaderLeft" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerPlayersRight"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_ffffff_round_6"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="10"
+                tools:layout_editor_absoluteX="445dp"
+                tools:layout_editor_absoluteY="88dp"
+                tools:listitem="@layout/item_choice_player" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,5 +1,6 @@
 package wook.pool.board.screen.scoreboard
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,7 +9,7 @@ import wook.pool.board.data.model.Player
 import wook.pool.board.databinding.ItemChoicePlayerBinding
 
 class ChoicePlayerAdapter(
-    private val players: List<Player>,
+    private var players: List<Player>,
     private val onClickPlayer: ((Player) -> Unit),
 ) : RecyclerView.Adapter<ChoicePlayerAdapter.ChoicePlayerViewHolder>() {
 
@@ -22,6 +23,12 @@ class ChoicePlayerAdapter(
     }
 
     override fun getItemCount(): Int = players.size
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setPlayers(players: List<Player>) {
+        this.players = players
+        notifyDataSetChanged()
+    }
 
     inner class ChoicePlayerViewHolder(private val binding: ItemChoicePlayerBinding) : BaseViewHolder<Player>(binding) {
 

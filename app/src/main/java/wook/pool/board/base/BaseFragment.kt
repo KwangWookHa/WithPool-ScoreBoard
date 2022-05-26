@@ -10,10 +10,10 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 
-abstract class BaseFragment<VB : ViewDataBinding?> : Fragment() {
+abstract class BaseFragment<VB : ViewDataBinding> : Fragment() {
 
     abstract val layoutResId: Int
-    var binding: VB? = null
+    lateinit var binding: VB
 
 
     var fragmentActivity: FragmentActivity? = null
@@ -24,10 +24,11 @@ abstract class BaseFragment<VB : ViewDataBinding?> : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate<VB>(inflater, layoutResId, container, false)?.apply {
+        binding = DataBindingUtil.inflate<VB>(inflater, layoutResId, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
         }
-        return binding!!.root
+        fragmentActivity = activity
+        return binding.root
     }
 
     override fun onAttach(context: Context) {
@@ -42,8 +43,4 @@ abstract class BaseFragment<VB : ViewDataBinding?> : Fragment() {
         fragmentActivity = null
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
-    }
 }
