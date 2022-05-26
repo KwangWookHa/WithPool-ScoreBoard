@@ -65,4 +65,8 @@
         <item name="android:textSize">40dp</item>
     </style>
 
+    <style name="poppins_extrabold_100" parent="poppins_extrabold">
+        <item name="android:textSize">100dp</item>
+    </style>
+
 </resources>

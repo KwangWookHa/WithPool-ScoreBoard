@@ -2,10 +2,7 @@ package wook.pool.board.screen.scoreboard
 
 import android.os.Bundle
 import androidx.annotation.IdRes
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import wook.pool.board.base.BaseViewModel
@@ -29,12 +26,32 @@ class ScoreBoardViewModel @Inject constructor(
 
     private val _playerLeft: MutableLiveData<Player?> = MutableLiveData(null)
     val playerLeft: LiveData<Player?> = _playerLeft
+    private val playerLeftHandicap = _playerLeft.value?.handicap ?: 0
+
+    private val _playerLeftScore: MutableLiveData<Int> = MutableLiveData(0)
+    val playerLeftScore: LiveData<Int?> = _playerLeftScore
 
     private val _playerRight: MutableLiveData<Player?> = MutableLiveData(null)
     val playerRight: LiveData<Player?> = _playerRight
+    private val playerRightHandicap = _playerRight.value?.handicap ?: 0
+
+    private val _playerRightScore: MutableLiveData<Int> = MutableLiveData(0)
+    val playerRightScore: LiveData<Int?> = _playerRightScore
+
+    val isGameOver: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
+        addSource(_playerLeftScore) {
+            this.value = playerLeftHandicap == it
+        }
+        addSource(_playerRightScore) {
+            this.value = playerRightHandicap == it
+        }
+    }
 
     private val _gameType: MutableLiveData<GameType> = MutableLiveData(GameType.GAME_9_BALL)
     val gameType: LiveData<GameType> = _gameType
+
+    private val _isTurnLeftPlayer: MutableLiveData<Boolean> = MutableLiveData(true)
+    val isTurnLeftPlayer: LiveData<Boolean> = _isTurnLeftPlayer
 
     private val _players: MutableLiveData<List<Player>> = MutableLiveData()
 
@@ -53,15 +70,16 @@ class ScoreBoardViewModel @Inject constructor(
     }
 
 
-    private val _isKickOffLeft: MutableLiveData<Boolean> = MutableLiveData(true)
-    val isKickOffLeft: LiveData<Boolean> = _isKickOffLeft
-
     fun initMode(isLeft: Boolean) {
         _modeLeft.value = isLeft
     }
 
-    fun switchKickOff() {
-        _isKickOffLeft.value = !(_isKickOffLeft.value!!)
+    fun switchTurn() {
+        viewModelScope.launch(ioDispatchers) {
+            _isTurnLeftPlayer.postValue(
+                !(_isTurnLeftPlayer.value!!)
+            )
+        }
     }
 
     fun insertPlayer(player: Player) {

@@ -19,7 +19,7 @@ class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_cho
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return super.onCreateView(inflater, container, savedInstanceState).apply {
-            binding?.apply {
+            binding.apply {
                 viewModel = scoreBoardViewModel
                 listener = this@ChoicePlayerFragment
             }
@@ -49,7 +49,7 @@ class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_cho
                     Toast.makeText(hostActivityContext, "준비중입니다", Toast.LENGTH_SHORT).show()
                 }
                 layoutBtnChangeFirst -> {
-                    scoreBoardViewModel.switchKickOff()
+                    scoreBoardViewModel.switchTurn()
                 }
                 layoutBtnStartGame -> {
 

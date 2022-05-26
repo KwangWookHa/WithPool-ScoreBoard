@@ -35,13 +35,12 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textTitle"
-            style="@style/notosans_bold_16"
+            style="@style/notosans_bold_18"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:text="@string/fragment_choice_player"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayoutLeft"
             app:layout_constraintStart_toEndOf="@+id/imgBtnBack"
             app:layout_constraintTop_toTopOf="parent" />
 

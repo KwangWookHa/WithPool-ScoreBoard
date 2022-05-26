@@ -37,13 +37,15 @@ object CommonBindingAdapter {
         Glide.with(context).load(imgResourceId).into(this)
     }
 
-    @BindingAdapter("bindUnderLine")
+    @BindingAdapter("bindUnderLineText")
     @JvmStatic
-    fun AppCompatTextView.bindUnderLine(flag: Boolean) {
-        if (flag) {
-            this.text = SpannableString(this.text.toString()).apply {
+    fun AppCompatTextView.bindUnderLineText(text: String?) {
+        text?.let {
+            this.text = SpannableString(it).apply {
                 setSpan(UnderlineSpan(), 0, length, 0)
             }
+            return
         }
+        this.text = ""
     }
 }

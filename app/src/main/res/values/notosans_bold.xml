@@ -69,4 +69,8 @@
         <item name="android:textSize">40dp</item>
     </style>
 
+    <style name="notosans_bold_150" parent="notosans_bold">
+        <item name="android:textSize">150dp</item>
+    </style>
+
 </resources>

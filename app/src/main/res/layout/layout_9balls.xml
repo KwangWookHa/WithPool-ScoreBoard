@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <include
+            android:id="@+id/ball1"
+            layout="@layout/ball_1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.333" />
+
+        <include
+            android:id="@+id/ball2"
+            layout="@layout/ball_2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintStart_toEndOf="@id/ball1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.333" />
+
+        <include
+            android:id="@+id/ball3"
+            layout="@layout/ball_3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintStart_toEndOf="@id/ball2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.333" />
+
+        <include
+            android:id="@+id/ball4"
+            layout="@layout/ball_4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toEndOf="@+id/ball1"
+            app:layout_constraintStart_toStartOf="@+id/ball1"
+            app:layout_constraintTop_toBottomOf="@id/ball1"
+            app:layout_constraintWidth_percent="0.333" />
+
+        <include
+            android:id="@+id/ball5"
+            layout="@layout/ball_5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="@+id/ball4"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toEndOf="@+id/ball2"
+            app:layout_constraintStart_toStartOf="@+id/ball2"
+            app:layout_constraintTop_toTopOf="@+id/ball4"
+            app:layout_constraintWidth_percent="0.333" />
+
+        <include
+            android:id="@+id/ball6"
+            layout="@layout/ball_6"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="@+id/ball5"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toEndOf="@+id/ball3"
+            app:layout_constraintStart_toStartOf="@+id/ball3"
+            app:layout_constraintTop_toTopOf="@+id/ball5"
+            app:layout_constraintWidth_percent="0.333" />
+
+        <include
+            android:id="@+id/ball7"
+            layout="@layout/ball_7"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ball4" />
+
+        <include
+            android:id="@+id/ball8"
+            layout="@layout/ball_8"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="@+id/ball7"
+            app:layout_constraintEnd_toEndOf="@+id/ball5"
+            app:layout_constraintStart_toStartOf="@+id/ball5"
+            app:layout_constraintTop_toTopOf="@+id/ball7" />
+
+        <include
+            android:id="@+id/ball9"
+            layout="@layout/ball_9"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="@+id/ball8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ball8" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

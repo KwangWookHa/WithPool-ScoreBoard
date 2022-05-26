@@ -33,7 +33,7 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgLeftFirst"
-                bindVisibleOrGone="@{viewModel.isKickOffLeft}"
+                bindVisibleOrGone="@{viewModel.isTurnLeftPlayer}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_flag_24_black"
@@ -47,7 +47,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textLeftFirst"
                 style="@style/notosans_medium_18"
-                bindVisibleOrGone="@{viewModel.isKickOffLeft}"
+                bindVisibleOrGone="@{viewModel.isTurnLeftPlayer}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -117,13 +117,12 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textLeftPlayerHandicap"
-                style="@style/poppins_bold_30"
-                bindUnderLine="@{true}"
+                style="@style/poppins_bold_36"
+                bindUnderLineText="@{String.valueOf(viewModel.playerLeft.handicap)}"
                 bindVisibleOrGone="@{viewModel.playerLeft != null}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@{String.valueOf(viewModel.playerLeft.handicap)}"
                 app:layout_constraintBottom_toBottomOf="@+id/imgLeftCircle"
                 app:layout_constraintEnd_toEndOf="@+id/textLeftPlayerName"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -170,7 +169,7 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgRightFirst"
-                bindVisibleOrGone="@{!viewModel.isKickOffLeft}"
+                bindVisibleOrGone="@{!viewModel.isTurnLeftPlayer}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_flag_24_black"
@@ -184,7 +183,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textRightFirst"
                 style="@style/notosans_medium_18"
-                bindVisibleOrGone="@{!viewModel.isKickOffLeft}"
+                bindVisibleOrGone="@{!viewModel.isTurnLeftPlayer}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -254,13 +253,12 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textRightPlayerHandicap"
-                style="@style/poppins_bold_30"
-                bindUnderLine="@{true}"
+                style="@style/poppins_bold_36"
+                bindUnderLineText="@{String.valueOf(viewModel.playerRight.handicap)}"
                 bindVisibleOrGone="@{viewModel.playerRight != null}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@{String.valueOf(viewModel.playerRight.handicap)}"
                 app:layout_constraintBottom_toBottomOf="@+id/imgRightCircle"
                 app:layout_constraintEnd_toEndOf="@+id/textRightPlayerName"
                 app:layout_constraintHorizontal_bias="0.5"
