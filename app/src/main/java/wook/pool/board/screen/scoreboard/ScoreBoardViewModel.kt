@@ -3,8 +3,10 @@ package wook.pool.board.screen.scoreboard
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.lifecycle.*
+import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import wook.pool.board.R
 import wook.pool.board.base.BaseViewModel
 import wook.pool.board.data.model.GameType
 import wook.pool.board.data.model.Player
@@ -26,24 +28,47 @@ class ScoreBoardViewModel @Inject constructor(
 
     private val _playerLeft: MutableLiveData<Player?> = MutableLiveData(null)
     val playerLeft: LiveData<Player?> = _playerLeft
-    private val playerLeftHandicap = _playerLeft.value?.handicap ?: 0
+    private val playerLeftHandicap get() = playerLeft.value?.handicap
 
     private val _playerLeftScore: MutableLiveData<Int> = MutableLiveData(0)
     val playerLeftScore: LiveData<Int?> = _playerLeftScore
 
+    private val _playerLeftPoint: MutableLiveData<Int> = MutableLiveData(0)
+    val playerLeftPoint: LiveData<Int?> = _playerLeftPoint
+
+    private val _playerLeftRunOut: MutableLiveData<Int> = MutableLiveData(0)
+    val playerLeftRunOut: LiveData<Int?> = _playerLeftRunOut
+
     private val _playerRight: MutableLiveData<Player?> = MutableLiveData(null)
     val playerRight: LiveData<Player?> = _playerRight
-    private val playerRightHandicap = _playerRight.value?.handicap ?: 0
+    private val playerRightHandicap get() = _playerRight.value?.handicap
 
     private val _playerRightScore: MutableLiveData<Int> = MutableLiveData(0)
     val playerRightScore: LiveData<Int?> = _playerRightScore
 
+    private val _playerRightPoint: MutableLiveData<Int> = MutableLiveData(0)
+    val playerRightPoint: LiveData<Int?> = _playerRightPoint
+
+    private val _playerRightRunOut: MutableLiveData<Int> = MutableLiveData(0)
+    val playerRightRunOut: LiveData<Int?> = _playerRightRunOut
+
     val isGameOver: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
+        this.value = false
         addSource(_playerLeftScore) {
-            this.value = playerLeftHandicap == it
+            Logger.i("playerLeftHandicap -> $playerLeftHandicap")
+            this.value = if (playerLeftHandicap == null) {
+                false
+            } else {
+                playerLeftHandicap == it
+            }
         }
         addSource(_playerRightScore) {
-            this.value = playerRightHandicap == it
+            Logger.i("playerRightHandicap -> $playerRightHandicap")
+            this.value = if (playerRightHandicap == null) {
+                false
+            } else {
+                playerRightHandicap == it
+            }
         }
     }
 
@@ -71,7 +96,46 @@ class ScoreBoardViewModel @Inject constructor(
 
 
     fun initMode(isLeft: Boolean) {
-        _modeLeft.value = isLeft
+        viewModelScope.launch(ioDispatchers) {
+            _modeLeft.postValue(isLeft)
+        }
+    }
+
+    fun plusScore(isLeft: Boolean) {
+        viewModelScope.launch(ioDispatchers) {
+            if (isLeft) {
+                (_playerLeftScore.value!! + 1).let {
+                    if (it >= playerLeftHandicap!!) return@launch
+                    _playerLeftScore.postValue(it)
+                }
+            } else {
+                (_playerRightScore.value!! + 1).let {
+                    if (it >= playerRightHandicap!!) return@launch
+                    _playerRightScore.postValue(it)
+                }
+            }
+        }
+    }
+
+    fun minusScore(isLeft: Boolean) {
+        viewModelScope.launch(ioDispatchers) {
+            if (isLeft) {
+                _playerLeftScore.postValue(_playerLeftScore.value!! - 1)
+            } else {
+                _playerRightScore.postValue(_playerRightScore.value!! - 1)
+            }
+        }
+    }
+
+    fun plusPoint(isMoneyBall: Boolean) {
+        viewModelScope.launch(ioDispatchers) {
+            val point = if (isMoneyBall) 2 else 1
+            if (_isTurnLeftPlayer.value!!) {
+                _playerLeftPoint.postValue(_playerLeftPoint.value!! + point)
+            } else {
+                _playerRightPoint.postValue(playerRightPoint.value!! + point)
+            }
+        }
     }
 
     fun switchTurn() {

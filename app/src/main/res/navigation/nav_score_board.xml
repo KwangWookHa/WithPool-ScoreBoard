@@ -8,15 +8,20 @@
     <fragment
         android:id="@+id/fragment_choice_player"
         android:name="wook.pool.board.screen.scoreboard.ChoicePlayerFragment"
+        android:label="ChoicePlayerFragment"
         tools:layout="@layout/fragment_choice_player">
         <action
             android:id="@+id/action_fragment_choice_player_to_fragment_player_list"
             app:destination="@id/fragment_player_list" />
+        <action
+            android:id="@+id/action_fragment_choice_player_to_fragment_score_board"
+            app:destination="@id/fragment_score_board" />
     </fragment>
 
     <fragment
         android:id="@+id/fragment_player_list"
         android:name="wook.pool.board.screen.scoreboard.PlayerListFragment"
+        android:label="PlayerListFragment"
         tools:layout="@layout/fragment_player_list">
         <action
             android:id="@+id/action_fragment_player_list_to_fragment_choice_player"
@@ -26,6 +31,17 @@
             android:defaultValue="true"
             app:argType="boolean"
             app:nullable="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_score_board"
+        android:name="wook.pool.board.screen.scoreboard.ScoreBoardFragment"
+        android:label="ScoreBoardFragment"
+        tools:layout="@layout/fragment_score_board">
+
+        <action
+            android:id="@+id/action_fragment_score_board_to_fragment_choice_player"
+            app:destination="@id/fragment_choice_player" />
     </fragment>
 
 

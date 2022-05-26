@@ -27,7 +27,7 @@ class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_cho
     }
 
     override fun onClick(v: View?) {
-        with(binding!!) {
+        with(binding) {
             when (v) {
                 imgLeftCircle,
                 imgBtnLeftChangePlayer,
@@ -52,7 +52,7 @@ class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_cho
                     scoreBoardViewModel.switchTurn()
                 }
                 layoutBtnStartGame -> {
-
+                    scoreBoardViewModel.setScreenAction(R.id.action_fragment_choice_player_to_fragment_score_board)
                 }
                 else -> {
 
