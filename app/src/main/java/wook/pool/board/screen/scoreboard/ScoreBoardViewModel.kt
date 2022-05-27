@@ -6,7 +6,6 @@ import androidx.lifecycle.*
 import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import wook.pool.board.R
 import wook.pool.board.base.BaseViewModel
 import wook.pool.board.data.model.GameType
 import wook.pool.board.data.model.Player
@@ -23,12 +22,24 @@ class ScoreBoardViewModel @Inject constructor(
     private val _screenAction: MutableLiveData<Pair<Int, Bundle?>> = MutableLiveData()
     val screenAction: LiveData<Pair<Int, Bundle?>> = _screenAction
 
-    private val _modeLeft: MutableLiveData<Boolean> = MutableLiveData(true)
-    val modeLeft: LiveData<Boolean> = _modeLeft
+    private val _isChoiceSideLeft: MutableLiveData<Boolean> = MutableLiveData(true)
+    val isChoiceSideLeft: LiveData<Boolean> = _isChoiceSideLeft
+
+    private val _handicapAdjustment: MutableLiveData<Int> = MutableLiveData(0)
+    val handicapAdjustment: LiveData<Int> = _handicapAdjustment
 
     private val _playerLeft: MutableLiveData<Player?> = MutableLiveData(null)
     val playerLeft: LiveData<Player?> = _playerLeft
-    private val playerLeftHandicap get() = playerLeft.value?.handicap
+
+    private val playerLeftHandicap: MediatorLiveData<Int> = MediatorLiveData<Int>().apply {
+        this.value = 0
+        addSource(_playerLeft) {
+            this.value = it?.handicap?.plus(_handicapAdjustment.value ?: 0)
+        }
+        addSource(_handicapAdjustment) {
+            this.value = _playerLeft.value?.handicap?.plus(it)
+        }
+    }
 
     private val _playerLeftScore: MutableLiveData<Int> = MutableLiveData(0)
     val playerLeftScore: LiveData<Int?> = _playerLeftScore
@@ -41,7 +52,16 @@ class ScoreBoardViewModel @Inject constructor(
 
     private val _playerRight: MutableLiveData<Player?> = MutableLiveData(null)
     val playerRight: LiveData<Player?> = _playerRight
-    private val playerRightHandicap get() = _playerRight.value?.handicap
+
+    private val playerRightHandicap: MediatorLiveData<Int> = MediatorLiveData<Int>().apply {
+        this.value = 0
+        addSource(_playerRight) {
+            this.value = it?.handicap?.plus(_handicapAdjustment.value ?: 0)
+        }
+        addSource(_handicapAdjustment) {
+            this.value = _playerRight.value?.handicap?.plus(it)
+        }
+    }
 
     private val _playerRightScore: MutableLiveData<Int> = MutableLiveData(0)
     val playerRightScore: LiveData<Int?> = _playerRightScore
@@ -54,20 +74,18 @@ class ScoreBoardViewModel @Inject constructor(
 
     val isGameOver: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
         this.value = false
-        addSource(_playerLeftScore) {
-            Logger.i("playerLeftHandicap -> $playerLeftHandicap")
-            this.value = if (playerLeftHandicap == null) {
+        addSource(playerLeftHandicap) {
+            this.value = if (playerLeftHandicap.value == null) {
                 false
             } else {
-                playerLeftHandicap == it
+                playerLeftHandicap.value == it
             }
         }
         addSource(_playerRightScore) {
-            Logger.i("playerRightHandicap -> $playerRightHandicap")
-            this.value = if (playerRightHandicap == null) {
+            this.value = if (playerRightHandicap.value == null) {
                 false
             } else {
-                playerRightHandicap == it
+                playerRightHandicap.value == it
             }
         }
     }
@@ -95,9 +113,9 @@ class ScoreBoardViewModel @Inject constructor(
     }
 
 
-    fun initMode(isLeft: Boolean) {
+    fun initSelectionSide(isLeft: Boolean) {
         viewModelScope.launch(ioDispatchers) {
-            _modeLeft.postValue(isLeft)
+            _isChoiceSideLeft.postValue(isLeft)
         }
     }
 
@@ -105,12 +123,12 @@ class ScoreBoardViewModel @Inject constructor(
         viewModelScope.launch(ioDispatchers) {
             if (isLeft) {
                 (_playerLeftScore.value!! + 1).let {
-                    if (it > playerLeftHandicap!!) return@launch
+                    if (it > playerLeftHandicap.value!!) return@launch
                     _playerLeftScore.postValue(it)
                 }
             } else {
                 (_playerRightScore.value!! + 1).let {
-                    if (it > playerRightHandicap!!) return@launch
+                    if (it > playerRightHandicap.value!!) return@launch
                     _playerRightScore.postValue(it)
                 }
             }
@@ -136,6 +154,18 @@ class ScoreBoardViewModel @Inject constructor(
                 _playerRightPoint.postValue(playerRightPoint.value!! + point)
             }
             if (isMoneyBall) plusScore(_isTurnLeftPlayer.value!!)
+        }
+    }
+
+    fun switchHandicapAdjustment() {
+        viewModelScope.launch(ioDispatchers) {
+            _handicapAdjustment.postValue(
+                when (_handicapAdjustment.value) {
+                    0 -> -1
+                    -1 -> -2
+                    else -> 0
+                }
+            )
         }
     }
 

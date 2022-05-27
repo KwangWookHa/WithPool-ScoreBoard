@@ -372,6 +372,46 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutBtnAdjustHandicap"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_43a047_round_6"
+            android:onClick="@{listener::onClick}"
+            app:layout_constraintBottom_toTopOf="@+id/layoutBtnChangeFirst"
+            app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
+            app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgAdjustHandicap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textAdjustHandicap"
+                app:layout_constraintEnd_toStartOf="@+id/textAdjustHandicap"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textAdjustHandicap" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textAdjustHandicap"
+                style="@style/notosans_bold_20"
+                bindAdjustedHandicap="@{viewModel.handicapAdjustment}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/imgAdjustHandicap"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/fragment_choice_player_adjust_handicap_1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutBtnClose"
             android:layout_width="0dp"
             android:layout_height="48dp"
@@ -417,7 +457,7 @@
             android:layout_margin="16dp"
             android:onClick="@{listener::onClick}"
             android:src="@drawable/ic_9ball"
-            app:layout_constraintBottom_toTopOf="@+id/layoutBtnChangeFirst"
+            app:layout_constraintBottom_toTopOf="@+id/layoutBtnAdjustHandicap"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
             app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer"

@@ -35,7 +35,7 @@ class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_playe
                 listener = this@PlayerListFragment
             }
             arguments?.getBoolean(Constant.BundleKey.BUNDLE_KEY_ON_CHOICE_LEFT)?.let {
-                scoreBoardViewModel.initMode(it)
+                scoreBoardViewModel.initSelectionSide(it)
             }
             initObserver()
             scoreBoardViewModel.getPlayers()

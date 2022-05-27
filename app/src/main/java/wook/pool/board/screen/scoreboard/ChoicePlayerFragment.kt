@@ -54,6 +54,9 @@ class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_cho
                 layoutBtnStartGame -> {
                     scoreBoardViewModel.setScreenAction(R.id.action_fragment_choice_player_to_fragment_score_board)
                 }
+                layoutBtnAdjustHandicap -> {
+                    scoreBoardViewModel.switchHandicapAdjustment()
+                }
                 else -> {
 
                 }
