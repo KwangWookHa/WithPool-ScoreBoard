@@ -22,8 +22,7 @@ class ScoreBoardViewModel @Inject constructor(
     private val _screenAction: MutableLiveData<Pair<Int, Bundle?>> = MutableLiveData()
     val screenAction: LiveData<Pair<Int, Bundle?>> = _screenAction
 
-    private val _isChoiceSideLeft: MutableLiveData<Boolean> = MutableLiveData(true)
-    val isChoiceSideLeft: LiveData<Boolean> = _isChoiceSideLeft
+    private var isModeChoiceLeft = true
 
     private val _handicapAdjustment: MutableLiveData<Int> = MutableLiveData(-1)
     val handicapAdjustment: LiveData<Int> = _handicapAdjustment
@@ -72,6 +71,8 @@ class ScoreBoardViewModel @Inject constructor(
     private val _playerRightRunOut: MutableLiveData<Int> = MutableLiveData(0)
     val playerRightRunOut: LiveData<Int?> = _playerRightRunOut
 
+    private var isRunOutMode = true
+
     val isGameOver: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
         this.value = false
         addSource(_playerLeftScore) {
@@ -114,9 +115,7 @@ class ScoreBoardViewModel @Inject constructor(
 
 
     fun initSelectionSide(isLeft: Boolean) {
-        viewModelScope.launch(ioDispatchers) {
-            _isChoiceSideLeft.postValue(isLeft)
-        }
+        isModeChoiceLeft = isLeft
     }
 
     fun plusScore(isLeft: Boolean) {
@@ -174,6 +173,26 @@ class ScoreBoardViewModel @Inject constructor(
             _isTurnLeftPlayer.postValue(
                 !(_isTurnLeftPlayer.value!!)
             )
+        }
+    }
+
+    fun switchRunOutMode(mode: Boolean = true) {
+        isRunOutMode = mode
+        Logger.i("isRunOutMode -> $isRunOutMode")
+    }
+
+    fun plusRunOut() {
+        viewModelScope.launch(ioDispatchers) {
+            Logger.i("isRunOutMode -> $isRunOutMode")
+            if (isRunOutMode) {
+                if (_isTurnLeftPlayer.value!!) {
+                    _playerLeftRunOut.postValue(_playerLeftRunOut.value!! + 1)
+                } else {
+                    _playerRightRunOut.postValue(_playerRightRunOut.value!! + 1)
+                }
+            } else {
+                isRunOutMode = true
+            }
         }
     }
 

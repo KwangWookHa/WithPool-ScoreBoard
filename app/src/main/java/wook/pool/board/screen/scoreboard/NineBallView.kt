@@ -20,7 +20,19 @@ class NineBallView @JvmOverloads constructor(
         }
 
     private val layouts =
-        with(binding) { listOf(layoutBall1, layoutBall2, layoutBall3, layoutBall4, layoutBall5, layoutBall6, layoutBall7, layoutBall8, layoutBall9) }
+        with(binding) {
+            listOf(
+                layoutBall1,
+                layoutBall2,
+                layoutBall3,
+                layoutBall4,
+                layoutBall5,
+                layoutBall6,
+                layoutBall7,
+                layoutBall8,
+                layoutBall9
+            )
+        }
 
 
     private var onClickBall: ((Boolean) -> Unit)? = null
@@ -29,9 +41,9 @@ class NineBallView @JvmOverloads constructor(
         this.onClickBall = onClickBall
     }
 
-    private fun setAllVisibility(isVisible: Boolean) {
+    private fun setAllVisibility(visibility: Int) {
         layouts.forEach {
-            it.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
+            it.visibility = visibility
         }
     }
 
@@ -53,7 +65,7 @@ class NineBallView @JvmOverloads constructor(
                 layoutBall9 -> {
                     onClickBall(8, true)
                     Handler(Looper.getMainLooper()).postDelayed({
-                        setAllVisibility(true)
+                        setAllVisibility(View.VISIBLE)
                     }, 500)
                 }
                 else -> {}

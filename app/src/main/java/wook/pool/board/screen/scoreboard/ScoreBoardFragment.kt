@@ -16,14 +16,21 @@ class ScoreBoardFragment(override val layoutResId: Int = R.layout.fragment_score
 
     private val scoreBoardViewModel: ScoreBoardViewModel by activityViewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return super.onCreateView(inflater, container, savedInstanceState).apply {
             binding.apply {
                 viewModel = scoreBoardViewModel
                 onClickListener = this@ScoreBoardFragment
                 onLongClickListener = this@ScoreBoardFragment
-                viewNineBall.setOnClickBall {
-                    scoreBoardViewModel.plusPoint(it)
+                viewNineBall.setOnClickBall { isMoneyBall ->
+                    scoreBoardViewModel.plusPoint(isMoneyBall)
+                    if (isMoneyBall) {
+                        scoreBoardViewModel.plusRunOut()
+                    }
                 }
             }
         }
@@ -40,6 +47,7 @@ class ScoreBoardFragment(override val layoutResId: Int = R.layout.fragment_score
                 }
                 layoutBtnChangeTurn -> {
                     scoreBoardViewModel.switchTurn()
+                    scoreBoardViewModel.switchRunOutMode(false)
                 }
                 layoutBtnFinishGame -> {
                     scoreBoardViewModel.setScreenAction(R.id.action_fragment_score_board_to_fragment_choice_player)
