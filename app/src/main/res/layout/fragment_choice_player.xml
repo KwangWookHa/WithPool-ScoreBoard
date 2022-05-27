@@ -118,7 +118,8 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textLeftPlayerHandicap"
                 style="@style/poppins_bold_36"
-                bindUnderLineText="@{String.valueOf(viewModel.playerLeft.handicap)}"
+                bindAdjustment="@{viewModel.handicapAdjustment}"
+                bindHandicap="@{viewModel.playerLeft.handicap}"
                 bindVisibleOrGone="@{viewModel.playerLeft != null}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -254,7 +255,8 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textRightPlayerHandicap"
                 style="@style/poppins_bold_36"
-                bindUnderLineText="@{String.valueOf(viewModel.playerRight.handicap)}"
+                bindAdjustment="@{viewModel.handicapAdjustment}"
+                bindHandicap="@{viewModel.playerRight.handicap}"
                 bindVisibleOrGone="@{viewModel.playerRight != null}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

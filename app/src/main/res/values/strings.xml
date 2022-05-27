@@ -32,6 +32,7 @@
     <string name="fragment_choice_player_first">선공</string>
     <string name="fragment_choice_player_info_title">도움말</string>
     <string name="fragment_choice_player_select_mode">게임 선택</string>
+    <string name="fragment_choice_player_handicap">%d(%d)</string>
 
 
     <string name="fragment_score_board_handicap">(%d)</string>

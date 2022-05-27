@@ -17,12 +17,25 @@ class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_cho
 
     private val scoreBoardViewModel: ScoreBoardViewModel by activityViewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return super.onCreateView(inflater, container, savedInstanceState).apply {
             binding.apply {
                 viewModel = scoreBoardViewModel
                 listener = this@ChoicePlayerFragment
             }
+            initObserver()
+        }
+    }
+
+    private fun initObserver() {
+        with(scoreBoardViewModel) {
+            playerLeftHandicap.observe(viewLifecycleOwner) {}
+            playerRightHandicap.observe(viewLifecycleOwner) {}
+            isGameOver.observe(viewLifecycleOwner) {}
         }
     }
 

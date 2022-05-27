@@ -4,10 +4,6 @@
 
     <data>
 
-        <variable
-            name="viewModel"
-            type="wook.pool.board.screen.scoreboard.ScoreBoardViewModel" />
-
     </data>
 
     <androidx.fragment.app.FragmentContainerView

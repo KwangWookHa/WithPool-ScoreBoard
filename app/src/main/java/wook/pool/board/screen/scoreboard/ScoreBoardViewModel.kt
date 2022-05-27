@@ -25,16 +25,16 @@ class ScoreBoardViewModel @Inject constructor(
     private val _isChoiceSideLeft: MutableLiveData<Boolean> = MutableLiveData(true)
     val isChoiceSideLeft: LiveData<Boolean> = _isChoiceSideLeft
 
-    private val _handicapAdjustment: MutableLiveData<Int> = MutableLiveData(0)
+    private val _handicapAdjustment: MutableLiveData<Int> = MutableLiveData(-1)
     val handicapAdjustment: LiveData<Int> = _handicapAdjustment
 
     private val _playerLeft: MutableLiveData<Player?> = MutableLiveData(null)
     val playerLeft: LiveData<Player?> = _playerLeft
 
-    private val playerLeftHandicap: MediatorLiveData<Int> = MediatorLiveData<Int>().apply {
+    val playerLeftHandicap: MediatorLiveData<Int> = MediatorLiveData<Int>().apply {
         this.value = 0
         addSource(_playerLeft) {
-            this.value = it?.handicap?.plus(_handicapAdjustment.value ?: 0)
+            this.value = it?.handicap?.plus(_handicapAdjustment.value!!)
         }
         addSource(_handicapAdjustment) {
             this.value = _playerLeft.value?.handicap?.plus(it)
@@ -53,10 +53,10 @@ class ScoreBoardViewModel @Inject constructor(
     private val _playerRight: MutableLiveData<Player?> = MutableLiveData(null)
     val playerRight: LiveData<Player?> = _playerRight
 
-    private val playerRightHandicap: MediatorLiveData<Int> = MediatorLiveData<Int>().apply {
+    val playerRightHandicap: MediatorLiveData<Int> = MediatorLiveData<Int>().apply {
         this.value = 0
         addSource(_playerRight) {
-            this.value = it?.handicap?.plus(_handicapAdjustment.value ?: 0)
+            this.value = it?.handicap?.plus(_handicapAdjustment.value!!)
         }
         addSource(_handicapAdjustment) {
             this.value = _playerRight.value?.handicap?.plus(it)
@@ -74,7 +74,7 @@ class ScoreBoardViewModel @Inject constructor(
 
     val isGameOver: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
         this.value = false
-        addSource(playerLeftHandicap) {
+        addSource(_playerLeftScore) {
             this.value = if (playerLeftHandicap.value == null) {
                 false
             } else {
