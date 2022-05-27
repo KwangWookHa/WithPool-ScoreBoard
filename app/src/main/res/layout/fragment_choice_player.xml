@@ -137,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:onClick="@{listener::onClick}"
-                android:src="@drawable/ic_change_48"
+                android:src="@drawable/ic_change_48_black"
                 app:layout_constraintBottom_toBottomOf="@+id/textBtnLeftChangePlayer"
                 app:layout_constraintEnd_toStartOf="@+id/textBtnLeftChangePlayer" />
 

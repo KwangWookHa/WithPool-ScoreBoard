@@ -105,12 +105,12 @@ class ScoreBoardViewModel @Inject constructor(
         viewModelScope.launch(ioDispatchers) {
             if (isLeft) {
                 (_playerLeftScore.value!! + 1).let {
-                    if (it >= playerLeftHandicap!!) return@launch
+                    if (it > playerLeftHandicap!!) return@launch
                     _playerLeftScore.postValue(it)
                 }
             } else {
                 (_playerRightScore.value!! + 1).let {
-                    if (it >= playerRightHandicap!!) return@launch
+                    if (it > playerRightHandicap!!) return@launch
                     _playerRightScore.postValue(it)
                 }
             }
@@ -135,6 +135,7 @@ class ScoreBoardViewModel @Inject constructor(
             } else {
                 _playerRightPoint.postValue(playerRightPoint.value!! + point)
             }
+            if (isMoneyBall) plusScore(_isTurnLeftPlayer.value!!)
         }
     }
 
