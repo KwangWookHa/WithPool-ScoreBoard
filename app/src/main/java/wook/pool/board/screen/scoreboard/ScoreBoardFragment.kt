@@ -49,7 +49,7 @@ class ScoreBoardFragment(override val layoutResId: Int = R.layout.fragment_score
                     scoreBoardViewModel.switchTurn()
                     scoreBoardViewModel.switchRunOutMode(false)
                 }
-                layoutBtnFinishGame -> {
+                layoutBtnFinishGame, layoutBtnCancelMatch -> {
                     scoreBoardViewModel.setScreenAction(R.id.action_fragment_score_board_to_fragment_choice_player)
                 }
             }

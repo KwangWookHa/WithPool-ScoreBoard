@@ -3,12 +3,96 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/drawable/ic_change_48.xml" value="0.3145" />
-        <entry key="app/src/main/res/drawable/ic_change_48_black.xml" value="0.3145" />
-        <entry key="app/src/main/res/layout/fragment_choice_player.xml" value="0.2501734415690104" />
-        <entry key="app/src/main/res/layout/fragment_score_board.xml" value="0.31338178708849934" />
+        <entry key="../../../../layout/custom_preview.xml" value="0.24635143023934616" />
+        <entry key="app/src/main/res/drawable-v24/bg_ffffff_r_24_bd_e4e4e4.xml" value="0.2555" />
+        <entry key="app/src/main/res/drawable-v24/ic_ico_24_arrow_left_b.xml" value="0.289" />
+        <entry key="app/src/main/res/drawable-v24/selector_red_button.xml" value="0.2555" />
+        <entry key="app/src/main/res/drawable/bg_000000_r_6.xml" value="0.2555" />
+        <entry key="app/src/main/res/drawable/bg_43a047_round_6.xml" value="0.385" />
+        <entry key="app/src/main/res/drawable/bg_blue_3a32f5_20_r_6.xml" value="0.3785" />
+        <entry key="app/src/main/res/drawable/bg_blue_r_6.xml" value="0.385" />
+        <entry key="app/src/main/res/drawable/bg_dark_gray_round_6.xml" value="0.3785" />
+        <entry key="app/src/main/res/drawable/bg_e4e4e4_r_24.xml" value="0.2555" />
+        <entry key="app/src/main/res/drawable/bg_ff6f5e_r_24.xml" value="0.2555" />
+        <entry key="app/src/main/res/drawable/bg_ffff8d_round_12.xml" value="0.385" />
+        <entry key="app/src/main/res/drawable/bg_ffffff_r_12_bd_e4e4e4.xml" value="0.431" />
+        <entry key="app/src/main/res/drawable/bg_ffffff_r_24_bd_e4e4e4.xml" value="0.2555" />
+        <entry key="app/src/main/res/drawable/bg_ffffff_r_6_bd_e4e4e4.xml" value="0.431" />
+        <entry key="app/src/main/res/drawable/bg_ffffff_round_12.xml" value="0.385" />
+        <entry key="app/src/main/res/drawable/bg_ffffff_round_12_bd_main_2.xml" value="0.4125" />
+        <entry key="app/src/main/res/drawable/bg_ffffff_round_12_bd_red_8.xml" value="0.4125" />
+        <entry key="app/src/main/res/drawable/bg_ffffff_round_24.xml" value="0.2555" />
+        <entry key="app/src/main/res/drawable/bg_ffffff_round_6.xml" value="0.385" />
+        <entry key="app/src/main/res/drawable/bg_gray_round_6.xml" value="0.3785" />
+        <entry key="app/src/main/res/drawable/bg_green_round_6.xml" value="0.385" />
+        <entry key="app/src/main/res/drawable/bg_main_round_6.xml" value="0.3785" />
+        <entry key="app/src/main/res/drawable/bg_yellow_round_6.xml" value="0.3785" />
+        <entry key="app/src/main/res/drawable/circle_1.xml" value="0.4125" />
+        <entry key="app/src/main/res/drawable/circle_2.xml" value="0.4125" />
+        <entry key="app/src/main/res/drawable/circle_3.xml" value="0.4125" />
+        <entry key="app/src/main/res/drawable/circle_4.xml" value="0.4125" />
+        <entry key="app/src/main/res/drawable/circle_5.xml" value="0.4125" />
+        <entry key="app/src/main/res/drawable/circle_6.xml" value="0.4125" />
+        <entry key="app/src/main/res/drawable/circle_7.xml" value="0.4125" />
+        <entry key="app/src/main/res/drawable/circle_8.xml" value="0.4125" />
+        <entry key="app/src/main/res/drawable/circle_dark_gray_size_16.xml" value="0.385" />
+        <entry key="app/src/main/res/drawable/circle_gray_size_16.xml" value="0.385" />
+        <entry key="app/src/main/res/drawable/circle_white_size_16.xml" value="0.4125" />
+        <entry key="app/src/main/res/drawable/half_circle.xml" value="0.4115" />
+        <entry key="app/src/main/res/drawable/ic_backspace_24.xml" value="0.3785" />
+        <entry key="app/src/main/res/drawable/ic_backspace_24_black.xml" value="0.3785" />
+        <entry key="app/src/main/res/drawable/ic_baseline_videogame_asset_24.xml" value="0.2555" />
+        <entry key="app/src/main/res/drawable/ic_change_48.xml" value="0.385" />
+        <entry key="app/src/main/res/drawable/ic_change_48_black.xml" value="0.4125" />
+        <entry key="app/src/main/res/drawable/ic_check_circle_24.xml" value="0.4125" />
+        <entry key="app/src/main/res/drawable/ic_check_circle_48.xml" value="0.4125" />
+        <entry key="app/src/main/res/drawable/ic_database.xml" value="0.2555" />
+        <entry key="app/src/main/res/drawable/ic_flag_24.xml" value="0.3785" />
+        <entry key="app/src/main/res/drawable/ic_flag_24_black.xml" value="0.3785" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.385" />
+        <entry key="app/src/main/res/drawable/ic_my_game.xml" value="0.2555" />
+        <entry key="app/src/main/res/drawable/ic_play_24.xml" value="0.2555" />
+        <entry key="app/src/main/res/drawable/ic_play_arrow_48.xml" value="0.2555" />
+        <entry key="app/src/main/res/drawable/ic_score_board.xml" value="0.2555" />
+        <entry key="app/src/main/res/drawable/ic_score_board_48.xml" value="0.2555" />
+        <entry key="app/src/main/res/drawable/ic_start_24.xml" value="0.3785" />
+        <entry key="app/src/main/res/drawable/ic_start_game_24.xml" value="0.3785" />
+        <entry key="app/src/main/res/drawable/ic_start_game_24_2.xml" value="0.275" />
+        <entry key="app/src/main/res/drawable/ic_two_ball_24.xml" value="0.3785" />
+        <entry key="app/src/main/res/drawable/ic_two_ball_24_black.xml" value="0.3785" />
+        <entry key="app/src/main/res/drawable/ic_with_pool_live.xml" value="0.2555" />
+        <entry key="app/src/main/res/drawable/shape_veil.xml" value="0.431" />
+        <entry key="app/src/main/res/drawable/start-24px.xml" value="0.3785" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.4125" />
+        <entry key="app/src/main/res/layout/activity_score_board.xml" value="0.41354166666666664" />
+        <entry key="app/src/main/res/layout/ball_1.xml" value="0.3589511754068716" />
+        <entry key="app/src/main/res/layout/ball_2.xml" value="0.3394613082513895" />
+        <entry key="app/src/main/res/layout/ball_3.xml" value="0.3394613082513895" />
+        <entry key="app/src/main/res/layout/ball_4.xml" value="0.3394613082513895" />
+        <entry key="app/src/main/res/layout/ball_5.xml" value="0.3394613082513895" />
+        <entry key="app/src/main/res/layout/ball_6.xml" value="0.3394613082513895" />
+        <entry key="app/src/main/res/layout/ball_7.xml" value="0.3394613082513895" />
+        <entry key="app/src/main/res/layout/ball_8.xml" value="0.3394613082513895" />
+        <entry key="app/src/main/res/layout/ball_9.xml" value="0.691032963524827" />
+        <entry key="app/src/main/res/layout/dialog_default.xml" value="0.41354166666666664" />
+        <entry key="app/src/main/res/layout/fragment_choice_player.xml" value="0.4428099442301049" />
+        <entry key="app/src/main/res/layout/fragment_main.xml" value="0.41354166666666664" />
+        <entry key="app/src/main/res/layout/fragment_player_list.xml" value="0.38747371499934036" />
+        <entry key="app/src/main/res/layout/fragment_score_board.xml" value="0.3500244140625001" />
+        <entry key="app/src/main/res/layout/fragment_set_player.xml" value="0.41354166666666664" />
+        <entry key="app/src/main/res/layout/item_choice_player.xml" value="0.4401041666666667" />
+        <entry key="app/src/main/res/layout/layout_9balls.xml" value="0.8391082561439099" />
+        <entry key="app/src/main/res/layout/layout_nine_ball_view.xml" value="0.3147047166072136" />
+        <entry key="app/src/main/res/menu/menu_bottom_nav.xml" value="0.41354166666666664" />
+        <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.41354166666666664" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.431" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="corretto-1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
 </project>

@@ -16,7 +16,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ScoreBoardViewModel @Inject constructor(
     private val getPlayersUseCase: GetPlayersUseCase,
-    private val insertPlayerUseCase: InsertPlayerUseCase,
 ) : BaseViewModel() {
 
     private val _screenAction: MutableLiveData<Pair<Int, Bundle?>> = MutableLiveData()
@@ -24,9 +23,28 @@ class ScoreBoardViewModel @Inject constructor(
 
     private var isModeChoiceLeft = true
 
+    private var isRunOutMode = true
+
     private val _handicapAdjustment: MutableLiveData<Int> = MutableLiveData(-1)
     val handicapAdjustment: LiveData<Int> = _handicapAdjustment
 
+    private val _players: MutableLiveData<List<Player>> = MutableLiveData()
+
+    val playersByHandicap: LiveData<MutableList<List<Player>>> = Transformations.map(_players) {
+        mutableListOf<List<Player>>().apply {
+            for (i in 0..10) {
+                add(
+                    if (i < 3) {
+                        emptyList()
+                    } else {
+                        it.filterHandicap(i)
+                    }
+                )
+            }
+        }
+    }
+
+    /***************************** Player Left *****************************/
     private val _playerLeft: MutableLiveData<Player?> = MutableLiveData(null)
     val playerLeft: LiveData<Player?> = _playerLeft
 
@@ -46,9 +64,18 @@ class ScoreBoardViewModel @Inject constructor(
     private val _playerLeftPoint: MutableLiveData<Int> = MutableLiveData(0)
     val playerLeftPoint: LiveData<Int?> = _playerLeftPoint
 
+    private val _playerLeftPocketing: MutableLiveData<Int> = MutableLiveData(0)
+    val playerLeftPocketing: LiveData<Int?> = _playerLeftPocketing
+
     private val _playerLeftRunOut: MutableLiveData<Int> = MutableLiveData(0)
     val playerLeftRunOut: LiveData<Int?> = _playerLeftRunOut
 
+    private val _playerLeftTurnCount: MutableLiveData<Int> = MutableLiveData(0)
+    val playerLeftTurnCount: LiveData<Int?> = _playerLeftTurnCount
+
+    /***************************** Player Left *****************************/
+
+    /***************************** Player Right *****************************/
     private val _playerRight: MutableLiveData<Player?> = MutableLiveData(null)
     val playerRight: LiveData<Player?> = _playerRight
 
@@ -71,7 +98,13 @@ class ScoreBoardViewModel @Inject constructor(
     private val _playerRightRunOut: MutableLiveData<Int> = MutableLiveData(0)
     val playerRightRunOut: LiveData<Int?> = _playerRightRunOut
 
-    private var isRunOutMode = true
+    private val _playerRightPocketing: MutableLiveData<Int> = MutableLiveData(0)
+    val playerRightPocketing: LiveData<Int?> = _playerRightPocketing
+
+    private val _playerRightTurnCount: MutableLiveData<Int> = MutableLiveData(0)
+    val playerRightTurnCount: LiveData<Int?> = _playerRightTurnCount
+
+    /***************************** Player Right *****************************/
 
     val isGameOver: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
         this.value = false
@@ -97,22 +130,6 @@ class ScoreBoardViewModel @Inject constructor(
     private val _isTurnLeftPlayer: MutableLiveData<Boolean> = MutableLiveData(true)
     val isTurnLeftPlayer: LiveData<Boolean> = _isTurnLeftPlayer
 
-    private val _players: MutableLiveData<List<Player>> = MutableLiveData()
-
-    val playersByHandicap: LiveData<MutableList<List<Player>>> = Transformations.map(_players) {
-        mutableListOf<List<Player>>().apply {
-            for (i in 0..10) {
-                add(
-                    if (i < 3) {
-                        emptyList()
-                    } else {
-                        it.filterHandicap(i)
-                    }
-                )
-            }
-        }
-    }
-
 
     fun initSelectionSide(isLeft: Boolean) {
         isModeChoiceLeft = isLeft
@@ -137,9 +154,9 @@ class ScoreBoardViewModel @Inject constructor(
     fun minusScore(isLeft: Boolean) {
         viewModelScope.launch(ioDispatchers) {
             if (isLeft) {
-                _playerLeftScore.postValue(_playerLeftScore.value!! - 1)
+                _playerLeftScore.plus(-1)
             } else {
-                _playerRightScore.postValue(_playerRightScore.value!! - 1)
+                _playerRightScore.plus(-1)
             }
         }
     }
@@ -148,9 +165,9 @@ class ScoreBoardViewModel @Inject constructor(
         viewModelScope.launch(ioDispatchers) {
             val point = if (isMoneyBall) 2 else 1
             if (_isTurnLeftPlayer.value!!) {
-                _playerLeftPoint.postValue(_playerLeftPoint.value!! + point)
+                _playerLeftPoint.plus(point)
             } else {
-                _playerRightPoint.postValue(playerRightPoint.value!! + point)
+                _playerRightPoint.plus(point)
             }
             if (isMoneyBall) plusScore(_isTurnLeftPlayer.value!!)
         }
@@ -186,9 +203,9 @@ class ScoreBoardViewModel @Inject constructor(
             Logger.i("isRunOutMode -> $isRunOutMode")
             if (isRunOutMode) {
                 if (_isTurnLeftPlayer.value!!) {
-                    _playerLeftRunOut.postValue(_playerLeftRunOut.value!! + 1)
+                    _playerLeftRunOut.plus(1)
                 } else {
-                    _playerRightRunOut.postValue(_playerRightRunOut.value!! + 1)
+                    _playerRightRunOut.plus(1)
                 }
             } else {
                 isRunOutMode = true
@@ -196,11 +213,14 @@ class ScoreBoardViewModel @Inject constructor(
         }
     }
 
-    fun insertPlayer(player: Player) {
-        insertPlayerUseCase(player,
-            onSuccess = {},
-            onFailure = {}
-        )
+    fun plusTurnCount() {
+        viewModelScope.launch(ioDispatchers) {
+            if (_isTurnLeftPlayer.value!!) {
+                _playerLeftTurnCount.plus(1)
+            } else {
+                _playerRightTurnCount.plus(1)
+            }
+        }
     }
 
     fun getPlayers() {
@@ -234,5 +254,9 @@ class ScoreBoardViewModel @Inject constructor(
 
     fun setScreenAction(@IdRes navActionId: Int, bundle: Bundle? = null) {
         _screenAction.value = navActionId to bundle
+    }
+
+    private fun MutableLiveData<Int>.plus(value: Int) {
+        this.postValue(this.value!! + value)
     }
 }

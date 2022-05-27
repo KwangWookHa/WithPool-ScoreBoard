@@ -45,7 +45,10 @@ class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_cho
                 imgLeftCircle,
                 imgBtnLeftChangePlayer,
                 textBtnLeftChangePlayer -> {
-                    scoreBoardViewModel.setScreenAction(R.id.action_fragment_choice_player_to_fragment_player_list)
+                    scoreBoardViewModel.setScreenAction(
+                        R.id.action_fragment_choice_player_to_fragment_player_list,
+                        bundleOf(BUNDLE_KEY_ON_CHOICE_LEFT to true)
+                    )
                 }
                 imgRightCircle,
                 imgBtnRightChangePlayer,
@@ -56,7 +59,7 @@ class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_cho
                     )
                 }
                 layoutBtnClose -> {
-                    activity?.finish()
+                    activity?.finishAffinity()
                 }
                 imgBtnSelectGame -> {
                     Toast.makeText(hostActivityContext, "준비중입니다", Toast.LENGTH_SHORT).show()
@@ -66,6 +69,7 @@ class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_cho
                 }
                 layoutBtnStartGame -> {
                     scoreBoardViewModel.setScreenAction(R.id.action_fragment_choice_player_to_fragment_score_board)
+                    scoreBoardViewModel.plusTurnCount()
                 }
                 layoutBtnAdjustHandicap -> {
                     scoreBoardViewModel.switchHandicapAdjustment()

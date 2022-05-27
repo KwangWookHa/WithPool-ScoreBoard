@@ -38,6 +38,7 @@
     <string name="fragment_score_board_handicap">(%d)</string>
     <string name="fragment_score_board_change_turn">턴 넘기기</string>
     <string name="fragment_score_board_finish_game">경기 종료</string>
+    <string name="fragment_score_board_pocketing_avg">Pocketing\nAverage</string>
 
 
     <string name="item_nav_score_board">ScoreBoard</string>
