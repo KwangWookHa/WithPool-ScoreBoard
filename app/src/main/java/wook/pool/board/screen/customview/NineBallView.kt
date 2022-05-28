@@ -1,4 +1,4 @@
-package wook.pool.board.screen.scoreboard
+package wook.pool.board.screen.customview
 
 import android.content.Context
 import android.os.Handler

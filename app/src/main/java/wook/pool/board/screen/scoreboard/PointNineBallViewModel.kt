@@ -8,6 +8,8 @@ import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import wook.pool.board.base.BaseViewModel
+import wook.pool.board.base.minus
+import wook.pool.board.base.plus
 import wook.pool.board.data.model.GameType
 import wook.pool.board.data.model.Player
 import wook.pool.board.domain.usecase.GetPlayersUseCase
@@ -15,14 +17,9 @@ import wook.pool.board.domain.usecase.InsertPlayerUseCase
 import javax.inject.Inject
 
 @HiltViewModel
-class ScoreBoardViewModel @Inject constructor(
+class PointNineBallViewModel @Inject constructor(
     private val getPlayersUseCase: GetPlayersUseCase,
 ) : BaseViewModel() {
-
-    private val _screenAction: MutableLiveData<Pair<Int, Bundle?>> = MutableLiveData()
-    val screenAction: LiveData<Pair<Int, Bundle?>> = _screenAction
-
-    private var isModeChoiceLeft = true
 
     private var isRunOutMode = true
 
@@ -131,11 +128,6 @@ class ScoreBoardViewModel @Inject constructor(
     private val _isTurnLeftPlayer: MutableLiveData<Boolean> = MutableLiveData(true)
     val isTurnLeftPlayer: LiveData<Boolean> = _isTurnLeftPlayer
 
-
-    fun initSelectionSide(isLeft: Boolean) {
-        isModeChoiceLeft = isLeft
-    }
-
     fun plusScore(isLeft: Boolean) {
         viewModelScope.launch(ioDispatchers) {
             if (isLeft) {
@@ -155,9 +147,9 @@ class ScoreBoardViewModel @Inject constructor(
     fun minusScore(isLeft: Boolean) {
         viewModelScope.launch(ioDispatchers) {
             if (isLeft) {
-                _playerLeftScore.plus(-1)
+                _playerLeftScore.minus(1)
             } else {
-                _playerRightScore.plus(-1)
+                _playerRightScore.minus(1)
             }
         }
     }
@@ -252,12 +244,4 @@ class ScoreBoardViewModel @Inject constructor(
 
     private fun List<Player>.filterHandicap(handicap: Int) =
         filter { player -> player.handicap == handicap }
-
-    fun setScreenAction(@IdRes navActionId: Int, bundle: Bundle= bundleOf()) {
-        _screenAction.value = navActionId to bundle
-    }
-
-    private fun MutableLiveData<Int>.plus(value: Int) {
-        this.postValue(this.value!! + value)
-    }
 }

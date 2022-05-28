@@ -13,9 +13,6 @@
             name="listener"
             type="android.view.View.OnClickListener" />
 
-        <variable
-            name="viewModel"
-            type="wook.pool.board.screen.scoreboard.ScoreBoardViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

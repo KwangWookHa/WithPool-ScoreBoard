@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.navArgs
 import wook.pool.board.R
 import wook.pool.board.base.BaseFragment
 import wook.pool.board.base.Constant
@@ -22,31 +23,32 @@ class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_playe
         const val POSITION_HANDICAP_9_10 = 3
     }
 
-    private val scoreBoardViewModel: ScoreBoardViewModel by activityViewModels()
+    private val playersViewModel: PlayersViewModel by activityViewModels()
 
     private lateinit var leftAdapter: ChoicePlayerAdapter
     private lateinit var rightAdapter: ChoicePlayerAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+    private val args: PlayerListFragmentArgs by navArgs()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? =
         super.onCreateView(inflater, container, savedInstanceState).apply {
             binding.apply {
                 selectedHandicapIndex = POSITION_HANDICAP_5_6
-                viewModel = this@PlayerListFragment.scoreBoardViewModel
                 listener = this@PlayerListFragment
             }
-            arguments?.getBoolean(Constant.BundleKey.BUNDLE_KEY_ON_CHOICE_LEFT)?.let {
-                scoreBoardViewModel.initSelectionSide(it)
-            }
             initObserver()
-            scoreBoardViewModel.getPlayers()
         }
 
     private fun initObserver() {
-        with(scoreBoardViewModel) {
+        with(playersViewModel) {
             playersByHandicap.observe(viewLifecycleOwner) {
-                leftAdapter = getPlayerAdapter(it[5], true)
+                leftAdapter = getPlayerAdapter(it[5], args.isModeChoiceLeft)
                 binding.recyclerPlayersLeft.adapter = leftAdapter
-                rightAdapter = getPlayerAdapter(it[6], false)
+                rightAdapter = getPlayerAdapter(it[6], args.isModeChoiceLeft)
                 binding.recyclerPlayersRight.adapter = rightAdapter
             }
         }
@@ -54,12 +56,12 @@ class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_playe
 
     private fun getPlayerAdapter(players: List<Player>, isLeft: Boolean) =
         ChoicePlayerAdapter(players) { player ->
-            scoreBoardViewModel.setPlayer(player, isLeft)
+            playersViewModel.setPlayer(player, isLeft)
             activity?.onBackPressed()
         }
 
     private fun setPlayers(leftHandicap: Int, rightHandicap: Int) {
-        scoreBoardViewModel.playersByHandicap.value?.let {
+        playersViewModel.playersByHandicap.value?.let {
             leftAdapter.setPlayers(it[leftHandicap])
             rightAdapter.setPlayers(it[rightHandicap])
         }

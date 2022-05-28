@@ -9,13 +9,15 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import wook.pool.board.R
 import wook.pool.board.base.BaseFragment
-import wook.pool.board.base.Constant.BundleKey.BUNDLE_KEY_ON_CHOICE_LEFT
+import wook.pool.board.base.Constant.BundleKey.IS_CHOICE_MODE_LEFT
+import wook.pool.board.data.model.MatchPlayers
 import wook.pool.board.databinding.FragmentChoicePlayerBinding
 
 class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_choice_player) :
     BaseFragment<FragmentChoicePlayerBinding>(), View.OnClickListener {
 
-    private val scoreBoardViewModel: ScoreBoardViewModel by activityViewModels()
+    private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by activityViewModels()
+    private val playersViewModel: PlayersViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,18 +26,9 @@ class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_cho
     ): View? {
         return super.onCreateView(inflater, container, savedInstanceState).apply {
             binding.apply {
-                viewModel = scoreBoardViewModel
+                viewModel = playersViewModel
                 listener = this@ChoicePlayerFragment
             }
-            initObserver()
-        }
-    }
-
-    private fun initObserver() {
-        with(scoreBoardViewModel) {
-            playerLeftHandicap.observe(viewLifecycleOwner) {}
-            playerRightHandicap.observe(viewLifecycleOwner) {}
-            isGameOver.observe(viewLifecycleOwner) {}
         }
     }
 
@@ -45,18 +38,14 @@ class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_cho
                 imgLeftCircle,
                 imgBtnLeftChangePlayer,
                 textBtnLeftChangePlayer -> {
-                    scoreBoardViewModel.setScreenAction(
-                        R.id.action_fragment_choice_player_to_fragment_player_list,
-                        bundleOf(BUNDLE_KEY_ON_CHOICE_LEFT to true)
-                    )
+                    val navDirection = ChoicePlayerFragmentDirections.actionFragmentChoicePlayerToFragmentPlayerList(true)
+                    scoreBoardScreenViewModel.setNavDirection(navDirection)
                 }
                 imgRightCircle,
                 imgBtnRightChangePlayer,
                 textBtnRightChangePlayer -> {
-                    scoreBoardViewModel.setScreenAction(
-                        R.id.action_fragment_choice_player_to_fragment_player_list,
-                        bundleOf(BUNDLE_KEY_ON_CHOICE_LEFT to false)
-                    )
+                    val navDirection = ChoicePlayerFragmentDirections.actionFragmentChoicePlayerToFragmentPlayerList(false)
+                    scoreBoardScreenViewModel.setNavDirection(navDirection)
                 }
                 layoutBtnClose -> {
                     activity?.finishAffinity()
@@ -65,14 +54,15 @@ class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_cho
                     Toast.makeText(hostActivityContext, "준비중입니다", Toast.LENGTH_SHORT).show()
                 }
                 layoutBtnChangeFirst -> {
-                    scoreBoardViewModel.switchTurn()
+                    playersViewModel.switchTurn()
                 }
                 layoutBtnStartGame -> {
-                    scoreBoardViewModel.setScreenAction(R.id.action_fragment_choice_player_to_fragment_score_board)
-                    scoreBoardViewModel.plusTurnCount()
+                    val matchPlayers = playersViewModel.getMatchPlayers()
+                    val navDirection = ChoicePlayerFragmentDirections.actionFragmentChoicePlayerToFragmentNineBall(matchPlayers)
+                    scoreBoardScreenViewModel.setNavDirection(navDirection)
                 }
                 layoutBtnAdjustHandicap -> {
-                    scoreBoardViewModel.switchHandicapAdjustment()
+                    playersViewModel.switchHandicapAdjustment()
                 }
                 else -> {
 

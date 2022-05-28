@@ -24,16 +24,16 @@ object ScoreBoardBindingAdapter {
         )
     }
 
-    @BindingAdapter(value = ["bindHandicap", "bindAdjustment"], requireAll = true)
+    @BindingAdapter(value = ["bindHandicap", "bindAdjustedHandicap"], requireAll = true)
     @JvmStatic
-    fun AppCompatTextView.bindAdjustedHandicapInChoice(handicap: Int, adjustment: Int) {
-        this.text = if (adjustment == 0) {
+    fun AppCompatTextView.bindAdjustedHandicapInChoice(handicap: Int, adjustedHandicap: Int) {
+        this.text = if (handicap == adjustedHandicap) {
             handicap.toString()
         } else {
             resources.getString(
                 R.string.fragment_choice_player_handicap,
                 handicap,
-                handicap + adjustment
+                adjustedHandicap
             )
         }
     }

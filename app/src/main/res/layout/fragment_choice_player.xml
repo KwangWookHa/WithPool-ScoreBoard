@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="wook.pool.board.screen.scoreboard.ScoreBoardViewModel" />
+            type="wook.pool.board.screen.scoreboard.PlayersViewModel" />
 
         <variable
             name="listener"
@@ -118,7 +118,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textLeftPlayerHandicap"
                 style="@style/poppins_bold_36"
-                bindAdjustment="@{viewModel.handicapAdjustment}"
+                bindAdjustedHandicap="@{viewModel.playerLeftAdjustedHandicap}"
                 bindHandicap="@{viewModel.playerLeft.handicap}"
                 bindVisibleOrGone="@{viewModel.playerLeft != null}"
                 android:layout_width="wrap_content"
@@ -255,7 +255,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textRightPlayerHandicap"
                 style="@style/poppins_bold_36"
-                bindAdjustment="@{viewModel.handicapAdjustment}"
+                bindAdjustedHandicap="@{viewModel.playerRightAdjustedHandicap}"
                 bindHandicap="@{viewModel.playerRight.handicap}"
                 bindVisibleOrGone="@{viewModel.playerRight != null}"
                 android:layout_width="wrap_content"

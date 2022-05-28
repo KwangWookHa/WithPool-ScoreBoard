@@ -14,8 +14,9 @@
             android:id="@+id/action_fragment_choice_player_to_fragment_player_list"
             app:destination="@id/fragment_player_list" />
         <action
-            android:id="@+id/action_fragment_choice_player_to_fragment_score_board"
-            app:destination="@id/fragment_score_board" />
+            android:id="@+id/action_fragment_choice_player_to_fragment_nine_ball"
+            app:destination="@id/fragment_nine_ball" />
+
     </fragment>
 
     <fragment
@@ -27,21 +28,28 @@
             android:id="@+id/action_fragment_player_list_to_fragment_choice_player"
             app:destination="@id/fragment_choice_player" />
         <argument
-            android:name="onChoiceLeft"
+            android:name="isModeChoiceLeft"
             android:defaultValue="true"
             app:argType="boolean"
             app:nullable="false" />
     </fragment>
 
     <fragment
-        android:id="@+id/fragment_score_board"
-        android:name="wook.pool.board.screen.scoreboard.ScoreBoardFragment"
-        android:label="ScoreBoardFragment"
-        tools:layout="@layout/fragment_score_board">
+        android:id="@+id/fragment_nine_ball"
+        android:name="wook.pool.board.screen.scoreboard.NineBallFragment"
+        android:label="NineBallFragment"
+        tools:layout="@layout/fragment_point_nine_ball">
+
+        <argument
+            android:name="matchPlayers"
+            android:defaultValue="@null"
+            app:argType="wook.pool.board.data.model.MatchPlayers"
+            app:nullable="true" />
 
         <action
-            android:id="@+id/action_fragment_score_board_to_fragment_choice_player"
+            android:id="@+id/action_fragment_nine_ball_to_fragment_choice_player"
             app:destination="@id/fragment_choice_player" />
+
     </fragment>
 
 

@@ -20,7 +20,8 @@ class ScoreBoardActivity : BaseActivity() {
 
     private var _binding: ActivityScoreBoardBinding? = null
 
-    private val scoreBoardViewModel: ScoreBoardViewModel by viewModels()
+    private val playersViewModel: PlayersViewModel by viewModels()
+    private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by viewModels()
 
     private val navHostFragment: NavHostFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.fragmentContainerScoreBoard) as NavHostFragment
@@ -46,19 +47,26 @@ class ScoreBoardActivity : BaseActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         WindowInsetsControllerCompat(window, window.decorView).let { controller ->
             controller.hide(WindowInsetsCompat.Type.systemBars())
-            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            controller.systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
     }
 
     private fun showSystemUI() {
         WindowCompat.setDecorFitsSystemWindows(window, true)
-        WindowInsetsControllerCompat(window, window.decorView).show(WindowInsetsCompat.Type.systemBars())
+        WindowInsetsControllerCompat(
+            window,
+            window.decorView
+        ).show(WindowInsetsCompat.Type.systemBars())
     }
 
     private fun initObserver() {
-        with(scoreBoardViewModel) {
-            screenAction.observe(this@ScoreBoardActivity) {
+        with(scoreBoardScreenViewModel) {
+            navActionId.observe(this@ScoreBoardActivity) {
                 navController.navigate(it.first, it.second)
+            }
+            navDirection.observe(this@ScoreBoardActivity) {
+                navController.navigate(it)
             }
         }
     }

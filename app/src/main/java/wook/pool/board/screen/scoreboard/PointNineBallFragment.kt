@@ -7,14 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import wook.pool.board.R
 import wook.pool.board.base.BaseFragment
-import wook.pool.board.databinding.FragmentScoreBoardBinding
+import wook.pool.board.databinding.FragmentPointNineBallBinding
 
-class ScoreBoardFragment(override val layoutResId: Int = R.layout.fragment_score_board) :
-    BaseFragment<FragmentScoreBoardBinding>(),
+class PointNineBallFragment(override val layoutResId: Int = R.layout.fragment_point_nine_ball) :
+    BaseFragment<FragmentPointNineBallBinding>(),
     View.OnClickListener,
     View.OnLongClickListener {
 
-    private val scoreBoardViewModel: ScoreBoardViewModel by activityViewModels()
+    private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by activityViewModels()
+    private val pointNineBallViewModel: PointNineBallViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,13 +24,13 @@ class ScoreBoardFragment(override val layoutResId: Int = R.layout.fragment_score
     ): View? {
         return super.onCreateView(inflater, container, savedInstanceState).apply {
             binding.apply {
-                viewModel = scoreBoardViewModel
-                onClickListener = this@ScoreBoardFragment
-                onLongClickListener = this@ScoreBoardFragment
+                viewModel = pointNineBallViewModel
+                onClickListener = this@PointNineBallFragment
+                onLongClickListener = this@PointNineBallFragment
                 viewNineBall.setOnClickBall { isMoneyBall ->
-                    scoreBoardViewModel.plusPoint(isMoneyBall)
+                    pointNineBallViewModel.plusPoint(isMoneyBall)
                     if (isMoneyBall) {
-                        scoreBoardViewModel.plusRunOut()
+                        pointNineBallViewModel.plusRunOut()
                     }
                 }
             }
@@ -40,17 +41,17 @@ class ScoreBoardFragment(override val layoutResId: Int = R.layout.fragment_score
         with(binding) {
             when (v) {
                 textBtnScoreLeft -> {
-                    scoreBoardViewModel.plusScore(true)
+                    pointNineBallViewModel.plusScore(true)
                 }
                 textBtnScoreRight -> {
-                    scoreBoardViewModel.plusScore(false)
+                    pointNineBallViewModel.plusScore(false)
                 }
                 layoutBtnChangeTurn -> {
-                    scoreBoardViewModel.switchTurn()
-                    scoreBoardViewModel.switchRunOutMode(false)
+                    pointNineBallViewModel.switchTurn()
+                    pointNineBallViewModel.switchRunOutMode(false)
                 }
                 layoutBtnFinishGame, layoutBtnCancelMatch -> {
-                    scoreBoardViewModel.setScreenAction(R.id.action_fragment_score_board_to_fragment_choice_player)
+
                 }
             }
         }
@@ -61,10 +62,10 @@ class ScoreBoardFragment(override val layoutResId: Int = R.layout.fragment_score
         with(binding) {
             when (v) {
                 textBtnScoreLeft -> {
-                    scoreBoardViewModel.minusScore(true)
+                    pointNineBallViewModel.minusScore(true)
                 }
                 textBtnScoreRight -> {
-                    scoreBoardViewModel.minusScore(false)
+                    pointNineBallViewModel.minusScore(false)
                 }
             }
         }
