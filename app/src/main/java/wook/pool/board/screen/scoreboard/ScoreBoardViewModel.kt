@@ -2,6 +2,7 @@ package wook.pool.board.screen.scoreboard
 
 import android.os.Bundle
 import androidx.annotation.IdRes
+import androidx.core.os.bundleOf
 import androidx.lifecycle.*
 import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -252,7 +253,7 @@ class ScoreBoardViewModel @Inject constructor(
     private fun List<Player>.filterHandicap(handicap: Int) =
         filter { player -> player.handicap == handicap }
 
-    fun setScreenAction(@IdRes navActionId: Int, bundle: Bundle? = null) {
+    fun setScreenAction(@IdRes navActionId: Int, bundle: Bundle= bundleOf()) {
         _screenAction.value = navActionId to bundle
     }
 

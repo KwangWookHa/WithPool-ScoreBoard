@@ -58,11 +58,7 @@ class ScoreBoardActivity : BaseActivity() {
     private fun initObserver() {
         with(scoreBoardViewModel) {
             screenAction.observe(this@ScoreBoardActivity) {
-                if (it.second != null) {
-                    navController.navigate(it.first, it.second)
-                } else {
-                    navController.navigate(it.first)
-                }
+                navController.navigate(it.first, it.second)
             }
         }
     }
