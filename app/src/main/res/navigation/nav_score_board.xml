@@ -12,10 +12,18 @@
         tools:layout="@layout/fragment_choice_player">
         <action
             android:id="@+id/action_fragment_choice_player_to_fragment_player_list"
-            app:destination="@id/fragment_player_list" />
+            app:destination="@id/fragment_player_list"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_fragment_choice_player_to_fragment_nine_ball"
-            app:destination="@id/fragment_nine_ball" />
+            app:destination="@id/fragment_nine_ball"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
     </fragment>
 
@@ -27,6 +35,10 @@
         <action
             android:id="@+id/action_fragment_player_list_to_fragment_choice_player"
             app:destination="@id/fragment_choice_player"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/fragment_choice_player"
             app:popUpToInclusive="true" />
         <argument
@@ -51,6 +63,10 @@
         <action
             android:id="@+id/action_fragment_nine_ball_to_fragment_choice_player"
             app:destination="@id/fragment_choice_player"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/fragment_choice_player"
             app:popUpToInclusive="true" />
 
