@@ -1,6 +1,7 @@
 package wook.pool.board.screen.scoreboard
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +9,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import wook.pool.board.R
 import wook.pool.board.base.BaseFragment
+import wook.pool.board.base.event.EventObserver
 import wook.pool.board.data.model.Player
 import wook.pool.board.data.model.PlayersSelectedIndex
 import wook.pool.board.databinding.FragmentPlayerListBinding
+import wook.pool.board.screen.dialog.DefaultDialog
 
 class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_player_list) :
     BaseFragment<FragmentPlayerListBinding>(),
@@ -51,15 +54,33 @@ class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_playe
                 binding.selectedHandicapIndex = it.index
                 setPlayers(it.handicapLeft, it.handicapRight)
             }
+            isPlayerSetSuccessful.observe(viewLifecycleOwner, EventObserver {
+                if (it) {
+                    scoreBoardScreenViewModel.setNavDirection(
+                        PlayerListFragmentDirections.actionFragmentPlayerListToFragmentChoicePlayer()
+                    )
+                } else {
+                    hostActivityContext?.let { context ->
+                        DefaultDialog.Builder()
+                            .setType(DefaultDialog.DialogType.DIALOG_OK)
+                            .setTitle(getString(R.string.fragment_player_list_duplicated_player_title))
+                            .setMessage(getString(R.string.fragment_player_list_duplicated_player_desc))
+                            .setGravity(Gravity.CENTER)
+                            .setRightButtonText(getString(R.string.common_confirm))
+                            .setOnClickRight { dialog ->
+                                dialog.dismiss()
+                            }
+                            .create(context)
+                            .show()
+                    }
+                }
+            })
         }
     }
 
     private fun getPlayerAdapter(players: List<Player>, isLeft: Boolean) =
         ChoicePlayerAdapter(players) { player ->
             playersViewModel.setPlayer(player, isLeft)
-            scoreBoardScreenViewModel.setNavDirection(
-                PlayerListFragmentDirections.actionFragmentPlayerListToFragmentChoicePlayer()
-            )
         }
 
     private fun setPlayers(leftHandicap: Int, rightHandicap: Int) {

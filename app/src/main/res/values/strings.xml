@@ -44,6 +44,9 @@
     <string name="fragment_nine_ball_match_finished">경기 종료</string>
     <string name="fragment_nine_ball_upload_successful">경기 결과를 성공적으로 등록했습니다.</string>
 
+    <string name="fragment_player_list_duplicated_player_title">중복 선택</string>
+    <string name="fragment_player_list_duplicated_player_desc">이미 상대방으로 선택된 선수입니다.\n다른 선수를 선택해주세요.</string>
+
 
     <string name="item_nav_score_board">ScoreBoard</string>
     <string name="item_nav_my_game">My game</string>

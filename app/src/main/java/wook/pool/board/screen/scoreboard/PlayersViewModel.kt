@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import wook.pool.board.base.BaseViewModel
+import wook.pool.board.base.event.Event
 import wook.pool.board.data.model.MatchPlayers
 import wook.pool.board.data.model.Player
 import wook.pool.board.data.model.PlayersSelectedIndex
@@ -81,6 +82,9 @@ class PlayersViewModel @Inject constructor(
         }
     }
 
+    private val _isPlayerSetSuccessful: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    val isPlayerSetSuccessful: LiveData<Event<Boolean>> = _isPlayerSetSuccessful
+
     init {
         getPlayers()
     }
@@ -104,10 +108,19 @@ class PlayersViewModel @Inject constructor(
     fun setPlayer(player: Player, isLeftPlayer: Boolean) {
         viewModelScope.launch(ioDispatchers) {
             if (isLeftPlayer) {
+                if (player.name == _playerRight.value?.name) {
+                    _isPlayerSetSuccessful.postValue(Event(false))
+                    return@launch
+                }
                 _playerLeft.postValue(player)
             } else {
+                if (player.name == _playerLeft.value?.name) {
+                    _isPlayerSetSuccessful.postValue(Event(false))
+                    return@launch
+                }
                 _playerRight.postValue(player)
             }
+            _isPlayerSetSuccessful.postValue(Event(true))
         }
     }
 
