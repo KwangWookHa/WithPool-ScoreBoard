@@ -301,12 +301,13 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutBtnStartGame"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="0dp"
             android:layout_marginHorizontal="16dp"
             android:background="@drawable/bg_main_round_6"
             android:onClick="@{listener::onClick}"
             app:layout_constraintBottom_toBottomOf="@+id/layoutLeftPlayer"
             app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
+            app:layout_constraintHeight_percent="0.15"
             app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -381,13 +382,14 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutBtnAdjustHandicap"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="0dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/bg_43a047_round_6"
             android:onClick="@{listener::onClick}"
             app:layout_constraintBottom_toTopOf="@+id/layoutBtnChangeFirst"
             app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
+            app:layout_constraintHeight_percent="0.15"
             app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer">
 
             <androidx.appcompat.widget.AppCompatImageView

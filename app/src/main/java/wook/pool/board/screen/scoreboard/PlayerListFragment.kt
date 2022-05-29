@@ -65,7 +65,6 @@ class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_playe
                             .setType(DefaultDialog.DialogType.DIALOG_OK)
                             .setTitle(getString(R.string.fragment_player_list_duplicated_player_title))
                             .setMessage(getString(R.string.fragment_player_list_duplicated_player_desc))
-                            .setGravity(Gravity.CENTER)
                             .setRightButtonText(getString(R.string.common_confirm))
                             .setOnClickRight { dialog ->
                                 dialog.dismiss()

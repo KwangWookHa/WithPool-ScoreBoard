@@ -71,7 +71,6 @@ open class BaseActivity : AppCompatActivity() {
             .setType(DefaultDialog.DialogType.DIALOG_OK)
             .setTitle("")
             .setMessage(message)
-            .setGravity(Gravity.CENTER)
             .setRightButtonText(getString(R.string.common_confirm))
             .setOnClickRight { it.dismiss() }
             .create(this)

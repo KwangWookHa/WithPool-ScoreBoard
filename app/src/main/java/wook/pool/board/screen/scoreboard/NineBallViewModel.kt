@@ -14,7 +14,6 @@ import wook.pool.board.data.model.GameType
 import wook.pool.board.data.model.MatchPlayers
 import wook.pool.board.data.model.NineBallMatchResult
 import wook.pool.board.data.model.Player
-import wook.pool.board.domain.usecase.GetPlayersUseCase
 import wook.pool.board.domain.usecase.InsertNineBallMatchResultUseCase
 import java.text.SimpleDateFormat
 import java.util.*
@@ -68,7 +67,7 @@ class NineBallViewModel @Inject constructor(
 
     /***************************** Player Right *****************************/
 
-    val isGameOver: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
+    val isMatchOver: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
         this.value = false
         addSource(_playerLeftScore) {
             if (_playerLeftAdjustedHandicap.value == null) return@addSource
@@ -100,8 +99,8 @@ class NineBallViewModel @Inject constructor(
     private val _gameType: MutableLiveData<GameType> = MutableLiveData(GameType.GAME_9_BALL)
     val gameType: LiveData<GameType> = _gameType
 
-    private val _isInsertSuccess: MutableLiveData<Event<Boolean>> = MutableLiveData()
-    val isInsertSuccess: LiveData<Event<Boolean>> = _isInsertSuccess
+    private val _isRegisterMatchSuccessful: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    val isRegisterMatchSuccessful: LiveData<Event<Boolean>> = _isRegisterMatchSuccessful
 
     fun initMatch(matchPlayers: MatchPlayers?) {
         startTimeStamp = System.currentTimeMillis()
@@ -115,7 +114,7 @@ class NineBallViewModel @Inject constructor(
 
     fun plusScore(isLeft: Boolean) {
         viewModelScope.launch(ioDispatchers) {
-            if (isGameOver.value != true) {
+            if (isMatchOver.value != true) {
                 if (isLeft) {
                     (_playerLeftScore.value!! + 1).let {
                         if (it > _playerLeftAdjustedHandicap.value!!) return@launch
@@ -189,10 +188,10 @@ class NineBallViewModel @Inject constructor(
                     matchEndDateTime = sdf.format(Date(endTimeMillis))
                 ),
                 onSuccess = {
-                    _isInsertSuccess.postValue(Event(true))
+                    _isRegisterMatchSuccessful.postValue(Event(true))
                 },
                 onFailure = {
-                    _isInsertSuccess.postValue(Event(false))
+                    _isRegisterMatchSuccessful.postValue(Event(false))
                 }
             )
         }
@@ -210,7 +209,7 @@ class NineBallViewModel @Inject constructor(
             _playerRightScore.postValue(0)
             _playerRightRunOut.postValue(0)
 
-            isGameOver.postValue(false)
+            isMatchOver.postValue(false)
             _playerLeftAlpha.postValue(1f)
             _playerRightAlpha.postValue(1f)
         }

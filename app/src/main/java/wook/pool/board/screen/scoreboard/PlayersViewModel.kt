@@ -157,13 +157,18 @@ class PlayersViewModel @Inject constructor(
         }
     }
 
-    fun getMatchPlayers() =
-        MatchPlayers(
-            playerLeft = _playerLeft.value!!,
-            playerRight = _playerRight.value!!,
-            playerLeftAdjustedHandicap = playerLeftAdjustedHandicap.value!!,
-            playerRightAdjustedHandicap = playerRightAdjustedHandicap.value!!
-        )
+    fun getMatchPlayers(): MatchPlayers? =
+        if (_playerLeft.value == null || _playerRight.value == null) {
+            null
+        } else {
+            MatchPlayers(
+                playerLeft = _playerLeft.value!!,
+                playerRight = _playerRight.value!!,
+                playerLeftAdjustedHandicap = playerLeftAdjustedHandicap.value!!,
+                playerRightAdjustedHandicap = playerRightAdjustedHandicap.value!!
+            )
+        }
+
 
 //    fun insertWithPoolPlayers() {
 //        listOf(

@@ -40,26 +40,9 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
     }
 
     private fun initObserver() {
-        nineBallViewModel.isInsertSuccess.observe(viewLifecycleOwner, EventObserver {
+        nineBallViewModel.isRegisterMatchSuccessful.observe(viewLifecycleOwner, EventObserver {
             if (it) {
-                hostActivityContext?.let { context ->
-                    DefaultDialog.Builder()
-                        .setType(DefaultDialog.DialogType.DIALOG_OK)
-                        .setTitle(getString(R.string.fragment_nine_ball_match_finished))
-                        .setMessage(getString(R.string.fragment_nine_ball_upload_successful))
-                        .setGravity(Gravity.CENTER)
-                        .setRightButtonText(getString(R.string.common_confirm))
-                        .setOnClickRight { dialog ->
-                            dialog.dismiss()
-                            playersViewModel.initPlayers()
-                            nineBallViewModel.initLiveData()
-                            scoreBoardScreenViewModel.setNavDirection(
-                                NineBallFragmentDirections.actionFragmentNineBallToFragmentChoicePlayer()
-                            )
-                        }
-                        .create(context)
-                        .show()
-                }
+                showDialogToFinishMatch()
             }
         })
     }
@@ -69,12 +52,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
             with(nineBallViewModel) {
                 when (v) {
                     layoutBtnFinishGame -> insertNineBallMatchResult()
-                    layoutBtnCancelMatch -> {
-                        nineBallViewModel.initLiveData()
-                        scoreBoardScreenViewModel.setNavDirection(
-                            NineBallFragmentDirections.actionFragmentNineBallToFragmentChoicePlayer()
-                        )
-                    }
+                    layoutBtnCancelMatch -> showDialogToCancelMatch()
                     layoutLeftPlayer, textBtnScoreLeft -> plusScore(true)
                     layoutRightPlayer, textBtnScoreRight -> plusScore(false)
                     textBtnPlusLeftRunOut -> {
@@ -104,5 +82,48 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
             }
         }
         return true
+    }
+
+    private fun showDialogToFinishMatch() {
+        hostActivityContext?.let { context ->
+            DefaultDialog.Builder()
+                .setType(DefaultDialog.DialogType.DIALOG_OK)
+                .setTitle(getString(R.string.fragment_nine_ball_finish_match))
+                .setMessage(getString(R.string.fragment_nine_ball_register_successful))
+                .setRightButtonText(getString(R.string.common_confirm))
+                .setOnClickRight { dialog ->
+                    dialog.dismiss()
+                    playersViewModel.initPlayers()
+                    nineBallViewModel.initLiveData()
+                    scoreBoardScreenViewModel.setNavDirection(
+                        NineBallFragmentDirections.actionFragmentNineBallToFragmentChoicePlayer()
+                    )
+                }
+                .create(context)
+                .show()
+        }
+    }
+
+    private fun showDialogToCancelMatch() {
+        hostActivityContext?.let { context ->
+            DefaultDialog.Builder()
+                .setType(DefaultDialog.DialogType.DIALOG_OK_CANCEL)
+                .setTitle(getString(R.string.fragment_nine_ball_cancel_match))
+                .setMessage(getString(R.string.fragment_nine_ball_cancel_match_desc))
+                .setLeftButtonText(getString(R.string.common_close))
+                .setOnClickLeft { dialog ->
+                    dialog.dismiss()
+                }
+                .setRightButtonText(getString(R.string.common_confirm))
+                .setOnClickRight { dialog ->
+                    dialog.dismiss()
+                    nineBallViewModel.initLiveData()
+                    scoreBoardScreenViewModel.setNavDirection(
+                        NineBallFragmentDirections.actionFragmentNineBallToFragmentChoicePlayer()
+                    )
+                }
+                .create(context)
+                .show()
+        }
     }
 }

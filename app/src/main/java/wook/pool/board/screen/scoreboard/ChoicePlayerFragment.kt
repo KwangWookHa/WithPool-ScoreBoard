@@ -12,6 +12,7 @@ import wook.pool.board.base.BaseFragment
 import wook.pool.board.base.Constant.BundleKey.IS_CHOICE_MODE_LEFT
 import wook.pool.board.data.model.MatchPlayers
 import wook.pool.board.databinding.FragmentChoicePlayerBinding
+import wook.pool.board.screen.dialog.DefaultDialog
 
 class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_choice_player) :
     BaseFragment<FragmentChoicePlayerBinding>(), View.OnClickListener {
@@ -57,9 +58,14 @@ class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_cho
                     playersViewModel.switchTurn()
                 }
                 layoutBtnStartGame -> {
-                    val matchPlayers = playersViewModel.getMatchPlayers()
-                    val navDirection = ChoicePlayerFragmentDirections.actionFragmentChoicePlayerToFragmentNineBall(matchPlayers)
-                    scoreBoardScreenViewModel.setNavDirection(navDirection)
+                    val matchPlayers = playersViewModel.getMatchPlayers() ?: null.also {
+                        showDialogPlayerNotSet()
+                        return
+                    }
+                    matchPlayers?.let {
+                        val navDirection = ChoicePlayerFragmentDirections.actionFragmentChoicePlayerToFragmentNineBall(it)
+                        scoreBoardScreenViewModel.setNavDirection(navDirection)
+                    }
                 }
                 layoutBtnAdjustHandicap -> {
                     playersViewModel.switchHandicapAdjustment()
@@ -68,6 +74,21 @@ class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_cho
 
                 }
             }
+        }
+    }
+
+    private fun showDialogPlayerNotSet() {
+        hostActivityContext?.let { context ->
+            DefaultDialog.Builder()
+                .setType(DefaultDialog.DialogType.DIALOG_OK)
+                .setTitle(getString(R.string.fragment_choice_player_not_set))
+                .setMessage(getString(R.string.fragment_choice_player_not_set_desc))
+                .setRightButtonText(getString(R.string.common_confirm))
+                .setOnClickRight { dialog ->
+                    dialog.dismiss()
+                }
+                .create(context)
+                .show()
         }
     }
 }
