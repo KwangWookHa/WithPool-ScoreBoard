@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import wook.pool.board.R
 import wook.pool.board.base.BaseFragment
+import wook.pool.board.base.event.EventObserver
 import wook.pool.board.databinding.FragmentNineBallBinding
 import wook.pool.board.screen.dialog.DefaultDialog
 
@@ -39,7 +40,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
     }
 
     private fun initObserver() {
-        nineBallViewModel.isInsertSuccess.observe(viewLifecycleOwner) {
+        nineBallViewModel.isInsertSuccess.observe(viewLifecycleOwner, EventObserver {
             if (it) {
                 hostActivityContext?.let { context ->
                     DefaultDialog.Builder()
@@ -51,20 +52,29 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                         .setOnClickRight { dialog ->
                             dialog.dismiss()
                             playersViewModel.initPlayers()
-                            scoreBoardScreenViewModel.setScreenActionId(R.id.action_fragment_nine_ball_to_fragment_choice_player)
+                            nineBallViewModel.initLiveData()
+                            scoreBoardScreenViewModel.setNavDirection(
+                                NineBallFragmentDirections.actionFragmentNineBallToFragmentChoicePlayer()
+                            )
                         }
                         .create(context)
                         .show()
                 }
             }
-        }
+        })
     }
 
     override fun onClick(v: View?) {
         with(binding) {
             with(nineBallViewModel) {
                 when (v) {
-                    layoutBtnFinishGame, layoutBtnCancelMatch -> insertNineBallMatchResult()
+                    layoutBtnFinishGame -> insertNineBallMatchResult()
+                    layoutBtnCancelMatch -> {
+                        nineBallViewModel.initLiveData()
+                        scoreBoardScreenViewModel.setNavDirection(
+                            NineBallFragmentDirections.actionFragmentNineBallToFragmentChoicePlayer()
+                        )
+                    }
                     layoutLeftPlayer, textBtnScoreLeft -> plusScore(true)
                     layoutRightPlayer, textBtnScoreRight -> plusScore(false)
                     textBtnPlusLeftRunOut -> {
@@ -88,6 +98,8 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                 when (v) {
                     textBtnScoreLeft -> minusScore(true)
                     textBtnScoreRight -> minusScore(false)
+                    textBtnPlusLeftRunOut -> minusRunOut(true)
+                    textBtnPlusRightRunOut -> minusRunOut(false)
                 }
             }
         }

@@ -6,8 +6,8 @@ import kotlinx.coroutines.launch
 import wook.pool.board.base.BaseViewModel
 import wook.pool.board.data.model.MatchPlayers
 import wook.pool.board.data.model.Player
+import wook.pool.board.data.model.PlayersSelectedIndex
 import wook.pool.board.domain.usecase.GetPlayersUseCase
-import wook.pool.board.domain.usecase.InsertPlayerUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,18 +16,23 @@ class PlayersViewModel @Inject constructor(
 //    private val insertPlayersUseCase: InsertPlayerUseCase,
 ) : BaseViewModel() {
 
+    private val _selectedHandicapIndex: MutableLiveData<PlayersSelectedIndex> = MutableLiveData()
+    val selectedHandicapIndex: LiveData<PlayersSelectedIndex> = _selectedHandicapIndex
+
     private val _players: MutableLiveData<List<Player>> = MutableLiveData()
 
     val playersByHandicap: LiveData<MutableList<List<Player>>> = Transformations.map(_players) {
         mutableListOf<List<Player>>().apply {
-            for (i in 0..10) {
-                add(
-                    if (i < 3) {
-                        emptyList()
-                    } else {
-                        it.filter { player -> player.handicap == i }
-                    }
-                )
+            if (it.isNotEmpty()) {
+                for (i in 0..10) {
+                    add(
+                        if (i < 3) {
+                            emptyList()
+                        } else {
+                            it.filter { player -> player.handicap == i }
+                        }
+                    )
+                }
             }
         }
     }
@@ -130,6 +135,12 @@ class PlayersViewModel @Inject constructor(
             _isTurnLeftPlayer.postValue(
                 !(_isTurnLeftPlayer.value!!)
             )
+        }
+    }
+
+    fun setSelectedHandicapIndex(enumValue: PlayersSelectedIndex) {
+        viewModelScope.launch(ioDispatchers) {
+            _selectedHandicapIndex.postValue(enumValue)
         }
     }
 

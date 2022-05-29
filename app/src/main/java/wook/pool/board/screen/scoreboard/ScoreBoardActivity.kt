@@ -1,15 +1,19 @@
 package wook.pool.board.screen.scoreboard
 
-import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import wook.pool.board.R
 import wook.pool.board.base.BaseActivity
 import wook.pool.board.databinding.ActivityScoreBoardBinding
@@ -61,11 +65,22 @@ class ScoreBoardActivity : BaseActivity() {
 
     private fun initObserver() {
         with(scoreBoardScreenViewModel) {
-            navActionId.observe(this@ScoreBoardActivity) {
-                navController.navigate(it.first, it.second)
-            }
             navDirection.observe(this@ScoreBoardActivity) {
                 navController.navigate(it)
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        backPressCount += 1
+        when (backPressCount) {
+            1 -> Toast.makeText(this, getString(R.string.common_on_back_pressed_notice), Toast.LENGTH_SHORT).show()
+            2 -> finishAffinity()
+        }
+        lifecycleScope.launch(Dispatchers.IO) {
+            delay(3000)
+            kotlin.runCatching {
+                backPressCount = 0
             }
         }
     }

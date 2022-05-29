@@ -11,15 +11,8 @@ import javax.inject.Inject
 
 class ScoreBoardScreenViewModel @Inject constructor() : BaseViewModel() {
 
-    private val _navActionId: MutableLiveData<Pair<Int, Bundle?>> = MutableLiveData()
-    val navActionId: LiveData<Pair<Int, Bundle?>> = _navActionId
-
     private val _navDirection: MutableLiveData<NavDirections> = MutableLiveData()
     val navDirection: LiveData<NavDirections> = _navDirection
-
-    fun setScreenActionId(@IdRes navActionId: Int, bundle: Bundle = bundleOf()) {
-        _navActionId.value = navActionId to bundle
-    }
 
     fun setNavDirection(navDirection: NavDirections) {
         _navDirection.value = navDirection

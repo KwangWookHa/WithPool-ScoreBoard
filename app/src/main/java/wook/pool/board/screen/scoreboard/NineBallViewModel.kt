@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import wook.pool.board.base.BaseViewModel
+import wook.pool.board.base.event.Event
 import wook.pool.board.base.minus
 import wook.pool.board.base.plus
 import wook.pool.board.data.model.GameType
@@ -99,8 +100,8 @@ class NineBallViewModel @Inject constructor(
     private val _gameType: MutableLiveData<GameType> = MutableLiveData(GameType.GAME_9_BALL)
     val gameType: LiveData<GameType> = _gameType
 
-    private val _isInsertSuccess: MutableLiveData<Boolean> = MutableLiveData()
-    val isInsertSuccess: LiveData<Boolean> = _isInsertSuccess
+    private val _isInsertSuccess: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    val isInsertSuccess: LiveData<Event<Boolean>> = _isInsertSuccess
 
     fun initMatch(matchPlayers: MatchPlayers?) {
         startTimeStamp = System.currentTimeMillis()
@@ -150,6 +151,16 @@ class NineBallViewModel @Inject constructor(
         }
     }
 
+    fun minusRunOut(isLeft: Boolean) {
+        viewModelScope.launch(ioDispatchers) {
+            if (isLeft) {
+                _playerLeftRunOut.minus(1)
+            } else {
+                _playerRightRunOut.minus(1)
+            }
+        }
+    }
+
     fun insertNineBallMatchResult() {
         viewModelScope.launch(ioDispatchers) {
             val playerLeft = _playerLeft.value
@@ -178,12 +189,30 @@ class NineBallViewModel @Inject constructor(
                     matchEndDateTime = sdf.format(Date(endTimeMillis))
                 ),
                 onSuccess = {
-                    _isInsertSuccess.postValue(true)
+                    _isInsertSuccess.postValue(Event(true))
                 },
                 onFailure = {
-                    _isInsertSuccess.postValue(false)
+                    _isInsertSuccess.postValue(Event(false))
                 }
             )
+        }
+    }
+
+    fun initLiveData() {
+        viewModelScope.launch(ioDispatchers) {
+            _playerLeft.postValue(null)
+            _playerLeftAdjustedHandicap.postValue(0)
+            _playerLeftScore.postValue(0)
+            _playerLeftRunOut.postValue(0)
+
+            _playerRight.postValue(null)
+            _playerRightAdjustedHandicap.postValue(0)
+            _playerRightScore.postValue(0)
+            _playerRightRunOut.postValue(0)
+
+            isGameOver.postValue(false)
+            _playerLeftAlpha.postValue(1f)
+            _playerRightAlpha.postValue(1f)
         }
     }
 }
