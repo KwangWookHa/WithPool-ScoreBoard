@@ -1,7 +1,6 @@
 package wook.pool.board.screen.scoreboard
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -93,11 +92,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                 .setRightButtonText(getString(R.string.common_confirm))
                 .setOnClickRight { dialog ->
                     dialog.dismiss()
-                    playersViewModel.initPlayers()
-                    nineBallViewModel.initLiveData()
-                    scoreBoardScreenViewModel.setNavDirection(
-                        NineBallFragmentDirections.actionFragmentNineBallToFragmentChoicePlayer()
-                    )
+                    backToChoicePlayerFragment()
                 }
                 .create(context)
                 .show()
@@ -117,13 +112,18 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                 .setRightButtonText(getString(R.string.common_confirm))
                 .setOnClickRight { dialog ->
                     dialog.dismiss()
-                    nineBallViewModel.initLiveData()
-                    scoreBoardScreenViewModel.setNavDirection(
-                        NineBallFragmentDirections.actionFragmentNineBallToFragmentChoicePlayer()
-                    )
+                    backToChoicePlayerFragment()
                 }
                 .create(context)
                 .show()
         }
+    }
+
+    private fun backToChoicePlayerFragment() {
+        playersViewModel.initPlayers()
+        nineBallViewModel.initLiveData()
+        scoreBoardScreenViewModel.setNavDirection(
+            NineBallFragmentDirections.actionFragmentNineBallToFragmentChoicePlayer()
+        )
     }
 }
