@@ -7,5 +7,6 @@ fun MutableLiveData<Int>.plus(value: Int) {
 }
 
 fun MutableLiveData<Int>.minus(value: Int) {
+    if (this.value!! <= 0) return
     this.postValue(this.value!! - value)
 }

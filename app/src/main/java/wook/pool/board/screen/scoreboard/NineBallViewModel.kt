@@ -16,9 +16,7 @@ import wook.pool.board.domain.usecase.GetPlayersUseCase
 import javax.inject.Inject
 
 @HiltViewModel
-class NineBallViewModel @Inject constructor(
-    private val getPlayersUseCase: GetPlayersUseCase,
-) : BaseViewModel() {
+class NineBallViewModel @Inject constructor() : BaseViewModel() {
 
     /***************************** Player Left *****************************/
 
@@ -59,24 +57,27 @@ class NineBallViewModel @Inject constructor(
     val isGameOver: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
         this.value = false
         addSource(_playerLeftScore) {
-            this.value = if (_playerLeftAdjustedHandicap.value == null) {
-                false
+            if (_playerLeftAdjustedHandicap.value == null) return@addSource
+            this.value = if (_playerLeftAdjustedHandicap.value!! == it) {
+                _playerRightAlpha.postValue(0.4f)
+                true
             } else {
-                (_playerLeftAdjustedHandicap.value == it).also {
-                    if (it) _playerRightAlpha.postValue(0.4f)
-                }
+                _playerRightAlpha.postValue(1f)
+                false
             }
         }
         addSource(_playerRightScore) {
-            this.value = if (_playerRightAdjustedHandicap.value == null) {
-                false
+            if (_playerRightAdjustedHandicap.value == null) return@addSource
+            this.value = if (_playerRightAdjustedHandicap.value!! == it) {
+                _playerLeftAlpha.postValue(0.4f)
+                true
             } else {
-                (_playerRightAdjustedHandicap.value == it).also {
-                    if (it) _playerLeftAlpha.postValue(0.4f)
-                }
+                _playerLeftAlpha.postValue(1f)
+                false
             }
         }
     }
+
 
     private val _gameType: MutableLiveData<GameType> = MutableLiveData(GameType.GAME_9_BALL)
     val gameType: LiveData<GameType> = _gameType
@@ -92,15 +93,17 @@ class NineBallViewModel @Inject constructor(
 
     fun plusScore(isLeft: Boolean) {
         viewModelScope.launch(ioDispatchers) {
-            if (isLeft) {
-                (_playerLeftScore.value!! + 1).let {
-                    if (it > _playerLeftAdjustedHandicap.value!!) return@launch
-                    _playerLeftScore.postValue(it)
-                }
-            } else {
-                (_playerRightScore.value!! + 1).let {
-                    if (it > _playerRightAdjustedHandicap.value!!) return@launch
-                    _playerRightScore.postValue(it)
+            if (isGameOver.value != true) {
+                if (isLeft) {
+                    (_playerLeftScore.value!! + 1).let {
+                        if (it > _playerLeftAdjustedHandicap.value!!) return@launch
+                        _playerLeftScore.plus(1)
+                    }
+                } else {
+                    (_playerRightScore.value!! + 1).let {
+                        if (it > _playerRightAdjustedHandicap.value!!) return@launch
+                        _playerRightScore.plus(1)
+                    }
                 }
             }
         }

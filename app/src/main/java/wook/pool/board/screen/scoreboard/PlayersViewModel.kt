@@ -44,9 +44,17 @@ class PlayersViewModel @Inject constructor(
     val playerLeftAdjustedHandicap: MediatorLiveData<Int> = MediatorLiveData<Int>().apply {
         this.value = 0
         addSource(_playerLeft) {
-            this.value = it?.handicap?.plus(_handicapAdjustment.value!!)
+            if (it == null) {
+                this.value = 0
+                return@addSource
+            }
+            this.value = it.handicap?.plus(_handicapAdjustment.value!!)
         }
         addSource(_handicapAdjustment) {
+            if (it == null) {
+                this.value = 0
+                return@addSource
+            }
             this.value = _playerLeft.value?.handicap?.plus(it)
         }
     }
@@ -93,6 +101,13 @@ class PlayersViewModel @Inject constructor(
             } else {
                 _playerRight.postValue(player)
             }
+        }
+    }
+
+    fun initPlayers() {
+        viewModelScope.launch(ioDispatchers) {
+            _playerLeft.postValue(null)
+            _playerRight.postValue(null)
         }
     }
 

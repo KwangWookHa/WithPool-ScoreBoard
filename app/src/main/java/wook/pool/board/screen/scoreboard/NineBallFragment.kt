@@ -18,6 +18,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
 
     private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by activityViewModels()
     private val nineBallViewModel: NineBallViewModel by activityViewModels()
+    private val playersViewModel: PlayersViewModel by activityViewModels()
 
     private val args: NineBallFragmentArgs by navArgs()
 
@@ -40,13 +41,19 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
             with(nineBallViewModel) {
                 when (v) {
                     layoutBtnFinishGame, layoutBtnCancelMatch -> {
-                        activity?.viewModelStore?.clear()
+                        playersViewModel.initPlayers()
                         scoreBoardScreenViewModel.setScreenActionId(R.id.action_fragment_nine_ball_to_fragment_choice_player)
                     }
-                    layoutLeftPlayer -> plusScore(true)
-                    layoutRightPlayer -> plusScore(false)
-                    textBtnPlusLeftRunOut -> plusRunOut(true)
-                    textBtnPlusRightRunOut -> plusRunOut(false)
+                    layoutLeftPlayer, textBtnScoreLeft -> plusScore(true)
+                    layoutRightPlayer, textBtnScoreRight -> plusScore(false)
+                    textBtnPlusLeftRunOut -> {
+                        plusRunOut(true)
+                        plusScore(true)
+                    }
+                    textBtnPlusRightRunOut -> {
+                        plusRunOut(false)
+                        plusScore(false)
+                    }
                     else -> {}
                 }
             }
@@ -56,12 +63,10 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
 
     override fun onLongClick(v: View?): Boolean {
         with(binding) {
-            when (v) {
-                textBtnScoreLeft -> {
-                    nineBallViewModel.minusScore(true)
-                }
-                textBtnScoreRight -> {
-                    nineBallViewModel.minusScore(false)
+            with(nineBallViewModel) {
+                when (v) {
+                    textBtnScoreLeft -> minusScore(true)
+                    textBtnScoreRight -> minusScore(false)
                 }
             }
         }

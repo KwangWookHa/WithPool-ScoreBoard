@@ -33,7 +33,6 @@ class ScoreBoardActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         _binding = DataBindingUtil.setContentView(this, R.layout.activity_score_board)
         initObserver()
     }

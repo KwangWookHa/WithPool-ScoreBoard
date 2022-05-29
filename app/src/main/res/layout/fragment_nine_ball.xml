@@ -75,14 +75,24 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textLeftPlayerName" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                bindVisibleOrGone="@{viewModel.playerRightAlpha == 0.4f}"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_medal_winner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textBtnScoreLeft"
                 style="@style/poppins_bold_180"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{onClickListener::onClick}"
                 android:onLongClick="@{onLongClickListener::onLongClick}"
                 android:text="@{String.valueOf(viewModel.playerLeftScore)}"
                 app:layout_constraintBottom_toBottomOf="parent"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewDividerLeft"
@@ -123,7 +133,7 @@
             android:layout_height="0dp"
             android:layout_marginEnd="16dp"
             android:alpha="@{viewModel.playerRightAlpha}"
-            android:background="@{viewModel.isGameOver &amp;&amp; viewModel.playerRightAlpha == 1f? @drawable/bg_ffffff_round_12_bd_red_8 : @drawable/bg_f0f4c3_round_12}"
+            android:background="@{viewModel.isGameOver &amp;&amp; viewModel.playerRightAlpha == 1f? @drawable/bg_f0f4c3_round_12_bd_red_8 : @drawable/bg_f0f4c3_round_12}"
             android:onClick="@{onClickListener::onClick}"
             android:padding="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/layoutLeftPlayer"
@@ -166,12 +176,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textRightPlayerName" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                bindVisibleOrGone="@{viewModel.playerLeftAlpha == 0.4f}"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_medal_winner"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textBtnScoreRight"
                 style="@style/poppins_bold_180"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{onClickListener::onClick}"
                 android:onLongClick="@{onLongClickListener::onLongClick}"
                 android:text="@{String.valueOf(viewModel.playerRightScore)}"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -211,7 +229,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutBtnFinishGame"
-            bindVisibleOrInvisible="@{viewModel.isGameOver}"
+            bindVisibleOrGone="@{viewModel.isGameOver}"
             android:layout_width="0dp"
             android:layout_height="80dp"
             android:layout_marginHorizontal="16dp"
@@ -255,7 +273,7 @@
             android:id="@+id/imgNineBall"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_margin="24dp"
+            android:layout_margin="16dp"
             android:src="@drawable/ic_9ball"
             app:layout_constraintBottom_toTopOf="@+id/textBtnPlusLeftRunOut"
             app:layout_constraintDimensionRatio="1"

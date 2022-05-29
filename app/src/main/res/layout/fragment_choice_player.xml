@@ -31,31 +31,33 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.35">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgLeftFirst"
-                bindVisibleOrGone="@{viewModel.isTurnLeftPlayer}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_flag_24_black"
-                app:layout_constraintBottom_toBottomOf="@+id/textLeftFirst"
-                app:layout_constraintEnd_toStartOf="@+id/textLeftFirst"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textLeftFirst" />
+            <!--            <androidx.appcompat.widget.AppCompatImageView-->
+            <!--                android:id="@+id/imgLeftFirst"-->
+            <!--                bindVisibleOrGone="@{viewModel.isTurnLeftPlayer}"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:src="@drawable/ic_flag_24_black"-->
+            <!--                android:visibility="gone"-->
+            <!--                app:layout_constraintBottom_toBottomOf="@+id/textLeftFirst"-->
+            <!--                app:layout_constraintEnd_toStartOf="@+id/textLeftFirst"-->
+            <!--                app:layout_constraintHorizontal_bias="0.5"-->
+            <!--                app:layout_constraintHorizontal_chainStyle="packed"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="@+id/textLeftFirst" />-->
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textLeftFirst"
-                style="@style/notosans_medium_18"
-                bindVisibleOrGone="@{viewModel.isTurnLeftPlayer}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:text="@string/fragment_choice_player_first"
-                app:layout_constraintBottom_toTopOf="@+id/imgLeftCircle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/imgLeftFirst" />
+            <!--            <androidx.appcompat.widget.AppCompatTextView-->
+            <!--                android:id="@+id/textLeftFirst"-->
+            <!--                style="@style/notosans_medium_18"-->
+            <!--                bindVisibleOrGone="@{viewModel.isTurnLeftPlayer}"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginBottom="10dp"-->
+            <!--                android:text="@string/fragment_choice_player_first"-->
+            <!--                android:visibility="gone"-->
+            <!--                app:layout_constraintBottom_toTopOf="@+id/imgLeftCircle"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintHorizontal_bias="0.5"-->
+            <!--                app:layout_constraintStart_toEndOf="@+id/imgLeftFirst" />-->
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgLeftCircle"
@@ -168,31 +170,33 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.35">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgRightFirst"
-                bindVisibleOrGone="@{!viewModel.isTurnLeftPlayer}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_flag_24_black"
-                app:layout_constraintBottom_toBottomOf="@+id/textRightFirst"
-                app:layout_constraintEnd_toStartOf="@+id/textRightFirst"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textRightFirst" />
+            <!--            <androidx.appcompat.widget.AppCompatImageView-->
+            <!--                android:id="@+id/imgRightFirst"-->
+            <!--                bindVisibleOrGone="@{!viewModel.isTurnLeftPlayer}"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:src="@drawable/ic_flag_24_black"-->
+            <!--                android:visibility="gone"-->
+            <!--                app:layout_constraintBottom_toBottomOf="@+id/textRightFirst"-->
+            <!--                app:layout_constraintEnd_toStartOf="@+id/textRightFirst"-->
+            <!--                app:layout_constraintHorizontal_bias="0.5"-->
+            <!--                app:layout_constraintHorizontal_chainStyle="packed"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="@+id/textRightFirst" />-->
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textRightFirst"
-                style="@style/notosans_medium_18"
-                bindVisibleOrGone="@{!viewModel.isTurnLeftPlayer}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:text="@string/fragment_choice_player_first"
-                app:layout_constraintBottom_toTopOf="@+id/imgRightCircle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/imgRightFirst" />
+            <!--            <androidx.appcompat.widget.AppCompatTextView-->
+            <!--                android:id="@+id/textRightFirst"-->
+            <!--                style="@style/notosans_medium_18"-->
+            <!--                bindVisibleOrGone="@{!viewModel.isTurnLeftPlayer}"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginBottom="10dp"-->
+            <!--                android:text="@string/fragment_choice_player_first"-->
+            <!--                android:visibility="gone"-->
+            <!--                app:layout_constraintBottom_toTopOf="@+id/imgRightCircle"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintHorizontal_bias="0.5"-->
+            <!--                app:layout_constraintStart_toEndOf="@+id/imgRightFirst" />-->
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgRightCircle"
@@ -341,6 +345,7 @@
             android:layout_marginBottom="12dp"
             android:background="@drawable/bg_43a047_round_6"
             android:onClick="@{listener::onClick}"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/layoutBtnStartGame"
             app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
             app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer">
@@ -430,7 +435,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_backspace_24_black"
+                android:src="@drawable/ic_exit_app_24"
                 app:layout_constraintBottom_toBottomOf="@+id/textClose"
                 app:layout_constraintEnd_toStartOf="@+id/textClose"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -443,7 +448,7 @@
                 style="@style/notosans_bold_20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/fragment_choice_player_close"
+                android:text="@string/common_finish"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
