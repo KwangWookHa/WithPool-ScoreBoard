@@ -32,7 +32,7 @@
             android:layout_height="0dp"
             android:layout_margin="16dp"
             android:alpha="@{viewModel.playerLeftAlpha}"
-            android:background="@{viewModel.isGameOver &amp;&amp; viewModel.playerLeftAlpha == 1f? @drawable/bg_ffffff_round_12_bd_red_8 : @drawable/bg_ffffff_round_12}"
+            android:background="@{viewModel.isGameOver &amp;&amp; viewModel.isPlayerLeftWinner ? @drawable/bg_ffffff_round_12_bd_red_8 : @drawable/bg_ffffff_round_12}"
             android:onClick="@{onClickListener::onClick}"
             android:padding="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -76,7 +76,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textLeftPlayerName" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                bindVisibleOrGone="@{viewModel.playerRightAlpha == 0.4f}"
+                bindVisibleOrGone="@{viewModel.isGameOver &amp;&amp; viewModel.isPlayerLeftWinner}"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:src="@drawable/ic_medal_winner"
@@ -133,7 +133,7 @@
             android:layout_height="0dp"
             android:layout_marginEnd="16dp"
             android:alpha="@{viewModel.playerRightAlpha}"
-            android:background="@{viewModel.isGameOver &amp;&amp; viewModel.playerRightAlpha == 1f? @drawable/bg_f0f4c3_round_12_bd_red_8 : @drawable/bg_f0f4c3_round_12}"
+            android:background="@{viewModel.isGameOver &amp;&amp; !viewModel.isPlayerLeftWinner ? @drawable/bg_f0f4c3_round_12_bd_red_8 : @drawable/bg_f0f4c3_round_12}"
             android:onClick="@{onClickListener::onClick}"
             android:padding="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/layoutLeftPlayer"
@@ -177,7 +177,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textRightPlayerName" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                bindVisibleOrGone="@{viewModel.playerLeftAlpha == 0.4f}"
+                bindVisibleOrGone="@{viewModel.isGameOver &amp;&amp; !viewModel.isPlayerLeftWinner}"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:src="@drawable/ic_medal_winner"
