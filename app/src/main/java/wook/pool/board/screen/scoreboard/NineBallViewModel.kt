@@ -11,12 +11,25 @@ import wook.pool.board.base.minus
 import wook.pool.board.base.plus
 import wook.pool.board.data.model.GameType
 import wook.pool.board.data.model.MatchPlayers
+import wook.pool.board.data.model.NineBallMatchResult
 import wook.pool.board.data.model.Player
 import wook.pool.board.domain.usecase.GetPlayersUseCase
+import wook.pool.board.domain.usecase.InsertNineBallMatchResultUseCase
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class NineBallViewModel @Inject constructor() : BaseViewModel() {
+class NineBallViewModel @Inject constructor(
+    private val insertNineBallMatchResultUseCase: InsertNineBallMatchResultUseCase,
+) : BaseViewModel() {
+
+    private var startTimeStamp: Long = 0L
+        set(value) {
+            dateTime = Date(value)
+            field = value
+        }
+    private lateinit var dateTime: Date
 
     /***************************** Player Left *****************************/
 
@@ -59,6 +72,7 @@ class NineBallViewModel @Inject constructor() : BaseViewModel() {
         addSource(_playerLeftScore) {
             if (_playerLeftAdjustedHandicap.value == null) return@addSource
             this.value = if (_playerLeftAdjustedHandicap.value!! == it) {
+                _isPlayerLeftWinner.postValue(true)
                 _playerRightAlpha.postValue(0.4f)
                 true
             } else {
@@ -69,6 +83,7 @@ class NineBallViewModel @Inject constructor() : BaseViewModel() {
         addSource(_playerRightScore) {
             if (_playerRightAdjustedHandicap.value == null) return@addSource
             this.value = if (_playerRightAdjustedHandicap.value!! == it) {
+                _isPlayerLeftWinner.postValue(false)
                 _playerLeftAlpha.postValue(0.4f)
                 true
             } else {
@@ -78,11 +93,17 @@ class NineBallViewModel @Inject constructor() : BaseViewModel() {
         }
     }
 
+    private val _isPlayerLeftWinner: MutableLiveData<Boolean> = MutableLiveData()
+    val isPlayerLeftWinner: LiveData<Boolean> = _isPlayerLeftWinner
 
     private val _gameType: MutableLiveData<GameType> = MutableLiveData(GameType.GAME_9_BALL)
     val gameType: LiveData<GameType> = _gameType
 
-    fun initMatchPlayers(matchPlayers: MatchPlayers?) {
+    private val _isInsertSuccess: MutableLiveData<Boolean> = MutableLiveData()
+    val isInsertSuccess: LiveData<Boolean> = _isInsertSuccess
+
+    fun initMatch(matchPlayers: MatchPlayers?) {
+        startTimeStamp = System.currentTimeMillis()
         matchPlayers?.let {
             _playerLeft.value = it.playerLeft
             _playerRight.value = it.playerRight
@@ -126,6 +147,43 @@ class NineBallViewModel @Inject constructor() : BaseViewModel() {
             } else {
                 _playerRightRunOut.plus(1)
             }
+        }
+    }
+
+    fun insertNineBallMatchResult() {
+        viewModelScope.launch(ioDispatchers) {
+            val playerLeft = _playerLeft.value
+            val playerRight = _playerRight.value
+            if (playerLeft == null || playerRight == null) return@launch
+
+            val endTimeMillis = System.currentTimeMillis()
+            val sdf = SimpleDateFormat("yyyy.MM.dd_HH:mm", Locale.KOREA)
+
+            insertNineBallMatchResultUseCase(
+                nineBallMatchResult = NineBallMatchResult(
+                    gameType = GameType.GAME_9_BALL.text,
+                    adjustment = _playerLeftAdjustedHandicap.value!! - playerLeft.handicap!!,
+                    isLive = false,
+                    playerLeftName = playerLeft.name,
+                    playerRightName = playerRight.name,
+                    playerLeftRunOut = _playerLeftRunOut.value ?: 0,
+                    playerRightRunOut = _playerRightRunOut.value ?: 0,
+                    playerLeftScore = _playerLeftScore.value,
+                    playerRightScore = _playerRightScore.value,
+                    playerWinnerName = if (_isPlayerLeftWinner.value!!) playerLeft.name else playerRight.name,
+                    playerLoserName = if (_isPlayerLeftWinner.value!!) playerRight.name else playerLeft.name,
+                    matchStartTimeStamp = startTimeStamp,
+                    matchEndTimeStamp = endTimeMillis,
+                    matchStartDateTime = sdf.format(dateTime),
+                    matchEndDateTime = sdf.format(Date(endTimeMillis))
+                ),
+                onSuccess = {
+                    _isInsertSuccess.postValue(true)
+                },
+                onFailure = {
+                    _isInsertSuccess.postValue(false)
+                }
+            )
         }
     }
 }
