@@ -89,7 +89,7 @@
 
     <style name="blueButton" parent="notosans_bold_14">
         <item name="android:textColor">@color/selector_ffffff_text</item>
-        <item name="android:background">@drawable/selector_main_button</item>
+        <item name="android:background">@drawable/selector_blue_button</item>
     </style>
 
     <style name="blackButton" parent="notosans_medium_14">
