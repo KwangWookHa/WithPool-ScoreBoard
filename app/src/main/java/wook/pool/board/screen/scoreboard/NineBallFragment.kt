@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import wook.pool.board.R
+import wook.pool.board.base.BaseActivity
 import wook.pool.board.base.BaseFragment
 import wook.pool.board.base.event.EventObserver
 import wook.pool.board.databinding.FragmentNineBallBinding
@@ -41,6 +42,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
     private fun initObserver() {
         nineBallViewModel.isRegisterMatchSuccessful.observe(viewLifecycleOwner, EventObserver {
             if (it) {
+                setLoadingProgress(false)
                 showDialogToFinishMatch()
             }
         })
@@ -50,7 +52,10 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
         with(binding) {
             with(nineBallViewModel) {
                 when (v) {
-                    layoutBtnFinishGame -> insertNineBallMatchResult()
+                    layoutBtnFinishGame -> {
+                        setLoadingProgress(true)
+                        insertNineBallMatchResult()
+                    }
                     layoutBtnCancelMatch -> showDialogToCancelMatch()
                     layoutLeftPlayer, textBtnScoreLeft -> plusScore(true)
                     layoutRightPlayer, textBtnScoreRight -> plusScore(false)
@@ -89,6 +94,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                 .setType(DefaultDialog.DialogType.DIALOG_OK)
                 .setTitle(getString(R.string.fragment_nine_ball_finish_match))
                 .setMessage(getString(R.string.fragment_nine_ball_register_successful))
+                .setBackPressDisabled(true)
                 .setRightButtonText(getString(R.string.common_confirm))
                 .setOnClickRight { dialog ->
                     dialog.dismiss()
@@ -125,5 +131,9 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
         scoreBoardScreenViewModel.setNavDirection(
             NineBallFragmentDirections.actionFragmentNineBallToFragmentChoicePlayer()
         )
+    }
+
+    private fun setLoadingProgress(flag: Boolean) {
+        scoreBoardScreenViewModel.setLoadingProgress(flag)
     }
 }

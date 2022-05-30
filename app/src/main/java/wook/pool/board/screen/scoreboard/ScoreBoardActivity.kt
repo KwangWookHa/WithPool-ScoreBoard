@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 import wook.pool.board.R
 import wook.pool.board.base.BaseActivity
 import wook.pool.board.databinding.ActivityScoreBoardBinding
+import wook.pool.board.screen.dialog.ProgressDialog
 
 
 @AndroidEntryPoint
@@ -26,6 +27,8 @@ class ScoreBoardActivity : BaseActivity() {
 
     private val playersViewModel: PlayersViewModel by viewModels()
     private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by viewModels()
+
+    private val progressDialog by lazy { ProgressDialog(this) }
 
     private val navHostFragment: NavHostFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.fragmentContainerScoreBoard) as NavHostFragment
@@ -67,6 +70,13 @@ class ScoreBoardActivity : BaseActivity() {
         with(scoreBoardScreenViewModel) {
             navDirection.observe(this@ScoreBoardActivity) {
                 navController.navigate(it)
+            }
+            isLoading.observe(this@ScoreBoardActivity) {
+                if (it) {
+                    progressDialog.show()
+                } else {
+                    progressDialog.hide()
+                }
             }
         }
     }

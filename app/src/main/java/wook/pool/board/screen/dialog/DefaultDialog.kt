@@ -110,9 +110,9 @@ class DefaultDialog(context: Context) : Dialog(context, R.style.DialogTheme) {
                 gravity = this@Builder.gravity
                 btnLeftText = this@Builder.btnLeftText
                 btnRightText = this@Builder.btnRightText
+                isBackPressDisabled = this@Builder.isBackDisabled
                 dialog = this@dialog
             }
-            isBackPressDisabled = this@Builder.isBackDisabled
         }
     }
 

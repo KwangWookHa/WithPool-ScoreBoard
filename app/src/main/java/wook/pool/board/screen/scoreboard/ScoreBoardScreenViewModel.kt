@@ -1,8 +1,5 @@
 package wook.pool.board.screen.scoreboard
 
-import android.os.Bundle
-import androidx.annotation.IdRes
-import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavDirections
@@ -14,8 +11,15 @@ class ScoreBoardScreenViewModel @Inject constructor() : BaseViewModel() {
     private val _navDirection: MutableLiveData<NavDirections> = MutableLiveData()
     val navDirection: LiveData<NavDirections> = _navDirection
 
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     fun setNavDirection(navDirection: NavDirections) {
         _navDirection.value = navDirection
+    }
+
+    fun setLoadingProgress(value: Boolean) {
+        _isLoading.value = value
     }
 
 }

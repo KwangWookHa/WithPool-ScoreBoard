@@ -142,10 +142,12 @@ class NineBallViewModel @Inject constructor(
 
     fun plusRunOut(isLeft: Boolean) {
         viewModelScope.launch(ioDispatchers) {
-            if (isLeft) {
-                _playerLeftRunOut.plus(1)
-            } else {
-                _playerRightRunOut.plus(1)
+            if (isMatchOver.value != true) {
+                if (isLeft) {
+                    _playerLeftRunOut.plus(1)
+                } else {
+                    _playerRightRunOut.plus(1)
+                }
             }
         }
     }
@@ -191,7 +193,7 @@ class NineBallViewModel @Inject constructor(
                     _isRegisterMatchSuccessful.postValue(Event(true))
                 },
                 onFailure = {
-                    _isRegisterMatchSuccessful.postValue(Event(false))
+                    throw it
                 }
             )
         }
