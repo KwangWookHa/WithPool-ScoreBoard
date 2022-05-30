@@ -140,7 +140,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btnRight"
-                style="@style/redButton"
+                style="@style/blueButton"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="24dp"
