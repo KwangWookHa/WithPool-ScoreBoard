@@ -164,8 +164,7 @@ class PlayersViewModel @Inject constructor(
             MatchPlayers(
                 playerLeft = _playerLeft.value!!,
                 playerRight = _playerRight.value!!,
-                playerLeftAdjustedHandicap = playerLeftAdjustedHandicap.value!!,
-                playerRightAdjustedHandicap = playerRightAdjustedHandicap.value!!
+                adjustment = _handicapAdjustment.value!!,
             )
         }
 }

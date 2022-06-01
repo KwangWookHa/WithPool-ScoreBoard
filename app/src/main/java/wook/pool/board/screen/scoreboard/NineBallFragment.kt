@@ -29,6 +29,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
         savedInstanceState: Bundle?
     ): View? {
         return super.onCreateView(inflater, container, savedInstanceState).apply {
+            setLoadingProgress(true)
             binding.apply {
                 viewModel = nineBallViewModel.apply {
                     initMatch(args.matchPlayers)
@@ -41,7 +42,12 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
     }
 
     private fun initObserver() {
-        nineBallViewModel.isRegisterMatchSuccessful.observe(viewLifecycleOwner, EventObserver {
+        nineBallViewModel.documentReferenceId.observe(viewLifecycleOwner) {
+            if (it.isNotBlank()) {
+                setLoadingProgress(false)
+            }
+        }
+        nineBallViewModel.isSetMatchSuccessful.observe(viewLifecycleOwner, EventObserver {
             if (it) {
                 setLoadingProgress(false)
                 showDialogToFinishMatch()
@@ -55,7 +61,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                 when (v) {
                     layoutBtnFinishGame -> {
                         setLoadingProgress(true)
-                        insertNineBallMatchResult()
+                        setNineBallMatch()
                     }
                     layoutBtnCancelMatch -> showDialogToCancelMatch()
                     layoutLeftPlayer, textBtnScoreLeft -> plusScore(true)
