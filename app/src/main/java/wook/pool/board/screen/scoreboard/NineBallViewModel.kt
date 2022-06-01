@@ -231,7 +231,7 @@ class NineBallViewModel @Inject constructor(
                     deleteNineBallMatchUseCase(
                         documentReferenceId = it,
                         onSuccess = { _isDeleteMatchSuccessful.postValue(Event(true)) },
-                        onFailure = { throw it}
+                        onFailure = { throw it }
                     )
                 }
             }

@@ -69,5 +69,6 @@ class FirestoreRepository @Inject constructor() {
             .delete()
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { e -> onFailure(e) }
+
     }
 }
