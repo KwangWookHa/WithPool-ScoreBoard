@@ -16,6 +16,7 @@ import wook.pool.board.data.model.MatchPlayers
 import wook.pool.board.data.model.NineBallMatch
 import wook.pool.board.data.model.Player
 import wook.pool.board.domain.usecase.AddNineBallMatchUseCase
+import wook.pool.board.domain.usecase.DeleteNineBallMatchUseCase
 import wook.pool.board.domain.usecase.SetNineBallMatchUseCase
 import javax.inject.Inject
 
@@ -23,6 +24,7 @@ import javax.inject.Inject
 class NineBallViewModel @Inject constructor(
     private val addNineBallMatchUseCase: AddNineBallMatchUseCase,
     private val setNineBallMatchUseCase: SetNineBallMatchUseCase,
+    private val deleteNineBallMatchUseCase: DeleteNineBallMatchUseCase,
 ) : BaseViewModel() {
 
     private lateinit var startTimeStamp: Timestamp
@@ -97,6 +99,9 @@ class NineBallViewModel @Inject constructor(
 
     private val _isSetMatchSuccessful: MutableLiveData<Event<Boolean>> = MutableLiveData()
     val isSetMatchSuccessful: LiveData<Event<Boolean>> = _isSetMatchSuccessful
+
+    private val _isDeleteMatchSuccessful: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    val isDeleteMatchSuccessful: LiveData<Event<Boolean>> = _isDeleteMatchSuccessful
 
     fun initMatch(matchPlayers: MatchPlayers?) {
         viewModelScope.launch(ioDispatchers) {
@@ -213,6 +218,20 @@ class NineBallViewModel @Inject constructor(
                         ),
                         onSuccess = { _isSetMatchSuccessful.postValue(Event(true)) },
                         onFailure = { throw it }
+                    )
+                }
+            }
+        }
+    }
+
+    fun deleteNineBallMatch() {
+        viewModelScope.launch(ioDispatchers) {
+            _documentReferenceId.value?.let {
+                if (it.isNotBlank()) {
+                    deleteNineBallMatchUseCase(
+                        documentReferenceId = it,
+                        onSuccess = { _isDeleteMatchSuccessful.postValue(Event(true)) },
+                        onFailure = { throw it}
                     )
                 }
             }

@@ -42,17 +42,25 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
     }
 
     private fun initObserver() {
-        nineBallViewModel.documentReferenceId.observe(viewLifecycleOwner) {
-            if (it.isNotBlank()) {
-                setLoadingProgress(false)
+        with(nineBallViewModel) {
+            documentReferenceId.observe(viewLifecycleOwner) {
+                if (it.isNotBlank()) {
+                    setLoadingProgress(false)
+                }
             }
+            isSetMatchSuccessful.observe(viewLifecycleOwner, EventObserver {
+                if (it) {
+                    setLoadingProgress(false)
+                    showDialogToFinishMatch()
+                }
+            })
+            isDeleteMatchSuccessful.observe(viewLifecycleOwner, EventObserver {
+                if (it) {
+                    setLoadingProgress(false)
+                    backToChoicePlayerFragment()
+                }
+            })
         }
-        nineBallViewModel.isSetMatchSuccessful.observe(viewLifecycleOwner, EventObserver {
-            if (it) {
-                setLoadingProgress(false)
-                showDialogToFinishMatch()
-            }
-        })
     }
 
     override fun onClick(v: View?) {
@@ -125,7 +133,8 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                 .setRightButtonText(getString(R.string.common_confirm))
                 .setOnClickRight { dialog ->
                     dialog.dismiss()
-                    backToChoicePlayerFragment()
+                    setLoadingProgress(true)
+                    nineBallViewModel.deleteNineBallMatch()
                 }
                 .create(context)
                 .show()
