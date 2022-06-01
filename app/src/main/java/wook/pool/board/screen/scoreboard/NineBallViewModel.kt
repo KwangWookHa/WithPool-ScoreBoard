@@ -13,14 +13,16 @@ import wook.pool.board.base.minus
 import wook.pool.board.base.plus
 import wook.pool.board.data.model.GameType
 import wook.pool.board.data.model.MatchPlayers
-import wook.pool.board.data.model.NineBallMatchResult
+import wook.pool.board.data.model.NineBallMatch
 import wook.pool.board.data.model.Player
-import wook.pool.board.domain.usecase.InsertNineBallMatchResultUseCase
+import wook.pool.board.domain.usecase.AddNineBallMatchUseCase
+import wook.pool.board.domain.usecase.SetNineBallMatchUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class NineBallViewModel @Inject constructor(
-    private val insertNineBallMatchResultUseCase: InsertNineBallMatchResultUseCase,
+    private val addNineBallMatchUseCase: AddNineBallMatchUseCase,
+    private val setNineBallMatchUseCase: SetNineBallMatchUseCase,
 ) : BaseViewModel() {
 
     private lateinit var startTimeStamp: Timestamp
@@ -90,19 +92,22 @@ class NineBallViewModel @Inject constructor(
     private val _isPlayerLeftWinner: MutableLiveData<Boolean> = MutableLiveData()
     val isPlayerLeftWinner: LiveData<Boolean> = _isPlayerLeftWinner
 
-    private val _gameType: MutableLiveData<GameType> = MutableLiveData(GameType.GAME_9_BALL)
-    val gameType: LiveData<GameType> = _gameType
+    private val _documentReferenceId: MutableLiveData<String> = MutableLiveData()
+    val documentReferenceId: LiveData<String> = _documentReferenceId
 
-    private val _isRegisterMatchSuccessful: MutableLiveData<Event<Boolean>> = MutableLiveData()
-    val isRegisterMatchSuccessful: LiveData<Event<Boolean>> = _isRegisterMatchSuccessful
+    private val _isSetMatchSuccessful: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    val isSetMatchSuccessful: LiveData<Event<Boolean>> = _isSetMatchSuccessful
 
     fun initMatch(matchPlayers: MatchPlayers?) {
-        startTimeStamp = Timestamp.now()
-        matchPlayers?.let {
-            _playerLeft.value = it.playerLeft
-            _playerRight.value = it.playerRight
-            _playerLeftAdjustedHandicap.value = it.playerLeftAdjustedHandicap
-            _playerRightAdjustedHandicap.value = it.playerRightAdjustedHandicap
+        viewModelScope.launch(ioDispatchers) {
+            matchPlayers?.let {
+                startTimeStamp = Timestamp.now()
+                _playerLeft.postValue(it.playerLeft)
+                _playerRight.postValue(it.playerRight)
+                _playerLeftAdjustedHandicap.postValue(it.playerLeft.handicap?.plus(it.adjustment))
+                _playerRightAdjustedHandicap.postValue(it.playerRight.handicap?.plus(it.adjustment))
+                addNineBallMatch(it.playerLeft, it.playerRight, it.adjustment)
+            }
         }
     }
 
@@ -156,37 +161,64 @@ class NineBallViewModel @Inject constructor(
         }
     }
 
-    fun insertNineBallMatchResult() {
+    private fun addNineBallMatch(playerLeft: Player, playerRight: Player, adjustment: Int) {
         viewModelScope.launch(ioDispatchers) {
-            val playerLeft = _playerLeft.value
-            val playerRight = _playerRight.value
-            if (playerLeft == null || playerRight == null) return@launch
-
-            insertNineBallMatchResultUseCase(
-                nineBallMatchResult = NineBallMatchResult(
+            addNineBallMatchUseCase(
+                nineBallMatch = NineBallMatch(
                     gameType = GameType.GAME_9_BALL.text,
-                    adjustment = _playerLeftAdjustedHandicap.value!! - playerLeft.handicap!!,
-                    isLive = false,
+                    adjustment = adjustment,
+                    isLive = true,
                     playerLeftName = playerLeft.name,
                     playerRightName = playerRight.name,
-                    playerLeftRunOut = _playerLeftRunOut.value ?: 0,
-                    playerRightRunOut = _playerRightRunOut.value ?: 0,
-                    playerLeftScore = _playerLeftScore.value,
-                    playerRightScore = _playerRightScore.value,
-                    playerWinnerName = if (_isPlayerLeftWinner.value!!) playerLeft.name else playerRight.name,
-                    playerLoserName = if (_isPlayerLeftWinner.value!!) playerRight.name else playerLeft.name,
-                    matchStartTimeStamp = startTimeStamp,
-                    matchEndTimeStamp = Timestamp.now(),
+                    playerLeftRunOut = null,
+                    playerRightRunOut = null,
+                    playerLeftScore = null,
+                    playerRightScore = null,
+                    playerWinnerName = null,
+                    playerLoserName = null,
+                    matchStartDateTime = startTimeStamp,
+                    matchEndDateTime = null,
                 ),
-                onSuccess = {
-                    _isRegisterMatchSuccessful.postValue(Event(true))
-                },
-                onFailure = {
-                    throw it
-                }
+                onSuccess = { _documentReferenceId.postValue(it.id) },
+                onFailure = { throw it }
             )
         }
     }
+
+    fun setNineBallMatch() {
+        viewModelScope.launch(ioDispatchers) {
+            _documentReferenceId.value?.let {
+                if (it.isNotBlank()) {
+                    setNineBallMatchUseCase(
+                        documentReferenceId = it,
+                        nineBallMatch = NineBallMatch(
+                            isLive = false,
+                            playerLeftRunOut = _playerLeftRunOut.value ?: 0,
+                            playerRightRunOut = _playerRightRunOut.value ?: 0,
+                            playerLeftScore = _playerLeftScore.value,
+                            playerRightScore = _playerRightScore.value,
+                            playerWinnerName = if (_isPlayerLeftWinner.value!!) _playerLeft.value?.name else _playerRight.value?.name,
+                            playerLoserName = if (_isPlayerLeftWinner.value!!) _playerRight.value?.name else _playerLeft.value?.name,
+                            matchEndDateTime = Timestamp.now(),
+                        ),
+                        mergeFields = listOf(
+                            "isLive",
+                            "playerLeftRunOut",
+                            "playerRightRunOut",
+                            "playerLeftScore",
+                            "playerRightScore",
+                            "playerWinnerName",
+                            "playerLoserName",
+                            "matchEndDateTime"
+                        ),
+                        onSuccess = { _isSetMatchSuccessful.postValue(Event(true)) },
+                        onFailure = { throw it }
+                    )
+                }
+            }
+        }
+    }
+
 
     fun initLiveData() {
         viewModelScope.launch(ioDispatchers) {
@@ -203,6 +235,9 @@ class NineBallViewModel @Inject constructor(
             isMatchOver.postValue(false)
             _playerLeftAlpha.postValue(1f)
             _playerRightAlpha.postValue(1f)
+
+            _documentReferenceId.postValue("")
+            _isSetMatchSuccessful.postValue(Event(false))
         }
     }
 }
