@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.Timestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import wook.pool.board.base.BaseViewModel
@@ -15,8 +16,6 @@ import wook.pool.board.data.model.MatchPlayers
 import wook.pool.board.data.model.NineBallMatchResult
 import wook.pool.board.data.model.Player
 import wook.pool.board.domain.usecase.InsertNineBallMatchResultUseCase
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,12 +23,7 @@ class NineBallViewModel @Inject constructor(
     private val insertNineBallMatchResultUseCase: InsertNineBallMatchResultUseCase,
 ) : BaseViewModel() {
 
-    private var startTimeStamp: Long = 0L
-        set(value) {
-            dateTime = Date(value)
-            field = value
-        }
-    private lateinit var dateTime: Date
+    private lateinit var startTimeStamp: Timestamp
 
     /***************************** Player Left *****************************/
 
@@ -103,7 +97,7 @@ class NineBallViewModel @Inject constructor(
     val isRegisterMatchSuccessful: LiveData<Event<Boolean>> = _isRegisterMatchSuccessful
 
     fun initMatch(matchPlayers: MatchPlayers?) {
-        startTimeStamp = System.currentTimeMillis()
+        startTimeStamp = Timestamp.now()
         matchPlayers?.let {
             _playerLeft.value = it.playerLeft
             _playerRight.value = it.playerRight
@@ -168,9 +162,6 @@ class NineBallViewModel @Inject constructor(
             val playerRight = _playerRight.value
             if (playerLeft == null || playerRight == null) return@launch
 
-            val endTimeMillis = System.currentTimeMillis()
-            val sdf = SimpleDateFormat("yyyy.MM.dd_HH:mm", Locale.KOREA)
-
             insertNineBallMatchResultUseCase(
                 nineBallMatchResult = NineBallMatchResult(
                     gameType = GameType.GAME_9_BALL.text,
@@ -185,9 +176,7 @@ class NineBallViewModel @Inject constructor(
                     playerWinnerName = if (_isPlayerLeftWinner.value!!) playerLeft.name else playerRight.name,
                     playerLoserName = if (_isPlayerLeftWinner.value!!) playerRight.name else playerLeft.name,
                     matchStartTimeStamp = startTimeStamp,
-                    matchEndTimeStamp = endTimeMillis,
-                    matchStartDateTime = sdf.format(dateTime),
-                    matchEndDateTime = sdf.format(Date(endTimeMillis))
+                    matchEndTimeStamp = Timestamp.now(),
                 ),
                 onSuccess = {
                     _isRegisterMatchSuccessful.postValue(Event(true))

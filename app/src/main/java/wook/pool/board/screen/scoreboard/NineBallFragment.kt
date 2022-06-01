@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import wook.pool.board.R
-import wook.pool.board.base.BaseActivity
 import wook.pool.board.base.BaseFragment
 import wook.pool.board.base.event.EventObserver
 import wook.pool.board.databinding.FragmentNineBallBinding
@@ -31,7 +30,9 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
     ): View? {
         return super.onCreateView(inflater, container, savedInstanceState).apply {
             binding.apply {
-                viewModel = nineBallViewModel.apply { initMatch(args.matchPlayers) }
+                viewModel = nineBallViewModel.apply {
+                    initMatch(args.matchPlayers)
+                }
                 onClickListener = this@NineBallFragment
                 onLongClickListener = this@NineBallFragment
             }

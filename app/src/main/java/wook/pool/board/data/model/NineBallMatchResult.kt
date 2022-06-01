@@ -1,5 +1,7 @@
 package wook.pool.board.data.model
 
+import com.google.firebase.Timestamp
+
 data class NineBallMatchResult(
     val gameType: String? = null,
     val adjustment: Int? = null,
@@ -17,9 +19,6 @@ data class NineBallMatchResult(
     val playerWinnerName: String? = null,
     val playerLoserName: String? = null,
 
-    val matchStartTimeStamp: Long? = null,
-    val matchEndTimeStamp: Long? = null,
-
-    val matchStartDateTime: String? = null,
-    val matchEndDateTime: String? = null,
+    val matchStartTimeStamp: Timestamp? = null,
+    val matchEndTimeStamp: Timestamp? = null,
 )
