@@ -5,18 +5,17 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
+import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import wook.pool.board.base.BaseViewModel
 import wook.pool.board.base.event.Event
 import wook.pool.board.base.minus
 import wook.pool.board.base.plus
-import wook.pool.board.data.model.GameType
-import wook.pool.board.data.model.MatchPlayers
-import wook.pool.board.data.model.NineBallMatch
-import wook.pool.board.data.model.Player
+import wook.pool.board.data.model.*
 import wook.pool.board.domain.usecase.AddNineBallMatchUseCase
 import wook.pool.board.domain.usecase.DeleteNineBallMatchUseCase
+import wook.pool.board.domain.usecase.GetNineBallMatchUseCase
 import wook.pool.board.domain.usecase.SetNineBallMatchUseCase
 import javax.inject.Inject
 
@@ -181,8 +180,8 @@ class NineBallViewModel @Inject constructor(
                     playerRightScore = null,
                     playerWinnerName = null,
                     playerLoserName = null,
-                    matchStartDateTime = startTimeStamp,
-                    matchEndDateTime = null,
+                    matchStartTimeStamp = startTimeStamp,
+                    matchEndTimeStamp = null,
                 ),
                 onSuccess = { _documentReferenceId.postValue(it.id) },
                 onFailure = { throw it }
@@ -204,7 +203,7 @@ class NineBallViewModel @Inject constructor(
                             playerRightScore = _playerRightScore.value,
                             playerWinnerName = if (_isPlayerLeftWinner.value!!) _playerLeft.value?.name else _playerRight.value?.name,
                             playerLoserName = if (_isPlayerLeftWinner.value!!) _playerRight.value?.name else _playerLeft.value?.name,
-                            matchEndDateTime = Timestamp.now(),
+                            matchEndTimeStamp = Timestamp.now(),
                         ),
                         mergeFields = listOf(
                             "isLive",
@@ -214,7 +213,7 @@ class NineBallViewModel @Inject constructor(
                             "playerRightScore",
                             "playerWinnerName",
                             "playerLoserName",
-                            "matchEndDateTime"
+                            "matchEndTimeStamp"
                         ),
                         onSuccess = { _isSetMatchSuccessful.postValue(Event(true)) },
                         onFailure = { throw it }

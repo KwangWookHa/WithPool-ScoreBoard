@@ -21,6 +21,6 @@ data class NineBallMatch(
     val playerWinnerName: String? = null,
     val playerLoserName: String? = null,
 
-    val matchStartDateTime: Timestamp? = null,
-    val matchEndDateTime: Timestamp? = null,
+    var matchStartTimeStamp: Timestamp? = null,
+    var matchEndTimeStamp: Timestamp? = null,
 )

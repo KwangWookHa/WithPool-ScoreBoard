@@ -25,7 +25,6 @@ class ScoreBoardActivity : BaseActivity() {
 
     private var _binding: ActivityScoreBoardBinding? = null
 
-    private val playersViewModel: PlayersViewModel by viewModels()
     private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by viewModels()
 
     private val progressDialog by lazy { ProgressDialog(this) }

@@ -5,12 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import wook.pool.board.R
 import wook.pool.board.base.BaseFragment
-import wook.pool.board.base.Constant.BundleKey.IS_CHOICE_MODE_LEFT
-import wook.pool.board.data.model.MatchPlayers
 import wook.pool.board.databinding.FragmentChoicePlayerBinding
 import wook.pool.board.screen.dialog.DefaultDialog
 

@@ -15,7 +15,7 @@ class FirestoreRepository @Inject constructor() {
     private val db: FirebaseFirestore = Firebase.firestore
 
     companion object {
-        private const val COLLECTION_NINE_BALL_MATCH_RESULT = "nine_ball_match_result"
+        private const val COLLECTION_NINE_BALL_MATCH_RESULT = "nine_ball_match"
         private const val COLLECTION_PLAYERS = "players"
     }
 
@@ -57,6 +57,16 @@ class FirestoreRepository @Inject constructor() {
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { e -> onFailure(e) }
 
+    }
+
+    fun getNineBallMatch(
+        onSuccess: (QuerySnapshot) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        db.collection(COLLECTION_NINE_BALL_MATCH_RESULT)
+            .get()
+            .addOnSuccessListener(onSuccess)
+            .addOnFailureListener(onFailure)
     }
 
     fun deleteNineBallMatch(
