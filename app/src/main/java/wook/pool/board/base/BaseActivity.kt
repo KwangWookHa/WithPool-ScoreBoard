@@ -1,7 +1,5 @@
 package wook.pool.board.base
 
-import android.content.Intent
-import android.view.Gravity
 import androidx.appcompat.app.AppCompatActivity
 import com.orhanobut.logger.Logger
 import org.greenrobot.eventbus.EventBus
@@ -14,18 +12,6 @@ import wook.pool.board.screen.dialog.DefaultDialog
 open class BaseActivity : AppCompatActivity() {
 
     var backPressCount = 0
-
-    fun startActivity(
-        destination: Class<*>,
-        finish: Boolean = false,
-        putExtra: ((Intent) -> Unit)? = null
-    ) {
-        val intent = Intent(this, destination).also {
-            putExtra?.invoke(it)
-        }
-        startActivity(intent)
-        if (finish) finish()
-    }
 
     override fun onResume() {
         super.onResume()
@@ -43,27 +29,12 @@ open class BaseActivity : AppCompatActivity() {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     open fun onThrowableEvent(event: ThrowableEvent) {
-        handleError(event.throwable)
-    }
-
-    private fun handleError(throwable: Throwable) {
-        when (throwable.cause) {
-
+        val message = when (event.throwable.message) {
+            else -> {
+                ""
+            }
         }
-    }
-
-
-    /**
-     * 정의한 에러 처리
-     */
-    private fun handleWalletError(message: String?) {
-        Logger.e("ERROR\n$message")
-//        val description = getString(
-//                when (message) {
-//
-//                }
-//        )
-//        showErrorDialog(description)
+        showErrorDialog(message)
     }
 
     private fun showErrorDialog(message: String) {
