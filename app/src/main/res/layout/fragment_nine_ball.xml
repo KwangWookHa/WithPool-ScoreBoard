@@ -30,11 +30,11 @@
             android:id="@+id/layoutLeftPlayer"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/dp_16"
             android:alpha="@{!viewModel.isMatchOver ? 1f : viewModel.playerLeftAlpha}"
             android:background="@{viewModel.isMatchOver &amp;&amp; viewModel.isPlayerLeftWinner ? @drawable/bg_ffffff_round_12_bd_red_8 : @drawable/bg_ffffff_round_12}"
             android:onClick="@{onClickListener::onClick}"
-            android:padding="16dp"
+            android:padding="@dimen/dp_16"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -43,86 +43,72 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textLeftPlayerName"
-                style="@style/notosans_bold_36"
+                style="@style/notosans_bold"
                 bindVisibleOrGone="@{viewModel.playerLeft != null}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:text="@{viewModel.playerLeft.name}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@{@string/fragment_score_board_player(viewModel.playerLeft.name, viewModel.playerLeftAdjustedHandicap)}"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.12"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="하광욱" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textLeftPlayerHandicap"
-                style="@style/notosans_bold_30"
-                bindVisibleOrGone="@{viewModel.playerLeft != null}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="@{@string/fragment_score_board_handicap(viewModel.playerLeftAdjustedHandicap)}"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textLeftPlayerName"
-                app:layout_constraintStart_toEndOf="@+id/textLeftPlayerName"
-                tools:text="(5)" />
+                app:layout_constraintWidth_percent="0.6"
+                tools:text="하광욱 (5)" />
 
             <View
                 android:id="@+id/viewDividerLeft"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/gray_e4e4e4"
+                android:layout_marginTop="@dimen/dp_12"
+                android:background="@color/dark_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textLeftPlayerName" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 bindVisibleOrGone="@{viewModel.isMatchOver &amp;&amp; viewModel.isPlayerLeftWinner}"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:src="@drawable/ic_medal_winner"
+                android:visibility="gone"
+                app:layout_constraintDimensionRatio="1"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.5" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textBtnScoreLeft"
-                style="@style/poppins_bold_180"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/poppins_bold"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
                 android:onClick="@{onClickListener::onClick}"
                 android:onLongClick="@{onLongClickListener::onLongClick}"
                 android:text="@{String.valueOf(viewModel.playerLeftScore)}"
+                app:autoSizeMaxTextSize="@dimen/dp_400"
+                app:autoSizeTextType="uniform"
                 app:layout_constraintBottom_toBottomOf="parent"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewDividerLeft"
                 tools:text="0" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textRunOutTitleLeft"
-                style="@style/poppins_medium_28"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/common_run_out_en"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/textRunOutLeft"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textRunOutLeft"
-                style="@style/poppins_medium_28"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@{String.valueOf(viewModel.playerLeftRunOut)}"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textRunOutTitleLeft"
+                style="@style/poppins_medium"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@{@string/common_run_out_en_x(viewModel.playerLeftRunOut)}"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/textRunOutTitleLeft"
-                tools:text="0" />
+                app:layout_constraintHeight_percent="0.12"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintWidth_percent="0.6"
+                tools:text="Run out 0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -131,11 +117,11 @@
             android:id="@+id/layoutRightPlayer"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/dp_16"
             android:alpha="@{!viewModel.isMatchOver ? 1f : viewModel.playerRightAlpha}"
             android:background="@{viewModel.isMatchOver &amp;&amp; !viewModel.isPlayerLeftWinner ? @drawable/bg_f0f4c3_round_12_bd_red_8 : @drawable/bg_f0f4c3_round_12}"
             android:onClick="@{onClickListener::onClick}"
-            android:padding="16dp"
+            android:padding="@dimen/dp_16"
             app:layout_constraintBottom_toBottomOf="@+id/layoutLeftPlayer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/layoutLeftPlayer"
@@ -144,54 +130,52 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textRightPlayerName"
-                style="@style/notosans_bold_36"
+                style="@style/notosans_bold"
                 bindVisibleOrGone="@{viewModel.playerRight != null}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:text="@{viewModel.playerRight.name}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@{@string/fragment_score_board_player(viewModel.playerRight.name, viewModel.playerRightAdjustedHandicap)}"
+                app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.12"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="하광욱" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textRightPlayerHandicap"
-                style="@style/notosans_bold_30"
-                bindVisibleOrGone="@{viewModel.playerRight != null}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:text="@{@string/fragment_score_board_handicap(viewModel.playerRightAdjustedHandicap)}"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textRightPlayerName"
-                app:layout_constraintEnd_toStartOf="@+id/textRightPlayerName"
-                tools:text="(5)" />
+                app:layout_constraintWidth_percent="0.6"
+                tools:text="손대원 (6)" />
 
             <View
                 android:id="@+id/viewDividerRight"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/gray_e4e4e4"
+                android:layout_marginTop="@dimen/dp_12"
+                android:background="@color/dark_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textRightPlayerName" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 bindVisibleOrGone="@{viewModel.isMatchOver &amp;&amp; !viewModel.isPlayerLeftWinner}"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:src="@drawable/ic_medal_winner"
+                android:visibility="gone"
+                app:layout_constraintDimensionRatio="1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.5" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textBtnScoreRight"
-                style="@style/poppins_bold_180"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/poppins_bold"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
                 android:onClick="@{onClickListener::onClick}"
                 android:onLongClick="@{onLongClickListener::onLongClick}"
                 android:text="@{String.valueOf(viewModel.playerRightScore)}"
+                app:autoSizeMaxTextSize="@dimen/dp_400"
+                app:autoSizeTextType="uniform"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -199,30 +183,19 @@
                 tools:text="0" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textRunOutRightTitleRight"
-                style="@style/poppins_medium_28"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/common_run_out_en"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/textBtnScoreRight"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/textRunOutRight" />
-
-            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textRunOutRight"
-                style="@style/poppins_medium_28"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:text="@{String.valueOf(viewModel.playerRightRunOut)}"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textRunOutRightTitleRight"
-                app:layout_constraintEnd_toStartOf="@+id/textRunOutRightTitleRight"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="@+id/textBtnScoreRight"
-                tools:text="0" />
+                style="@style/poppins_medium"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@{@string/common_run_out_en_x(viewModel.playerRightRunOut)}"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.12"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintWidth_percent="0.6"
+                tools:text="Run out 0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -231,70 +204,68 @@
             android:id="@+id/layoutBtnFinishGame"
             bindVisibleOrGone="@{viewModel.isMatchOver}"
             android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_16"
             android:background="@drawable/bg_main_round_6"
             android:onClick="@{onClickListener::onClick}"
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
+            app:layout_constraintHeight_percent="0.125"
             app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer"
             app:layout_constraintTop_toBottomOf="@+id/layoutBtnCancelMatch"
             tools:visibility="visible">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgStartGame"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="8dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:src="@drawable/ic_check_circle_24"
                 app:layout_constraintBottom_toBottomOf="@+id/textStartGame"
+                app:layout_constraintDimensionRatio="1"
                 app:layout_constraintEnd_toStartOf="@+id/textStartGame"
+                app:layout_constraintHeight_percent="0.45"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textStartGame" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textStartGame"
-                style="@style/notosans_medium_30"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/notosans_medium"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="@dimen/dp_8"
+                android:layout_marginStart="@dimen/dp_8"
+                android:gravity="center"
                 android:text="@string/fragment_score_board_finish_game"
                 android:textColor="@color/white"
+                app:autoSizeTextType="uniform"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/imgStartGame"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.5" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgNineBall"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="16dp"
-            android:src="@drawable/ic_9ball"
-            app:layout_constraintBottom_toTopOf="@+id/textBtnPlusLeftRunOut"
-            app:layout_constraintDimensionRatio="1"
-            app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
-            app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer"
-            app:layout_constraintTop_toBottomOf="@+id/layoutBtnFinishGame" />
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textBtnPlusLeftRunOut"
-            style="@style/poppins_bold_24"
+            style="@style/poppins_bold"
             android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="16dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/dp_12"
             android:alpha="@{viewModel.isMatchOver ? 0.4f : 1f}"
             android:background="@drawable/bg_ffffff_round_12"
             android:gravity="center"
             android:onClick="@{onClickListener::onClick}"
             android:onLongClick="@{onLongClickListener::onLongClick}"
-            android:text="Run\nOut !"
+            android:text="@string/common_run_out_line_break"
+            app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toBottomOf="@+id/layoutLeftPlayer"
             app:layout_constraintEnd_toStartOf="@+id/textBtnPlusRightRunOut"
+            app:layout_constraintHeight_percent="0.15"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer"
@@ -302,19 +273,21 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textBtnPlusRightRunOut"
-            style="@style/poppins_bold_24"
+            style="@style/poppins_bold"
             android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_12"
             android:alpha="@{viewModel.isMatchOver ? 0.4f : 1f}"
             android:background="@drawable/bg_f0f4c3_round_12"
             android:gravity="center"
             android:onClick="@{onClickListener::onClick}"
             android:onLongClick="@{onLongClickListener::onLongClick}"
-            android:text="Run\nOut !"
+            android:text="@string/common_run_out_line_break"
+            app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toBottomOf="@+id/layoutRightPlayer"
             app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
+            app:layout_constraintHeight_percent="0.15"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@+id/textBtnPlusLeftRunOut"
@@ -323,22 +296,24 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutBtnCancelMatch"
             android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginHorizontal="16dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/dp_12"
             android:background="@drawable/bg_gray_round_6"
             android:onClick="@{onClickListener::onClick}"
             app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
+            app:layout_constraintHeight_percent="0.1"
             app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer"
             app:layout_constraintTop_toTopOf="@+id/layoutLeftPlayer">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgClose"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:src="@drawable/ic_backspace_24_black"
                 app:layout_constraintBottom_toBottomOf="@+id/textClose"
+                app:layout_constraintDimensionRatio="1"
                 app:layout_constraintEnd_toStartOf="@+id/textClose"
+                app:layout_constraintHeight_percent="0.6"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
@@ -346,15 +321,20 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textClose"
-                style="@style/notosans_bold_20"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/notosans_bold"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="@dimen/dp_8"
+                android:layout_marginStart="@dimen/dp_8"
+                android:gravity="center"
                 android:text="@string/fragment_choice_player_close"
+                app:autoSizeTextType="uniform"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/imgClose"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.5" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

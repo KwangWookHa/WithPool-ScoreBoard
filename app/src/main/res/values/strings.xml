@@ -14,13 +14,14 @@
     <string name="common_x_handicap">%d점</string>
     <string name="common_run_out">런아웃</string>
     <string name="common_run_out_en">Run out</string>
+    <string name="common_run_out_en_x">Run out %d</string>
+    <string name="common_run_out_line_break">Run\nout</string>
     <string name="common_point">포인트</string>
     <string name="common_point_en">Point</string>
     <string name="common_foul">파울</string>
     <string name="common_foul_en">Foul</string>
     <string name="common_finish">앱 종료</string>
     <string name="common_on_back_pressed_notice">뒤로가기를 한번 더 누르면 앱이 종료됩니다</string>
-
 
 
     <string name="fragment_choice_player">선수 선택</string>
@@ -39,6 +40,7 @@
     <string name="fragment_choice_player_not_set_desc">선수를 모두 선택한 후, 경기 시작을 눌러주세요.</string>
 
 
+    <string name="fragment_score_board_player">%s (%d)</string>
     <string name="fragment_score_board_handicap">(%d)</string>
     <string name="fragment_score_board_change_turn">턴 넘기기</string>
     <string name="fragment_score_board_finish_game">경기 종료</string>
