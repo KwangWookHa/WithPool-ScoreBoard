@@ -60,6 +60,11 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                     backToChoicePlayerFragment()
                 }
             })
+            isMatchOver.observe(viewLifecycleOwner) {
+                if (it) {
+                    showDialogToRegisterMatch()
+                }
+            }
         }
     }
 
@@ -97,11 +102,31 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
         return true
     }
 
+    private fun showDialogToRegisterMatch() {
+        hostActivityContext?.let { context ->
+            DefaultDialog.Builder()
+                .setType(DefaultDialog.DialogType.DIALOG_OK_CANCEL)
+                .setImgResourceId(R.drawable.ic_upload_48)
+                .setIsIconVisible(true)
+                .setMessage(getString(R.string.fragment_nine_ball_would_you_register_match))
+                .setLeftButtonText(getString(R.string.common_move_to_back))
+                .setOnClickLeft { it.dismiss() }
+                .setRightButtonText(getString(R.string.common_register))
+                .setOnClickRight { dialog ->
+                    dialog.dismiss()
+                    nineBallViewModel.finishNineBallMatch()
+                }
+                .create(context)
+                .show()
+        }
+    }
+
     private fun showDialogToFinishMatch() {
         hostActivityContext?.let { context ->
             DefaultDialog.Builder()
                 .setType(DefaultDialog.DialogType.DIALOG_OK)
-                .setTitle(getString(R.string.fragment_nine_ball_finish_match))
+                .setImgResourceId(R.drawable.ic_success_64)
+                .setIsIconVisible(true)
                 .setMessage(getString(R.string.fragment_nine_ball_register_successful))
                 .setBackPressDisabled(true)
                 .setRightButtonText(getString(R.string.common_confirm))

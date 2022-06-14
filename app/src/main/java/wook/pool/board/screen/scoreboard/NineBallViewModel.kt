@@ -215,7 +215,7 @@ class NineBallViewModel @Inject constructor(
     fun finishNineBallMatch() {
         viewModelScope.launch(ioDispatchers) {
             _documentPath.value?.let {
-                if (it.isNotBlank()) {
+                if (it.isNotBlank() && isMatchOver.value!!) {
                     setNineBallMatchUseCase(
                         documentPath = it,
                         nineBallMatch = NineBallMatch(

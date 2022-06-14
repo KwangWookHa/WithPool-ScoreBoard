@@ -21,6 +21,8 @@
     <string name="common_foul">파울</string>
     <string name="common_foul_en">Foul</string>
     <string name="common_finish">앱 종료</string>
+    <string name="common_register">등록</string>
+    <string name="common_move_to_back">돌아가기</string>
     <string name="common_on_back_pressed_notice">뒤로가기를 한번 더 누르면 앱이 종료됩니다</string>
 
 
@@ -46,6 +48,8 @@
     <string name="fragment_score_board_finish_game">경기 종료</string>
     <string name="fragment_score_board_pocketing_avg">Pocketing\nAverage</string>
 
+    <string name="fragment_nine_ball_register_match">경기 등록</string>
+    <string name="fragment_nine_ball_would_you_register_match">경기가 종료되었습니다.\n경기 결과를 등록하시겠습니까?</string>
     <string name="fragment_nine_ball_finish_match">경기 종료</string>
     <string name="fragment_nine_ball_register_successful">경기 결과를 성공적으로 등록했습니다.</string>
     <string name="fragment_nine_ball_cancel_match">경기 취소</string>
