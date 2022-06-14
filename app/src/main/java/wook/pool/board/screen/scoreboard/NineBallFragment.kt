@@ -43,7 +43,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
 
     private fun initObserver() {
         with(nineBallViewModel) {
-            documentReferenceId.observe(viewLifecycleOwner) {
+            documentPath.observe(viewLifecycleOwner) {
                 if (it.isNotBlank()) {
                     setLoadingProgress(false)
                 }
@@ -69,19 +69,13 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                 when (v) {
                     layoutBtnFinishGame -> {
                         setLoadingProgress(true)
-                        setNineBallMatch()
+                        finishNineBallMatch()
                     }
                     layoutBtnCancelMatch -> showDialogToCancelMatch()
-                    layoutLeftPlayer, textBtnScoreLeft -> plusScore(true)
-                    layoutRightPlayer, textBtnScoreRight -> plusScore(false)
-                    textBtnPlusLeftRunOut -> {
-                        plusRunOut(true)
-                        plusScore(true)
-                    }
-                    textBtnPlusRightRunOut -> {
-                        plusRunOut(false)
-                        plusScore(false)
-                    }
+                    layoutLeftPlayer, textBtnScoreLeft -> setScore(true, +1)
+                    layoutRightPlayer, textBtnScoreRight -> setScore(false, +1)
+                    textBtnPlusLeftRunOut -> setRunOut(true, +1)
+                    textBtnPlusRightRunOut -> setRunOut(false, +1)
                     else -> {}
                 }
             }
@@ -93,10 +87,10 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
         with(binding) {
             with(nineBallViewModel) {
                 when (v) {
-                    textBtnScoreLeft -> minusScore(true)
-                    textBtnScoreRight -> minusScore(false)
-                    textBtnPlusLeftRunOut -> minusRunOut(true)
-                    textBtnPlusRightRunOut -> minusRunOut(false)
+                    textBtnScoreLeft -> setScore(true, -1)
+                    textBtnScoreRight -> setScore(false, -1)
+                    textBtnPlusLeftRunOut -> setRunOut(true, -1)
+                    textBtnPlusRightRunOut -> setRunOut(false, -1)
                 }
             }
         }

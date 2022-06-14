@@ -5,24 +5,27 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
-import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import wook.pool.board.base.BaseViewModel
+import wook.pool.board.base.Constant
 import wook.pool.board.base.event.Event
-import wook.pool.board.base.minus
 import wook.pool.board.base.plus
-import wook.pool.board.data.model.*
+import wook.pool.board.data.model.GameType
+import wook.pool.board.data.model.MatchPlayers
+import wook.pool.board.data.model.NineBallMatch
+import wook.pool.board.data.model.Player
 import wook.pool.board.domain.usecase.AddNineBallMatchUseCase
 import wook.pool.board.domain.usecase.DeleteNineBallMatchUseCase
-import wook.pool.board.domain.usecase.GetNineBallMatchUseCase
 import wook.pool.board.domain.usecase.SetNineBallMatchUseCase
+import wook.pool.board.domain.usecase.UpdateNineBallMatchUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class NineBallViewModel @Inject constructor(
     private val addNineBallMatchUseCase: AddNineBallMatchUseCase,
     private val setNineBallMatchUseCase: SetNineBallMatchUseCase,
+    private val updateNineBallMatchUseCase: UpdateNineBallMatchUseCase,
     private val deleteNineBallMatchUseCase: DeleteNineBallMatchUseCase,
 ) : BaseViewModel() {
 
@@ -33,7 +36,7 @@ class NineBallViewModel @Inject constructor(
     private val _playerLeft: MutableLiveData<Player?> = MutableLiveData(null)
     val playerLeft: LiveData<Player?> = _playerLeft
 
-    private val _playerLeftAdjustedHandicap: MutableLiveData<Int> = MutableLiveData(-9999)
+    private val _playerLeftAdjustedHandicap: MutableLiveData<Int> = MutableLiveData(Constant.IS_NOT_INITIALIZED)
     val playerLeftAdjustedHandicap: LiveData<Int> = _playerLeftAdjustedHandicap
 
     private val _playerLeftScore: MutableLiveData<Int> = MutableLiveData(0)
@@ -93,8 +96,8 @@ class NineBallViewModel @Inject constructor(
     private val _isPlayerLeftWinner: MutableLiveData<Boolean> = MutableLiveData()
     val isPlayerLeftWinner: LiveData<Boolean> = _isPlayerLeftWinner
 
-    private val _documentReferenceId: MutableLiveData<String> = MutableLiveData()
-    val documentReferenceId: LiveData<String> = _documentReferenceId
+    private val _documentPath: MutableLiveData<String> = MutableLiveData()
+    val documentPath: LiveData<String> = _documentPath
 
     private val _isSetMatchSuccessful: MutableLiveData<Event<Boolean>> = MutableLiveData()
     val isSetMatchSuccessful: LiveData<Event<Boolean>> = _isSetMatchSuccessful
@@ -115,52 +118,72 @@ class NineBallViewModel @Inject constructor(
         }
     }
 
-    fun plusScore(isLeft: Boolean) {
+    fun setScore(isLeft: Boolean, variation: Int) {
         viewModelScope.launch(ioDispatchers) {
-            if (isMatchOver.value != true) {
-                if (isLeft) {
-                    (_playerLeftScore.value!! + 1).let {
-                        if (it > _playerLeftAdjustedHandicap.value!!) return@launch
-                        _playerLeftScore.plus(1)
-                    }
-                } else {
-                    (_playerRightScore.value!! + 1).let {
-                        if (it > _playerRightAdjustedHandicap.value!!) return@launch
-                        _playerRightScore.plus(1)
-                    }
+            if (isLeft) {
+                if (_playerLeftScore.value!! + variation > _playerLeftAdjustedHandicap.value!!) return@launch
+            } else {
+                if (_playerRightScore.value!! + variation > _playerRightAdjustedHandicap.value!!) return@launch
+            }
+
+            _documentPath.value?.let {
+                if (it.isNotBlank()) {
+                    updateNineBallMatchUseCase(
+                        documentPath = it,
+                        data = mapOf(
+                            if (isLeft) {
+                                Constant.Field.FILED_PLAYER_LEFT_SCORE to _playerLeftScore.value!! + variation
+                            } else {
+                                Constant.Field.FILED_PLAYER_RIGHT_SCORE to _playerRightScore.value!! + variation
+                            }
+                        ),
+                        onSuccess = {
+                            if (isLeft) {
+                                _playerLeftScore.plus(variation)
+                            } else {
+                                _playerRightScore.plus(variation)
+                            }
+                        },
+                        onFailure = { throw it }
+                    )
                 }
             }
         }
     }
 
-    fun minusScore(isLeft: Boolean) {
+    fun setRunOut(isLeft: Boolean, variation: Int) {
         viewModelScope.launch(ioDispatchers) {
-            if (isLeft) {
-                _playerLeftScore.minus(1)
-            } else {
-                _playerRightScore.minus(1)
-            }
-        }
-    }
-
-    fun plusRunOut(isLeft: Boolean) {
-        viewModelScope.launch(ioDispatchers) {
-            if (isMatchOver.value != true) {
+            _documentPath.value?.let {
                 if (isLeft) {
-                    _playerLeftRunOut.plus(1)
+                    if (_playerLeftScore.value!! + variation > _playerLeftAdjustedHandicap.value!!) return@launch
                 } else {
-                    _playerRightRunOut.plus(1)
+                    if (_playerRightScore.value!! + variation > _playerRightAdjustedHandicap.value!!) return@launch
                 }
-            }
-        }
-    }
 
-    fun minusRunOut(isLeft: Boolean) {
-        viewModelScope.launch(ioDispatchers) {
-            if (isLeft) {
-                _playerLeftRunOut.minus(1)
-            } else {
-                _playerRightRunOut.minus(1)
+                if (it.isNotBlank()) {
+                    updateNineBallMatchUseCase(
+                        documentPath = it,
+                        data = hashMapOf<String, Int>().apply {
+                            if (isLeft) {
+                                put(Constant.Field.FILED_PLAYER_LEFT_SCORE, _playerLeftScore.value!! + variation)
+                                put(Constant.Field.FILED_PLAYER_LEFT_RUN_OUT, _playerLeftRunOut.value!! + variation)
+                            } else {
+                                put(Constant.Field.FILED_PLAYER_RIGHT_SCORE, _playerRightScore.value!! + variation)
+                                put(Constant.Field.FILED_PLAYER_RIGHT_RUN_OUT, _playerRightRunOut.value!! + variation)
+                            }
+                        },
+                        onSuccess = {
+                            if (isLeft) {
+                                _playerLeftRunOut.plus(1)
+                                _playerLeftScore.plus(variation)
+                            } else {
+                                _playerRightRunOut.plus(1)
+                                _playerRightScore.plus(variation)
+                            }
+                        },
+                        onFailure = { throw it }
+                    )
+                }
             }
         }
     }
@@ -183,37 +206,29 @@ class NineBallViewModel @Inject constructor(
                     matchStartTimeStamp = startTimeStamp,
                     matchEndTimeStamp = null,
                 ),
-                onSuccess = { _documentReferenceId.postValue(it.id) },
+                onSuccess = { _documentPath.postValue(it.id) },
                 onFailure = { throw it }
             )
         }
     }
 
-    fun setNineBallMatch() {
+    fun finishNineBallMatch() {
         viewModelScope.launch(ioDispatchers) {
-            _documentReferenceId.value?.let {
+            _documentPath.value?.let {
                 if (it.isNotBlank()) {
                     setNineBallMatchUseCase(
-                        documentReferenceId = it,
+                        documentPath = it,
                         nineBallMatch = NineBallMatch(
                             isLive = false,
-                            playerLeftRunOut = _playerLeftRunOut.value ?: 0,
-                            playerRightRunOut = _playerRightRunOut.value ?: 0,
-                            playerLeftScore = _playerLeftScore.value,
-                            playerRightScore = _playerRightScore.value,
                             playerWinnerName = if (_isPlayerLeftWinner.value!!) _playerLeft.value?.name else _playerRight.value?.name,
                             playerLoserName = if (_isPlayerLeftWinner.value!!) _playerRight.value?.name else _playerLeft.value?.name,
                             matchEndTimeStamp = Timestamp.now(),
                         ),
                         mergeFields = listOf(
-                            "isLive",
-                            "playerLeftRunOut",
-                            "playerRightRunOut",
-                            "playerLeftScore",
-                            "playerRightScore",
-                            "playerWinnerName",
-                            "playerLoserName",
-                            "matchEndTimeStamp"
+                            Constant.Field.FILED_IS_LIVE,
+                            Constant.Field.FILED_PLAYER_WINNER_NAME,
+                            Constant.Field.FILED_PLAYER_LOSER_NAME,
+                            Constant.Field.FILED_END_TIME_STAMP
                         ),
                         onSuccess = { _isSetMatchSuccessful.postValue(Event(true)) },
                         onFailure = { throw it }
@@ -225,10 +240,10 @@ class NineBallViewModel @Inject constructor(
 
     fun deleteNineBallMatch() {
         viewModelScope.launch(ioDispatchers) {
-            _documentReferenceId.value?.let {
+            _documentPath.value?.let {
                 if (it.isNotBlank()) {
                     deleteNineBallMatchUseCase(
-                        documentReferenceId = it,
+                        documentPath = it,
                         onSuccess = { _isDeleteMatchSuccessful.postValue(Event(true)) },
                         onFailure = { throw it }
                     )
@@ -241,12 +256,12 @@ class NineBallViewModel @Inject constructor(
     fun initLiveData() {
         viewModelScope.launch(ioDispatchers) {
             _playerLeft.postValue(null)
-            _playerLeftAdjustedHandicap.postValue(-9999)
+            _playerLeftAdjustedHandicap.postValue(Constant.IS_NOT_INITIALIZED)
             _playerLeftScore.postValue(0)
             _playerLeftRunOut.postValue(0)
 
             _playerRight.postValue(null)
-            _playerRightAdjustedHandicap.postValue(-9999)
+            _playerRightAdjustedHandicap.postValue(Constant.IS_NOT_INITIALIZED)
             _playerRightScore.postValue(0)
             _playerRightRunOut.postValue(0)
 
@@ -254,7 +269,7 @@ class NineBallViewModel @Inject constructor(
             _playerLeftAlpha.postValue(1f)
             _playerRightAlpha.postValue(1f)
 
-            _documentReferenceId.postValue("")
+            _documentPath.postValue("")
             _isSetMatchSuccessful.postValue(Event(false))
         }
     }

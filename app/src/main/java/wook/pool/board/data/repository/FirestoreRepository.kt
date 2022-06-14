@@ -15,7 +15,7 @@ class FirestoreRepository @Inject constructor() {
     private val db: FirebaseFirestore = Firebase.firestore
 
     companion object {
-        private const val COLLECTION_NINE_BALL_MATCH_RESULT = "nine_ball_match"
+        private const val COLLECTION_NINE_BALL_MATCH = "nine_ball_match"
         private const val COLLECTION_PLAYERS = "players"
     }
 
@@ -23,14 +23,14 @@ class FirestoreRepository @Inject constructor() {
         db.collection(COLLECTION_PLAYERS)
             .add(player)
             .addOnSuccessListener { onSuccess() }
-            .addOnFailureListener { e -> onFailure(e) }
+            .addOnFailureListener(onFailure)
     }
 
     fun getPlayers(onSuccess: (QuerySnapshot) -> Unit, onFailure: (e: Exception) -> Unit) {
         db.collection(COLLECTION_PLAYERS)
             .get()
-            .addOnSuccessListener { onSuccess(it) }
-            .addOnFailureListener { onFailure(it) }
+            .addOnSuccessListener(onSuccess)
+            .addOnFailureListener(onFailure)
     }
 
     fun addNineBallMatch(
@@ -38,24 +38,37 @@ class FirestoreRepository @Inject constructor() {
         onSuccess: (DocumentReference) -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-        db.collection(COLLECTION_NINE_BALL_MATCH_RESULT)
+        db.collection(COLLECTION_NINE_BALL_MATCH)
             .add(nineBallMatch)
-            .addOnSuccessListener { onSuccess(it) }
-            .addOnFailureListener { e -> onFailure(e) }
+            .addOnSuccessListener(onSuccess)
+            .addOnFailureListener(onFailure)
+    }
+
+    fun updateNineBallMatch(
+        documentPath: String,
+        data: Map<String, Any?>,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        db.collection(COLLECTION_NINE_BALL_MATCH)
+            .document(documentPath)
+            .update(data)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener(onFailure)
     }
 
     fun setNineBallMatch(
-        documentReferenceId: String,
+        documentPath: String,
         nineBallMatch: NineBallMatch,
         mergeFields: List<String>,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-        db.collection(COLLECTION_NINE_BALL_MATCH_RESULT)
-            .document(documentReferenceId)
+        db.collection(COLLECTION_NINE_BALL_MATCH)
+            .document(documentPath)
             .set(nineBallMatch, SetOptions.mergeFields(mergeFields))
             .addOnSuccessListener { onSuccess() }
-            .addOnFailureListener { e -> onFailure(e) }
+            .addOnFailureListener(onFailure)
 
     }
 
@@ -63,22 +76,22 @@ class FirestoreRepository @Inject constructor() {
         onSuccess: (QuerySnapshot) -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-        db.collection(COLLECTION_NINE_BALL_MATCH_RESULT)
+        db.collection(COLLECTION_NINE_BALL_MATCH)
             .get()
             .addOnSuccessListener(onSuccess)
             .addOnFailureListener(onFailure)
     }
 
     fun deleteNineBallMatch(
-        documentReferenceId: String,
+        documentPath: String,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-        db.collection(COLLECTION_NINE_BALL_MATCH_RESULT)
-            .document(documentReferenceId)
+        db.collection(COLLECTION_NINE_BALL_MATCH)
+            .document(documentPath)
             .delete()
             .addOnSuccessListener { onSuccess() }
-            .addOnFailureListener { e -> onFailure(e) }
+            .addOnFailureListener(onFailure)
 
     }
 }

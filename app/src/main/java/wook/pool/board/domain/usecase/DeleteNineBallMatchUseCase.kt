@@ -8,11 +8,11 @@ class DeleteNineBallMatchUseCase @Inject constructor(
 ) {
 
     operator fun invoke(
-        documentReferenceId: String,
+        documentPath: String,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-        firebaseRepository.deleteNineBallMatch(documentReferenceId, onSuccess, onFailure)
+        firebaseRepository.deleteNineBallMatch(documentPath, onSuccess, onFailure)
     }
 
 }
