@@ -195,6 +195,7 @@ class NineBallViewModel @Inject constructor(
                     gameType = GameType.GAME_9_BALL.text,
                     adjustment = adjustment,
                     isLive = true,
+                    players = listOf(playerLeft.name, playerRight.name),
                     playerLeftName = playerLeft.name,
                     playerRightName = playerRight.name,
                     playerLeftRunOut = null,

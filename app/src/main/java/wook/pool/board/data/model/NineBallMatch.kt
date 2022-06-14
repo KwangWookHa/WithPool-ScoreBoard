@@ -9,6 +9,8 @@ data class NineBallMatch(
     @field:JvmField
     val isLive: Boolean? = false,
 
+    var players: List<String?>? = null,
+
     val playerLeftName: String? = null,
     val playerRightName: String? = null,
 
