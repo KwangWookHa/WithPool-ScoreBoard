@@ -67,17 +67,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textLeftPlayerName" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                bindVisibleOrGone="@{viewModel.isMatchOver &amp;&amp; viewModel.isPlayerLeftWinner}"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:src="@drawable/ic_medal_winner"
-                android:visibility="gone"
-                app:layout_constraintDimensionRatio="1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.5" />
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textBtnScoreLeft"
                 style="@style/poppins_bold"
@@ -94,6 +83,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewDividerLeft"
                 tools:text="0" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                bindVisibleOrGone="@{viewModel.isMatchOver &amp;&amp; viewModel.isPlayerLeftWinner}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/ic_medal_winner"
+                android:visibility="gone"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewDividerLeft"
+                app:layout_constraintWidth_percent="0.5"
+                tools:visibility="visible" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textRunOutLeft"
@@ -154,17 +155,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textRightPlayerName" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                bindVisibleOrGone="@{viewModel.isMatchOver &amp;&amp; !viewModel.isPlayerLeftWinner}"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:src="@drawable/ic_medal_winner"
-                android:visibility="gone"
-                app:layout_constraintDimensionRatio="1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.5" />
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textBtnScoreRight"
                 style="@style/poppins_bold"
@@ -181,6 +171,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewDividerRight"
                 tools:text="0" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                bindVisibleOrGone="@{viewModel.isMatchOver &amp;&amp; !viewModel.isPlayerLeftWinner}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/ic_medal_winner"
+                android:visibility="gone"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewDividerRight"
+                app:layout_constraintWidth_percent="0.5"
+                tools:visibility="visible" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textRunOutRight"
