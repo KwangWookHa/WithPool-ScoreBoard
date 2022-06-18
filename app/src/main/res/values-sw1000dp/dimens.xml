@@ -8,6 +8,7 @@
     <dimen name="dp_20">25dp</dimen>
     <dimen name="dp_24">30dp</dimen>
     <dimen name="dp_30">37.5dp</dimen>
+    <dimen name="dp_40">50dp</dimen>
     <dimen name="dp_300">375dp</dimen>
     <dimen name="dp_400">500dp</dimen>
 </resources>

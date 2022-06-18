@@ -34,13 +34,13 @@ class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_cho
         with(binding) {
             when (v) {
                 imgLeftCircle,
-                imgBtnLeftChangePlayer,
+                textBtnLeftChangePlayer,
                 textBtnLeftChangePlayer -> {
                     val navDirection = ChoicePlayerFragmentDirections.actionFragmentChoicePlayerToFragmentPlayerList(true)
                     scoreBoardScreenViewModel.setNavDirection(navDirection)
                 }
                 imgRightCircle,
-                imgBtnRightChangePlayer,
+                textBtnRightChangePlayer,
                 textBtnRightChangePlayer -> {
                     val navDirection = ChoicePlayerFragmentDirections.actionFragmentChoicePlayerToFragmentPlayerList(false)
                     scoreBoardScreenViewModel.setNavDirection(navDirection)
@@ -50,9 +50,6 @@ class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_cho
                 }
                 imgBtnSelectGame -> {
                     Toast.makeText(hostActivityContext, "준비중입니다", Toast.LENGTH_SHORT).show()
-                }
-                layoutBtnChangeFirst -> {
-                    playersViewModel.switchTurn()
                 }
                 layoutBtnStartGame -> {
                     val matchPlayers = playersViewModel.getMatchPlayers() ?: null.also {
@@ -64,7 +61,7 @@ class ChoicePlayerFragment(override val layoutResId: Int = R.layout.fragment_cho
                         scoreBoardScreenViewModel.setNavDirection(navDirection)
                     }
                 }
-                layoutBtnAdjustHandicap -> {
+                textBtnAdjustHandicap -> {
                     playersViewModel.switchHandicapAdjustment()
                 }
                 else -> {
