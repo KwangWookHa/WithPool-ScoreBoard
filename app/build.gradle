@@ -18,14 +18,14 @@ android {
     localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
 
     def versionMajor = 1
-    def versionMinor = 0
+    def versionMinor = 1
     def versionPatch = 0
 
     /**
      * 0 : 선택 업데이트
      * 1 : 강제 업데이트
      */
-    def isImmediateUpdate = 0
+    def isImmediateUpdate = 1
 
     defaultConfig {
         applicationId "wook.pool.board"
