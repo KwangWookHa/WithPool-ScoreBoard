@@ -1,4 +1,4 @@
-package wook.pool.board.screen.choice
+package wook.pool.board.screen.setting
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -17,7 +17,9 @@ import kotlinx.coroutines.launch
 import wook.pool.board.R
 import wook.pool.board.base.BaseActivity
 import wook.pool.board.databinding.ActivityScoreBoardBinding
+import wook.pool.board.screen.dialog.DefaultDialog
 import wook.pool.board.screen.dialog.ProgressDialog
+import wook.pool.board.screen.setting.AppVersionViewModel
 
 
 @AndroidEntryPoint
@@ -26,6 +28,7 @@ class ScoreBoardActivity : BaseActivity() {
     private var _binding: ActivityScoreBoardBinding? = null
 
     private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by viewModels()
+    private val appVersionViewModel: AppVersionViewModel by viewModels()
 
     private val progressDialog by lazy { ProgressDialog(this) }
 
@@ -67,6 +70,7 @@ class ScoreBoardActivity : BaseActivity() {
 
     private fun initObserver() {
         with(scoreBoardScreenViewModel) {
+            setLoadingProgress(true)
             navDirection.observe(this@ScoreBoardActivity) {
                 navController.navigate(it)
             }
@@ -76,6 +80,23 @@ class ScoreBoardActivity : BaseActivity() {
                 } else {
                     progressDialog.hide()
                 }
+            }
+        }
+        appVersionViewModel.isUpdateForced.observe(this) {
+            scoreBoardScreenViewModel.setLoadingProgress(false)
+            if (it) {
+                DefaultDialog.Builder()
+                    .setType(DefaultDialog.DialogType.DIALOG_OK)
+                    .setTitle(getString(R.string.app_version_update))
+                    .setMessage(getString(R.string.app_version_download_up_to_date_version))
+                    .setRightButtonText(getString(R.string.common_confirm))
+                    .setOnClickRight { dialog ->
+                        dialog.dismiss()
+                        finishAffinity()
+                    }
+                    .setBackPressDisabled(true)
+                    .create(this)
+                    .show()
             }
         }
     }

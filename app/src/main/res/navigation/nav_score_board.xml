@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragment_setting"
-        android:name="wook.pool.board.screen.choice.SettingFragment"
+        android:name="wook.pool.board.screen.setting.SettingFragment"
         android:label="ChoicePlayerFragment"
         tools:layout="@layout/fragment_setting">
         <action
