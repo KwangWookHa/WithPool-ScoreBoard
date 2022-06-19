@@ -3,6 +3,8 @@ package wook.pool.board.screen.setting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import wook.pool.board.BuildConfig
@@ -12,7 +14,7 @@ import wook.pool.board.domain.usecase.GetAppVersionUseCase
 import javax.inject.Inject
 
 @HiltViewModel
-class AppVersionViewModel @Inject constructor(
+class InitViewModel @Inject constructor(
     private val getAppVersionUseCase: GetAppVersionUseCase,
 ) : BaseViewModel() {
 
@@ -34,6 +36,12 @@ class AppVersionViewModel @Inject constructor(
                 },
                 onFailure = { throw it }
             )
+        }
+    }
+
+    fun signInAnonymously() {
+        if (Firebase.auth.currentUser == null) {
+            Firebase.auth.signInAnonymously()
         }
     }
 }
