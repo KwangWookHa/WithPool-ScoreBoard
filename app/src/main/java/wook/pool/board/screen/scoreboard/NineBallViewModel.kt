@@ -155,9 +155,15 @@ class NineBallViewModel @Inject constructor(
         viewModelScope.launch(ioDispatchers) {
             _documentPath.value?.let {
                 if (isLeft) {
-                    if (_playerLeftScore.value!! + variation > _playerLeftAdjustedHandicap.value!!) return@launch
+                    if (_playerLeftScore.value!! + variation > _playerLeftAdjustedHandicap.value!!
+                        || _playerLeftScore.value!! + variation < 0
+                        || _playerLeftRunOut.value!! + variation < 0
+                    ) return@launch
                 } else {
-                    if (_playerRightScore.value!! + variation > _playerRightAdjustedHandicap.value!!) return@launch
+                    if (_playerRightScore.value!! + variation > _playerRightAdjustedHandicap.value!!
+                        || _playerRightScore.value!! + variation < 0
+                        || _playerRightScore.value!! + variation < 0
+                    ) return@launch
                 }
 
                 if (it.isNotBlank()) {
@@ -166,19 +172,23 @@ class NineBallViewModel @Inject constructor(
                         data = hashMapOf<String, Int>().apply {
                             if (isLeft) {
                                 put(Constant.Field.FILED_PLAYER_LEFT_SCORE, _playerLeftScore.value!! + variation)
-                                put(Constant.Field.FILED_PLAYER_LEFT_RUN_OUT, _playerLeftRunOut.value!! + variation)
+                                if (variation > 0)
+                                    put(Constant.Field.FILED_PLAYER_LEFT_RUN_OUT, _playerLeftRunOut.value!! + variation)
                             } else {
-                                put(Constant.Field.FILED_PLAYER_RIGHT_SCORE, _playerRightScore.value!! + variation)
                                 put(Constant.Field.FILED_PLAYER_RIGHT_RUN_OUT, _playerRightRunOut.value!! + variation)
+                                if (variation > 0)
+                                    put(Constant.Field.FILED_PLAYER_RIGHT_SCORE, _playerRightScore.value!! + variation)
                             }
                         },
                         onSuccess = {
                             if (isLeft) {
-                                _playerLeftRunOut.plus(1)
-                                _playerLeftScore.plus(variation)
+                                _playerLeftRunOut.plus(variation)
+                                if (variation > 0)
+                                    _playerLeftScore.plus(variation)
                             } else {
-                                _playerRightRunOut.plus(1)
-                                _playerRightScore.plus(variation)
+                                _playerRightRunOut.plus(variation)
+                                if (variation > 0)
+                                    _playerRightScore.plus(variation)
                             }
                         },
                         onFailure = { throw it }
