@@ -102,8 +102,7 @@ class ScoreBoardActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        backPressCount += 1
-        when (backPressCount) {
+        when (++backPressCount) {
             1 -> Toast.makeText(this, getString(R.string.common_on_back_pressed_notice), Toast.LENGTH_SHORT).show()
             2 -> finishAffinity()
         }

@@ -100,4 +100,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
+
+    // RecyclerView Animators (Apache2.0, https://github.com/wasabeef/recyclerview-animators)
+    implementation 'jp.wasabeef:recyclerview-animators:4.0.2'
 }

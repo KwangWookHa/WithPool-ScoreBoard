@@ -4,6 +4,8 @@ object Constant {
 
     const val IS_NOT_INITIALIZED = -9999
 
+    const val DURATION_ITEM_ANIMATION = 200L
+
     object Field {
         const val FILED_IS_LIVE = "isLive"
         const val FILED_PLAYER_LEFT_RUN_OUT = "playerLeftRunOut"
