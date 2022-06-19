@@ -42,7 +42,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.7" />
+                app:layout_constraintWidth_percent="0.8" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textBtnLeftChoicePlayer"
@@ -106,7 +106,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textLeftPlayerHandicap"
                 style="@style/poppins_bold"
-                bindAdjustedHandicap="@{viewModel.playerLeftAdjustedHandicap}"
+                bindAdjustment="@{viewModel.handicapAdjustment}"
                 bindHandicap="@{viewModel.playerLeft.handicap}"
                 bindVisibleOrGone="@{viewModel.playerLeft != null}"
                 android:layout_width="0dp"
@@ -122,7 +122,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textLeftPlayerName"
                 app:layout_constraintTop_toBottomOf="@+id/textLeftPlayerName"
                 app:layout_constraintWidth_percent="0.25"
-                tools:text="5(4)" />
+                tools:text="4(-1)" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -148,7 +148,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.7" />
+                app:layout_constraintWidth_percent="0.8" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textBtnRightChoicePlayer"
@@ -212,7 +212,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textRightPlayerHandicap"
                 style="@style/poppins_bold"
-                bindAdjustedHandicap="@{viewModel.playerRightAdjustedHandicap}"
+                bindAdjustment="@{viewModel.handicapAdjustment}"
                 bindHandicap="@{viewModel.playerRight.handicap}"
                 bindVisibleOrGone="@{viewModel.playerRight != null}"
                 android:layout_width="0dp"
@@ -228,7 +228,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textRightPlayerName"
                 app:layout_constraintTop_toBottomOf="@+id/textRightPlayerName"
                 app:layout_constraintWidth_percent="0.25"
-                tools:text="6(5)" />
+                tools:text="5(-1)" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -346,8 +346,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="16dp"
-            android:onClick="@{listener::onClick}"
-            android:src="@drawable/ic_9ball"
+            android:src="@drawable/logo_withpool_ratio1"
             app:layout_constraintBottom_toTopOf="@+id/textBtnAdjustHandicap"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"

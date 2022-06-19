@@ -61,7 +61,7 @@ class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_playe
             isPlayerSetSuccessful.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
                     scoreBoardScreenViewModel.setNavDirection(
-                        PlayerListFragmentDirections.actionFragmentPlayerListToFragmentChoicePlayer()
+                        PlayerListFragmentDirections.actionFragmentPlayerListToFragmentSetting()
                     )
                 } else {
                     hostActivityContext?.let { context ->
@@ -103,7 +103,7 @@ class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_playe
             when (v) {
                 imgBtnBack -> {
                     scoreBoardScreenViewModel.setNavDirection(
-                        PlayerListFragmentDirections.actionFragmentPlayerListToFragmentChoicePlayer()
+                        PlayerListFragmentDirections.actionFragmentPlayerListToFragmentSetting()
                     )
                 }
             }

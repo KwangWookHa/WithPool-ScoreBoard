@@ -2,9 +2,11 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="@color/dark_gray">
     <item>
-        <shape>
+        <shape android:shape="oval">
             <solid android:color="@color/gray" />
-            <corners android:radius="6dp" />
+            <size
+                android:width="16dp"
+                android:height="16dp" />
         </shape>
     </item>
 </ripple>

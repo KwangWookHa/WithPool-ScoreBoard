@@ -3,22 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_score_board"
-    app:startDestination="@id/fragment_choice_player">
+    app:startDestination="@id/fragment_setting">
 
     <fragment
-        android:id="@+id/fragment_choice_player"
-        android:name="wook.pool.board.screen.choice.ChoicePlayerFragment"
+        android:id="@+id/fragment_setting"
+        android:name="wook.pool.board.screen.choice.SettingFragment"
         android:label="ChoicePlayerFragment"
-        tools:layout="@layout/fragment_choice_player">
+        tools:layout="@layout/fragment_setting">
         <action
-            android:id="@+id/action_fragment_choice_player_to_fragment_player_list"
+            android:id="@+id/action_fragment_setting_to_fragment_player_list"
             app:destination="@id/fragment_player_list"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_fragment_choice_player_to_fragment_nine_ball"
+            android:id="@+id/action_fragment_setting_to_fragment_nine_ball"
             app:destination="@id/fragment_nine_ball"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
@@ -33,13 +33,13 @@
         android:label="PlayerListFragment"
         tools:layout="@layout/fragment_player_list">
         <action
-            android:id="@+id/action_fragment_player_list_to_fragment_choice_player"
-            app:destination="@id/fragment_choice_player"
+            android:id="@+id/action_fragment_player_list_to_fragment_setting"
+            app:destination="@id/fragment_setting"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/fragment_choice_player"
+            app:popUpTo="@id/fragment_setting"
             app:popUpToInclusive="true" />
         <argument
             android:name="isModeChoiceLeft"
@@ -61,13 +61,13 @@
             app:nullable="true" />
 
         <action
-            android:id="@+id/action_fragment_nine_ball_to_fragment_choice_player"
-            app:destination="@id/fragment_choice_player"
+            android:id="@+id/action_fragment_nine_ball_to_fragment_setting"
+            app:destination="@id/fragment_setting"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/fragment_choice_player"
+            app:popUpTo="@id/fragment_setting"
             app:popUpToInclusive="true" />
 
     </fragment>

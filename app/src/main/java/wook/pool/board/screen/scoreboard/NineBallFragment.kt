@@ -165,7 +165,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
         playersViewModel.initPlayers()
         nineBallViewModel.initLiveData()
         scoreBoardScreenViewModel.setNavDirection(
-            NineBallFragmentDirections.actionFragmentNineBallToFragmentChoicePlayer()
+            NineBallFragmentDirections.actionFragmentNineBallToFragmentSetting()
         )
     }
 

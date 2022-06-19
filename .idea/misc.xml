@@ -74,7 +74,10 @@
         <entry key="app/src/main/res/drawable/ic_upload_48.xml" value="0.395" />
         <entry key="app/src/main/res/drawable/ic_upload_cloud_48.xml" value="0.395" />
         <entry key="app/src/main/res/drawable/ic_with_pool_live.xml" value="0.2555" />
+        <entry key="app/src/main/res/drawable/ripple_circle_gray_size_16.xml" value="0.395" />
+        <entry key="app/src/main/res/drawable/ripple_f0f4c3_round_12.xml" value="0.395" />
         <entry key="app/src/main/res/drawable/ripple_ffffff.xml" value="0.395" />
+        <entry key="app/src/main/res/drawable/ripple_ffffff_round_12.xml" value="0.395" />
         <entry key="app/src/main/res/drawable/selector_blue_button.xml" value="0.3655" />
         <entry key="app/src/main/res/drawable/selector_main_button.xml" value="0.3655" />
         <entry key="app/src/main/res/drawable/selector_red_button.xml" value="0.3655" />
@@ -102,6 +105,7 @@
         <entry key="app/src/main/res/layout/fragment_point_nine_ball.xml" value="0.20763452602482696" />
         <entry key="app/src/main/res/layout/fragment_score_board.xml" value="0.3500244140625001" />
         <entry key="app/src/main/res/layout/fragment_set_player.xml" value="0.41354166666666664" />
+        <entry key="app/src/main/res/layout/fragment_setting.xml" value="0.5343953450520833" />
         <entry key="app/src/main/res/layout/item_choice_player.xml" value="0.4401041666666667" />
         <entry key="app/src/main/res/layout/item_grid_player.xml" value="0.21302083333333333" />
         <entry key="app/src/main/res/layout/item_player_grid.xml" value="0.22057291666666667" />
