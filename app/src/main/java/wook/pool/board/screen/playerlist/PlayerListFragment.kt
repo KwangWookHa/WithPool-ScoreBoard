@@ -1,31 +1,36 @@
-package wook.pool.board.screen.scoreboard
+package wook.pool.board.screen.playerlist
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import com.orhanobut.logger.Logger
 import wook.pool.board.R
 import wook.pool.board.base.BaseFragment
 import wook.pool.board.base.event.EventObserver
-import wook.pool.board.data.model.Player
-import wook.pool.board.data.model.PlayersSelectedIndex
+import wook.pool.board.data.model.SelectedHandicapIndex
 import wook.pool.board.databinding.FragmentPlayerListBinding
 import wook.pool.board.screen.dialog.DefaultDialog
+import wook.pool.board.screen.scoreboard.ScoreBoardScreenViewModel
 
 class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_player_list) :
     BaseFragment<FragmentPlayerListBinding>(),
     View.OnClickListener {
 
-    private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by activityViewModels()
-    private val playersViewModel: PlayersViewModel by activityViewModels()
-
-    private lateinit var leftAdapter: ChoicePlayerAdapter
-    private lateinit var rightAdapter: ChoicePlayerAdapter
+    companion object {
+        private const val INITIAL_SELECTED_HANDICAP = 5
+    }
 
     private val args: PlayerListFragmentArgs by navArgs()
+    private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by activityViewModels()
+    private val playersViewModel: PlayersViewModel by activityViewModels()
+    private val playerAdapter: PlayerAdapter by lazy {
+        PlayerAdapter {
+            playersViewModel.setPlayer(it, args.isModeChoiceLeft)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,8 +39,10 @@ class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_playe
     ): View? =
         super.onCreateView(inflater, container, savedInstanceState).apply {
             binding.apply {
-                selectedHandicapIndex = PlayersSelectedIndex.INDEX_HANDICAP_5_6.index
+                selectedHandicapIndex = SelectedHandicapIndex.INDEX_HANDICAP_5.index
+                onClickHandicap = this@PlayerListFragment.onClickHandicap
                 listener = this@PlayerListFragment
+                recyclerPlayers.adapter = playerAdapter
             }
             initObserver()
         }
@@ -43,16 +50,13 @@ class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_playe
     private fun initObserver() {
         with(playersViewModel) {
             playersByHandicap.observe(viewLifecycleOwner) {
-                if (binding.recyclerPlayersLeft.adapter == null && binding.recyclerPlayersRight.adapter == null) {
-                    leftAdapter = getPlayerAdapter(it[5], args.isModeChoiceLeft)
-                    binding.recyclerPlayersLeft.adapter = leftAdapter
-                    rightAdapter = getPlayerAdapter(it[6], args.isModeChoiceLeft)
-                    binding.recyclerPlayersRight.adapter = rightAdapter
+                if (selectedHandicapIndex.value == null) {
+                    submitPlayers(INITIAL_SELECTED_HANDICAP)
                 }
             }
             selectedHandicapIndex.observe(viewLifecycleOwner) {
                 binding.selectedHandicapIndex = it.index
-                setPlayers(it.handicapLeft, it.handicapRight)
+                submitPlayers(it.handicap)
             }
             isPlayerSetSuccessful.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
@@ -77,48 +81,30 @@ class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_playe
         }
     }
 
-    private fun getPlayerAdapter(players: List<Player>, isLeft: Boolean) =
-        ChoicePlayerAdapter(players) { player ->
-            playersViewModel.setPlayer(player, isLeft)
-        }
-
-    private fun setPlayers(leftHandicap: Int, rightHandicap: Int) {
+    private fun submitPlayers(handicap: Int) {
         playersViewModel.playersByHandicap.value?.let {
-            leftAdapter.setPlayers(it[leftHandicap])
-            rightAdapter.setPlayers(it[rightHandicap])
+            playerAdapter.submitList(it[handicap])
+        }
+    }
+
+
+    private val onClickHandicap = View.OnClickListener {
+        with(binding) {
+            val index = binding.layoutHandicapSelector.indexOfChild(it)
+            if (selectedHandicapIndex == index) return@OnClickListener
+            SelectedHandicapIndex.values().firstOrNull { it.handicap == index + 3 }?.let { selectedHandicapIndex ->
+                playersViewModel.setSelectedHandicapIndex(selectedHandicapIndex)
+            }
         }
     }
 
     override fun onClick(v: View?) {
         with(binding) {
             when (v) {
-                textBtnHandicap34 -> {
-                    if (selectedHandicapIndex == PlayersSelectedIndex.INDEX_HANDICAP_3_4.index) return
-                    playersViewModel.setSelectedHandicapIndex(PlayersSelectedIndex.INDEX_HANDICAP_3_4)
-                    setPlayers(3, 4)
-                }
-                textBtnHandicap56 -> {
-                    if (selectedHandicapIndex == PlayersSelectedIndex.INDEX_HANDICAP_5_6.index) return
-                    playersViewModel.setSelectedHandicapIndex(PlayersSelectedIndex.INDEX_HANDICAP_5_6)
-                    setPlayers(5, 6)
-                }
-                textBtnHandicap78 -> {
-                    if (selectedHandicapIndex == PlayersSelectedIndex.INDEX_HANDICAP_7_8.index) return
-                    playersViewModel.setSelectedHandicapIndex(PlayersSelectedIndex.INDEX_HANDICAP_7_8)
-                    setPlayers(7, 8)
-                }
-                textBtnHandicap910 -> {
-                    if (selectedHandicapIndex == PlayersSelectedIndex.INDEX_HANDICAP_9_10.index) return
-                    playersViewModel.setSelectedHandicapIndex(PlayersSelectedIndex.INDEX_HANDICAP_9_10)
-                    setPlayers(9, 10)
-                }
                 imgBtnBack -> {
                     scoreBoardScreenViewModel.setNavDirection(
                         PlayerListFragmentDirections.actionFragmentPlayerListToFragmentChoicePlayer()
                     )
-                }
-                else -> {
-
                 }
             }
         }

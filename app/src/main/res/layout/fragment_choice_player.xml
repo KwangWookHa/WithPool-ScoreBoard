@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="wook.pool.board.screen.scoreboard.PlayersViewModel" />
+            type="wook.pool.board.screen.playerlist.PlayersViewModel" />
 
         <variable
             name="listener"

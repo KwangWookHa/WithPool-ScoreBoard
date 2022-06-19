@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="player"
+            type="wook.pool.board.data.model.Player" />
+
+        <import type="wook.pool.board.data.model.Player" />
+
+        <variable
+            name="onClickPlayer"
+            type="Function1&lt;Player,Unit>" />
+
+        <import type="kotlin.jvm.functions.Function1" />
+
+        <import type="kotlin.Unit" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_margin="@dimen/dp_8"
+        android:background="@drawable/ripple_bg_ffffff_r_12"
+        android:onClick="@{() -> onClickPlayer.invoke(player)}"
+        android:padding="@dimen/dp_8">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textClub"
+            style="@style/notosans_medium"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@{player.club}"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="위드풀" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textName"
+            style="@style/notosans_bold"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@{player.name}"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.45"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textClub"
+            tools:text="하광욱" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textHandicap"
+            style="@style/notosans_medium"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@{@string/common_x_wrapped_handicap(player.handicap)}"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textName"
+            tools:text="(5점)" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

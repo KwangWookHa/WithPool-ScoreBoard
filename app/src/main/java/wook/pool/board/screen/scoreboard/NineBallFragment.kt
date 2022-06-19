@@ -11,6 +11,7 @@ import wook.pool.board.base.BaseFragment
 import wook.pool.board.base.event.EventObserver
 import wook.pool.board.databinding.FragmentNineBallBinding
 import wook.pool.board.screen.dialog.DefaultDialog
+import wook.pool.board.screen.playerlist.PlayersViewModel
 
 class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ball) :
     BaseFragment<FragmentNineBallBinding>(),

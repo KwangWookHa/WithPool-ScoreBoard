@@ -1,9 +1,6 @@
 package wook.pool.board.data.repository
 
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import wook.pool.board.data.model.NineBallMatch
@@ -17,6 +14,7 @@ class FirestoreRepository @Inject constructor() {
     companion object {
         private const val COLLECTION_NINE_BALL_MATCH = "nine_ball_match"
         private const val COLLECTION_PLAYERS = "players"
+        private const val FIELD_NAME = "name"
     }
 
     fun insertPlayer(player: Player, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
@@ -28,6 +26,7 @@ class FirestoreRepository @Inject constructor() {
 
     fun getPlayers(onSuccess: (QuerySnapshot) -> Unit, onFailure: (e: Exception) -> Unit) {
         db.collection(COLLECTION_PLAYERS)
+            .orderBy(FIELD_NAME, Query.Direction.ASCENDING)
             .get()
             .addOnSuccessListener(onSuccess)
             .addOnFailureListener(onFailure)

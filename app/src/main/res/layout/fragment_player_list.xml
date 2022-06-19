@@ -10,6 +10,10 @@
             type="Integer" />
 
         <variable
+            name="onClickHandicap"
+            type="android.view.View.OnClickListener" />
+
+        <variable
             name="listener"
             type="android.view.View.OnClickListener" />
 
@@ -17,259 +21,188 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="@dimen/dp_8">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgBtnBack"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:onClick="@{listener::onClick}"
-            android:paddingHorizontal="8dp"
+            android:padding="@dimen/dp_8"
             android:src="@drawable/ic_ico_24_arrow_left_b"
             app:layout_constraintBottom_toBottomOf="@+id/textTitle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textTitle" />
+            app:layout_constraintTop_toTopOf="@+id/textTitle"
+            app:layout_constraintWidth_percent="0.05" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textTitle"
-            style="@style/notosans_bold_18"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginTop="8dp"
+            style="@style/notosans_bold"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:gravity="center"
+            android:padding="@dimen/dp_8"
             android:text="@string/fragment_choice_player"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="@+id/layoutHandicapSelector"
+            app:layout_constraintHeight_percent="0.1"
             app:layout_constraintStart_toEndOf="@+id/imgBtnBack"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/appCompatTextView"
+            style="@style/poppins_medium"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/dp_16"
+            android:gravity="center"
+            android:padding="@dimen/dp_16"
+            android:text="@string/common_handicap"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="@+id/layoutHandicapSelector"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintStart_toStartOf="@+id/imgBtnBack"
+            app:layout_constraintTop_toBottomOf="@+id/textTitle" />
+
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/layoutHandicapSelector"
+            bindSelectedHandicap="@{selectedHandicapIndex}"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dp_8"
             android:orientation="vertical"
+            android:weightSum="8"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textTitle"
-            app:layout_constraintWidth_percent="0.15">
+            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView"
+            app:layout_constraintWidth_percent="0.2">
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/poppins_bold_20"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:gravity="center"
-                android:text="Handicap" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textBtnHandicap34"
-                style="@style/poppins_bold_20"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:background="@{selectedHandicapIndex == 0 ? @drawable/bg_main_round_6: @drawable/bg_gray_round_6}"
-                android:gravity="center"
-                android:onClick="@{listener::onClick}"
-                android:paddingVertical="8dp"
-                android:text="3 - 4"
-                android:textColor="@{selectedHandicapIndex == 0 ? @color/white : @color/black}" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textBtnHandicap56"
-                style="@style/poppins_bold_20"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:background="@{selectedHandicapIndex == 1 ? @drawable/bg_main_round_6: @drawable/bg_gray_round_6}"
-                android:gravity="center"
-                android:onClick="@{listener::onClick}"
-                android:paddingVertical="8dp"
-                android:text="5 - 6"
-                android:textColor="@{selectedHandicapIndex == 1 ? @color/white : @color/black}" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textBtnHandicap78"
-                style="@style/poppins_bold_20"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:background="@{selectedHandicapIndex == 2 ? @drawable/bg_main_round_6: @drawable/bg_gray_round_6}"
-                android:gravity="center"
-                android:onClick="@{listener::onClick}"
-                android:paddingVertical="8dp"
-                android:text="7 - 8"
-                android:textColor="@{selectedHandicapIndex == 2 ? @color/white : @color/black}" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textBtnHandicap910"
-                style="@style/poppins_bold_20"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:background="@{selectedHandicapIndex == 3 ? @drawable/bg_main_round_6: @drawable/bg_gray_round_6}"
-                android:gravity="center"
-                android:onClick="@{listener::onClick}"
-                android:paddingVertical="8dp"
-                android:text="9 - 10"
-                android:textColor="@{selectedHandicapIndex == 3 ? @color/white : @color/black}" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/linearLayoutLeft"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginVertical="16dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="2dp"
-            android:background="@drawable/bg_ffffff_r_6_bd_e4e4e4"
-            android:orientation="vertical"
-            android:padding="2dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/layoutRight"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toEndOf="@+id/layoutHandicapSelector"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/layoutHeaderLeft"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingVertical="4dp"
-                android:weightSum="100">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/poppins_bold_16"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="35"
-                    android:gravity="center"
-                    android:text="Club"
-                    android:textColor="@color/gray_848484" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/poppins_bold_16"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="40"
-                    android:gravity="center"
-                    android:text="Name"
-                    android:textColor="@color/gray_848484" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/poppins_bold_16"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="25"
-                    android:gravity="center"
-                    android:text="Handi"
-                    android:textColor="@color/gray_848484" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <View
-                android:id="@+id/viewDivider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="4dp"
-                android:background="@color/gray_e4e4e4"
-                app:layout_constraintEnd_toEndOf="@id/layoutHeaderLeft"
-                app:layout_constraintStart_toStartOf="@+id/layoutHeaderLeft"
-                app:layout_constraintTop_toBottomOf="@id/layoutHeaderLeft" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerPlayersLeft"
+                android:id="@+id/textBtnHandicap3"
+                style="@style/poppins_bold"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_ffffff_round_6"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="10"
-                tools:layout_editor_absoluteX="156dp"
-                tools:layout_editor_absoluteY="88dp"
-                tools:listitem="@layout/item_choice_player" />
+                android:gravity="center"
+                android:onClick="@{onClickHandicap::onClick}"
+                android:padding="@dimen/dp_4"
+                android:text="3점"
+                app:autoSizeTextType="uniform" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textBtnHandicap4"
+                style="@style/poppins_bold"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="@{onClickHandicap::onClick}"
+                android:padding="@dimen/dp_4"
+                android:text="4점"
+                app:autoSizeTextType="uniform" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textBtnHandicap5"
+                style="@style/poppins_bold"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="@{onClickHandicap::onClick}"
+                android:padding="@dimen/dp_4"
+                android:text="5점"
+                app:autoSizeTextType="uniform" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textBtnHandicap6"
+                style="@style/poppins_bold"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="@{onClickHandicap::onClick}"
+                android:padding="@dimen/dp_4"
+                android:text="6점"
+                app:autoSizeTextType="uniform" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textBtnHandicap"
+                style="@style/poppins_bold"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="@{onClickHandicap::onClick}"
+                android:padding="@dimen/dp_4"
+                android:text="7점"
+                app:autoSizeTextType="uniform" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textBtnHandicap8"
+                style="@style/poppins_bold"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="@{onClickHandicap::onClick}"
+                android:padding="@dimen/dp_4"
+                android:text="8점"
+                app:autoSizeTextType="uniform" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textBtnHandicap9"
+                style="@style/poppins_bold"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="@{onClickHandicap::onClick}"
+                android:padding="@dimen/dp_4"
+                android:text="9점"
+                app:autoSizeTextType="uniform" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textBtnHandicap10"
+                style="@style/poppins_bold"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="@{onClickHandicap::onClick}"
+                android:padding="@dimen/dp_4"
+                android:text="10점"
+                app:autoSizeTextType="uniform" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/layoutRight"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerPlayers"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginVertical="16dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/bg_ffffff_r_6_bd_e4e4e4"
-            android:orientation="vertical"
-            android:padding="2dp"
+            android:layout_marginHorizontal="@dimen/dp_24"
+            android:layout_marginVertical="@dimen/dp_16"
+            android:layout_weight="1"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/linearLayoutLeft"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintHorizontal_bias="0.446"
+            app:layout_constraintStart_toEndOf="@+id/layoutHandicapSelector"
+            app:layout_constraintTop_toTopOf="parent"
+            app:spanCount="4"
+            tools:itemCount="10"
+            tools:listitem="@layout/item_grid_player" />
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/layoutHeaderRight"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingVertical="4dp"
-                android:weightSum="100">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/poppins_bold_16"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="35"
-                    android:gravity="center"
-                    android:text="Club"
-                    android:textColor="@color/gray_848484" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/poppins_bold_16"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="40"
-                    android:gravity="center"
-                    android:text="Name"
-                    android:textColor="@color/gray_848484" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/poppins_bold_16"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="25"
-                    android:gravity="center"
-                    android:text="Handi"
-                    android:textColor="@color/gray_848484" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <View
-                android:id="@+id/viewDivider2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="4dp"
-                android:background="@color/gray_e4e4e4"
-                app:layout_constraintEnd_toEndOf="@+id/layoutHeaderRight"
-                app:layout_constraintStart_toStartOf="@+id/layoutHeaderRight"
-                app:layout_constraintTop_toBottomOf="@id/layoutHeaderLeft" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerPlayersRight"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_ffffff_round_6"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="10"
-                tools:layout_editor_absoluteX="445dp"
-                tools:layout_editor_absoluteY="88dp"
-                tools:listitem="@layout/item_choice_player" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,4 +1,4 @@
-package wook.pool.board.screen.scoreboard
+package wook.pool.board.screen.playerlist
 
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -7,7 +7,7 @@ import wook.pool.board.base.BaseViewModel
 import wook.pool.board.base.event.Event
 import wook.pool.board.data.model.MatchPlayers
 import wook.pool.board.data.model.Player
-import wook.pool.board.data.model.PlayersSelectedIndex
+import wook.pool.board.data.model.SelectedHandicapIndex
 import wook.pool.board.domain.usecase.GetPlayersUseCase
 import javax.inject.Inject
 
@@ -17,11 +17,10 @@ class PlayersViewModel @Inject constructor(
 //    private val insertPlayersUseCase: InsertPlayerUseCase,
 ) : BaseViewModel() {
 
-    private val _selectedHandicapIndex: MutableLiveData<PlayersSelectedIndex> = MutableLiveData()
-    val selectedHandicapIndex: LiveData<PlayersSelectedIndex> = _selectedHandicapIndex
+    private val _selectedHandicapIndex: MutableLiveData<SelectedHandicapIndex> = MutableLiveData()
+    val selectedHandicapIndex: LiveData<SelectedHandicapIndex> = _selectedHandicapIndex
 
     private val _players: MutableLiveData<List<Player>> = MutableLiveData()
-
     val playersByHandicap: LiveData<MutableList<List<Player>>> = Transformations.map(_players) {
         mutableListOf<List<Player>>().apply {
             if (it.isNotEmpty()) {
@@ -97,9 +96,7 @@ class PlayersViewModel @Inject constructor(
                         val players = it.toObjects(Player::class.java)
                         _players.postValue(players)
                     },
-                    onFailure = {
-
-                    }
+                    onFailure = { throw it }
                 )
             }
         }
@@ -151,9 +148,9 @@ class PlayersViewModel @Inject constructor(
         }
     }
 
-    fun setSelectedHandicapIndex(enumValue: PlayersSelectedIndex) {
+    fun setSelectedHandicapIndex(selectedHandicapIndex: SelectedHandicapIndex) {
         viewModelScope.launch(ioDispatchers) {
-            _selectedHandicapIndex.postValue(enumValue)
+            _selectedHandicapIndex.postValue(selectedHandicapIndex)
         }
     }
 

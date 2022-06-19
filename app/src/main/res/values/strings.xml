@@ -11,7 +11,9 @@
     <string name="common_add">추가</string>
     <string name="common_next">다음</string>
     <string name="common_player">Player</string>
+    <string name="common_handicap">Handicap</string>
     <string name="common_x_handicap">%d점</string>
+    <string name="common_x_wrapped_handicap">(%d점)</string>
     <string name="common_run_out">런아웃</string>
     <string name="common_run_out_en">Run out</string>
     <string name="common_run_out_en_x">Run out %d</string>

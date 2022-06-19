@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragment_choice_player"
-        android:name="wook.pool.board.screen.scoreboard.ChoicePlayerFragment"
+        android:name="wook.pool.board.screen.choice.ChoicePlayerFragment"
         android:label="ChoicePlayerFragment"
         tools:layout="@layout/fragment_choice_player">
         <action
@@ -29,7 +29,7 @@
 
     <fragment
         android:id="@+id/fragment_player_list"
-        android:name="wook.pool.board.screen.scoreboard.PlayerListFragment"
+        android:name="wook.pool.board.screen.playerlist.PlayerListFragment"
         android:label="PlayerListFragment"
         tools:layout="@layout/fragment_player_list">
         <action
