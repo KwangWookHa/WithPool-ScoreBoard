@@ -4,7 +4,7 @@ import wook.pool.board.data.repository.FirestoreRepository
 import javax.inject.Inject
 
 class DeleteNineBallMatchUseCase @Inject constructor(
-    private val firebaseRepository: FirestoreRepository,
+    private val fireStoreRepository: FirestoreRepository,
 ) {
 
     operator fun invoke(
@@ -12,7 +12,7 @@ class DeleteNineBallMatchUseCase @Inject constructor(
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-        firebaseRepository.deleteNineBallMatch(documentPath, onSuccess, onFailure)
+        fireStoreRepository.deleteNineBallMatch(documentPath, onSuccess, onFailure)
     }
 
 }

@@ -4,7 +4,7 @@ import wook.pool.board.data.repository.FirestoreRepository
 import javax.inject.Inject
 
 class UpdateNineBallMatchUseCase @Inject constructor(
-    private val firebaseRepository: FirestoreRepository,
+    private val fireStoreRepository: FirestoreRepository,
 ) {
 
     operator fun invoke(
@@ -13,7 +13,7 @@ class UpdateNineBallMatchUseCase @Inject constructor(
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-        firebaseRepository.updateNineBallMatch(documentPath, data, onSuccess, onFailure)
+        fireStoreRepository.updateNineBallMatch(documentPath, data, onSuccess, onFailure)
     }
 
 }

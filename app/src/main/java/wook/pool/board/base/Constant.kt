@@ -6,7 +6,15 @@ object Constant {
 
     const val DURATION_ITEM_ANIMATION = 200L
 
+    object Collection {
+        const val COLLECTION_NINE_BALL_MATCH = "nine_ball_match"
+        const val COLLECTION_PLAYERS = "players"
+        const val COLLECTION_APP_VERSION = "app_version"
+        const val COLLECTION_COUNT = "count"
+    }
+
     object Field {
+        const val FIELD_NAME = "name"
         const val FILED_IS_LIVE = "isLive"
         const val FILED_PLAYER_LEFT_RUN_OUT = "playerLeftRunOut"
         const val FILED_PLAYER_RIGHT_RUN_OUT = "playerRightRunOut"
