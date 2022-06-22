@@ -1,9 +1,11 @@
 package wook.pool.board.screen.scoreboard
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RawRes
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import wook.pool.board.R
@@ -17,6 +19,8 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
     BaseFragment<FragmentNineBallBinding>(),
     View.OnClickListener,
     View.OnLongClickListener {
+
+    private var mediaPlayer: MediaPlayer? = null
 
     private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by activityViewModels()
     private val nineBallViewModel: NineBallViewModel by activityViewModels()
@@ -78,10 +82,22 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                         finishNineBallMatch()
                     }
                     layoutBtnCancelMatch -> showDialogToCancelMatch()
-                    layoutLeftPlayer, textBtnScoreLeft -> setScore(true, +1)
-                    layoutRightPlayer, textBtnScoreRight -> setScore(false, +1)
-                    textBtnPlusLeftRunOut -> setRunOut(true, +1)
-                    textBtnPlusRightRunOut -> setRunOut(false, +1)
+                    layoutLeftPlayer, textBtnScoreLeft -> {
+                        playSound(R.raw.score)
+                        setScore(true, +1)
+                    }
+                    layoutRightPlayer, textBtnScoreRight -> {
+                        playSound(R.raw.score)
+                        setScore(false, +1)
+                    }
+                    textBtnPlusLeftRunOut -> {
+                        playSound(R.raw.runout)
+                        setRunOut(true, +1)
+                    }
+                    textBtnPlusRightRunOut -> {
+                        playSound(R.raw.runout)
+                        setRunOut(false, +1)
+                    }
                     else -> {}
                 }
             }
@@ -171,5 +187,25 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
 
     private fun setLoadingProgress(flag: Boolean) {
         scoreBoardScreenViewModel.setLoadingProgress(flag)
+    }
+
+    private fun playSound(@RawRes resId: Int) {
+        releaseMediaPlayer()
+        mediaPlayer = MediaPlayer.create(hostActivityContext, resId)
+        mediaPlayer?.start()
+        mediaPlayer?.setOnCompletionListener { releaseMediaPlayer() }
+    }
+
+    private fun releaseMediaPlayer() {
+        if (mediaPlayer != null) {
+            mediaPlayer?.stop()
+            mediaPlayer?.release()
+            mediaPlayer = null
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        releaseMediaPlayer()
     }
 }

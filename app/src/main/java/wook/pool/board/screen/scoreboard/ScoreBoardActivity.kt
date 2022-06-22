@@ -1,8 +1,10 @@
 package wook.pool.board.screen.scoreboard
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.RawRes
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -25,12 +27,11 @@ import wook.pool.board.screen.setting.InitViewModel
 @AndroidEntryPoint
 class ScoreBoardActivity : BaseActivity() {
 
-    private var _binding: ActivityScoreBoardBinding? = null
+    private var binding: ActivityScoreBoardBinding? = null
+    private val progressDialog by lazy { ProgressDialog(this) }
 
     private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by viewModels()
     private val initViewModel: InitViewModel by viewModels()
-
-    private val progressDialog by lazy { ProgressDialog(this) }
 
     private val navHostFragment: NavHostFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.fragmentContainerScoreBoard) as NavHostFragment
@@ -42,7 +43,7 @@ class ScoreBoardActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = DataBindingUtil.setContentView(this, R.layout.activity_score_board)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_score_board)
         initObserver()
     }
 
