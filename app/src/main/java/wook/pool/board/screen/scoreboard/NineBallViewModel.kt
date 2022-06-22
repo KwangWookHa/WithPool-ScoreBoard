@@ -15,10 +15,7 @@ import wook.pool.board.data.model.GameType
 import wook.pool.board.data.model.MatchPlayers
 import wook.pool.board.data.model.NineBallMatch
 import wook.pool.board.data.model.Player
-import wook.pool.board.domain.usecase.AddNineBallMatchUseCase
-import wook.pool.board.domain.usecase.DeleteNineBallMatchUseCase
-import wook.pool.board.domain.usecase.SetNineBallMatchUseCase
-import wook.pool.board.domain.usecase.UpdateNineBallMatchUseCase
+import wook.pool.board.domain.usecase.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,6 +24,7 @@ class NineBallViewModel @Inject constructor(
     private val setNineBallMatchUseCase: SetNineBallMatchUseCase,
     private val updateNineBallMatchUseCase: UpdateNineBallMatchUseCase,
     private val deleteNineBallMatchUseCase: DeleteNineBallMatchUseCase,
+    private val updateCountUseCase: UpdateCountUseCase,
 ) : BaseViewModel() {
 
     private lateinit var startTimeStamp: Timestamp
@@ -217,7 +215,14 @@ class NineBallViewModel @Inject constructor(
                     matchStartTimeStamp = startTimeStamp,
                     matchEndTimeStamp = null,
                 ),
-                onSuccess = { _documentPath.postValue(it.id) },
+                onSuccess = {
+                    updateCountUseCase(
+                        documentPath = Constant.Collection.COLLECTION_NINE_BALL_MATCH,
+                        variation = +1,
+                        onSuccess = { _documentPath.postValue(it.id) },
+                        onFailure = { throw it }
+                    )
+                },
                 onFailure = { throw it }
             )
         }
@@ -255,7 +260,14 @@ class NineBallViewModel @Inject constructor(
                 if (it.isNotBlank()) {
                     deleteNineBallMatchUseCase(
                         documentPath = it,
-                        onSuccess = { _isDeleteMatchSuccessful.postValue(Event(true)) },
+                        onSuccess = {
+                            updateCountUseCase(
+                                documentPath = Constant.Collection.COLLECTION_NINE_BALL_MATCH,
+                                variation = -1,
+                                onSuccess = { _isDeleteMatchSuccessful.postValue(Event(true)) },
+                                onFailure = { throw it }
+                            )
+                        },
                         onFailure = { throw it }
                     )
                 }

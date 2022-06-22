@@ -5,11 +5,11 @@ import wook.pool.board.data.repository.FirestoreRepository
 import javax.inject.Inject
 
 class GetPlayersUseCase @Inject constructor(
-    private val firebaseRepository: FirestoreRepository,
+    private val fireStoreRepository: FirestoreRepository,
 ) {
 
     operator fun invoke(onSuccess: (QuerySnapshot) -> Unit, onFailure: (e: Exception) -> Unit) {
-        firebaseRepository.getPlayers(onSuccess, onFailure)
+        fireStoreRepository.getPlayers(onSuccess, onFailure)
     }
 
 }
