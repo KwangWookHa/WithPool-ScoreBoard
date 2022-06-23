@@ -24,7 +24,7 @@ class CountRepository @Inject constructor(
 
     fun updateNineBallMatchTotalCount(
             documentPath: String,
-            count: Int,
+            count: Long,
             onSuccess: () -> Unit,
             onFailure: (Exception) -> Unit
     ) {

@@ -20,7 +20,7 @@ class UpdateNineBallMatchTotalCountUseCase @Inject constructor(
                 it.get(FIELD_COUNT)?.let {
                     countRepository.updateNineBallMatchTotalCount(
                             documentPath,
-                            it as Int + variation,
+                            (it as Long) + variation,
                             onSuccess,
                             onFailure
                     )

@@ -1,10 +1,8 @@
 package wook.pool.board.screen.scoreboard
 
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.annotation.RawRes
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
