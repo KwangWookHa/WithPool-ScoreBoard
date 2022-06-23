@@ -105,13 +105,13 @@ class PlayersViewModel @Inject constructor(
     fun setPlayer(player: Player, isLeftPlayer: Boolean) {
         viewModelScope.launch(ioDispatchers) {
             if (isLeftPlayer) {
-                if (player.name == _playerRight.value?.name) {
+                if (player.name == _playerRight.value?.name && player.name != "Guest") {
                     _isPlayerSetSuccessful.postValue(Event(false))
                     return@launch
                 }
                 _playerLeft.postValue(player)
             } else {
-                if (player.name == _playerLeft.value?.name) {
+                if (player.name == _playerLeft.value?.name && player.name != "Guest") {
                     _isPlayerSetSuccessful.postValue(Event(false))
                     return@launch
                 }

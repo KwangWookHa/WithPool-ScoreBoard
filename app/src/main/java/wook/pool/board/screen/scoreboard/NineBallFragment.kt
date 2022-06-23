@@ -16,9 +16,9 @@ import wook.pool.board.screen.dialog.DefaultDialog
 import wook.pool.board.screen.playerlist.PlayersViewModel
 
 class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ball) :
-    BaseFragment<FragmentNineBallBinding>(),
-    View.OnClickListener,
-    View.OnLongClickListener {
+        BaseFragment<FragmentNineBallBinding>(),
+        View.OnClickListener,
+        View.OnLongClickListener {
 
     private var mediaPlayer: MediaPlayer? = null
 
@@ -29,9 +29,9 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
     private val args: NineBallFragmentArgs by navArgs()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         return super.onCreateView(inflater, container, savedInstanceState).apply {
             setLoadingProgress(true)
@@ -49,14 +49,12 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
     private fun initObserver() {
         with(nineBallViewModel) {
             documentPath.observe(viewLifecycleOwner) {
-                if (it.isNotBlank()) {
-                    setLoadingProgress(false)
-                }
+                setLoadingProgress(false)
             }
             isSetMatchSuccessful.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
                     setLoadingProgress(false)
-                    showDialogToFinishMatch()
+                    showDialogRegisterSucceed()
                 }
             })
             isDeleteMatchSuccessful.observe(viewLifecycleOwner, EventObserver {
@@ -66,7 +64,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                 }
             })
             isMatchOver.observe(viewLifecycleOwner) {
-                if (it) {
+                if (it && !isGuestMode) {
                     showDialogToRegisterMatch()
                 }
             }
@@ -78,8 +76,12 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
             with(nineBallViewModel) {
                 when (v) {
                     layoutBtnFinishGame -> {
+                        if (isGuestMode) {
+                            backToChoicePlayerFragment()
+                            return
+                        }
                         setLoadingProgress(true)
-                        finishNineBallMatch()
+                        updateNineBallMatch()
                     }
                     layoutBtnCancelMatch -> showDialogToCancelMatch()
                     layoutLeftPlayer, textBtnScoreLeft -> {
@@ -122,58 +124,58 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
     private fun showDialogToRegisterMatch() {
         hostActivityContext?.let { context ->
             DefaultDialog.Builder()
-                .setType(DefaultDialog.DialogType.DIALOG_OK_CANCEL)
-                .setImgResourceId(R.drawable.ic_upload_48)
-                .setIsIconVisible(true)
-                .setMessage(getString(R.string.fragment_nine_ball_would_you_register_match))
-                .setLeftButtonText(getString(R.string.common_move_to_back))
-                .setOnClickLeft { it.dismiss() }
-                .setRightButtonText(getString(R.string.common_register))
-                .setOnClickRight { dialog ->
-                    dialog.dismiss()
-                    nineBallViewModel.finishNineBallMatch()
-                }
-                .create(context)
-                .show()
+                    .setType(DefaultDialog.DialogType.DIALOG_OK_CANCEL)
+                    .setImgResourceId(R.drawable.ic_upload_48)
+                    .setIsIconVisible(true)
+                    .setMessage(getString(R.string.fragment_nine_ball_would_you_register_match))
+                    .setLeftButtonText(getString(R.string.common_move_to_back))
+                    .setOnClickLeft { it.dismiss() }
+                    .setRightButtonText(getString(R.string.common_register))
+                    .setOnClickRight { dialog ->
+                        dialog.dismiss()
+                        nineBallViewModel.updateNineBallMatch()
+                    }
+                    .create(context)
+                    .show()
         }
     }
 
-    private fun showDialogToFinishMatch() {
+    private fun showDialogRegisterSucceed() {
         hostActivityContext?.let { context ->
             DefaultDialog.Builder()
-                .setType(DefaultDialog.DialogType.DIALOG_OK)
-                .setImgResourceId(R.drawable.ic_success_64)
-                .setIsIconVisible(true)
-                .setMessage(getString(R.string.fragment_nine_ball_register_successful))
-                .setBackPressDisabled(true)
-                .setRightButtonText(getString(R.string.common_confirm))
-                .setOnClickRight { dialog ->
-                    dialog.dismiss()
-                    backToChoicePlayerFragment()
-                }
-                .create(context)
-                .show()
+                    .setType(DefaultDialog.DialogType.DIALOG_OK)
+                    .setImgResourceId(R.drawable.ic_success_64)
+                    .setIsIconVisible(true)
+                    .setMessage(getString(R.string.fragment_nine_ball_register_successful))
+                    .setBackPressDisabled(true)
+                    .setRightButtonText(getString(R.string.common_confirm))
+                    .setOnClickRight { dialog ->
+                        dialog.dismiss()
+                        backToChoicePlayerFragment()
+                    }
+                    .create(context)
+                    .show()
         }
     }
 
     private fun showDialogToCancelMatch() {
         hostActivityContext?.let { context ->
             DefaultDialog.Builder()
-                .setType(DefaultDialog.DialogType.DIALOG_OK_CANCEL)
-                .setTitle(getString(R.string.fragment_nine_ball_cancel_match))
-                .setMessage(getString(R.string.fragment_nine_ball_cancel_match_desc))
-                .setLeftButtonText(getString(R.string.common_close))
-                .setOnClickLeft { dialog ->
-                    dialog.dismiss()
-                }
-                .setRightButtonText(getString(R.string.common_confirm))
-                .setOnClickRight { dialog ->
-                    dialog.dismiss()
-                    setLoadingProgress(true)
-                    nineBallViewModel.deleteNineBallMatch()
-                }
-                .create(context)
-                .show()
+                    .setType(DefaultDialog.DialogType.DIALOG_OK_CANCEL)
+                    .setTitle(getString(R.string.fragment_nine_ball_cancel_match))
+                    .setMessage(getString(R.string.fragment_nine_ball_cancel_match_desc))
+                    .setLeftButtonText(getString(R.string.common_close))
+                    .setOnClickLeft { dialog ->
+                        dialog.dismiss()
+                    }
+                    .setRightButtonText(getString(R.string.common_confirm))
+                    .setOnClickRight { dialog ->
+                        dialog.dismiss()
+                        setLoadingProgress(true)
+                        nineBallViewModel.deleteNineBallMatch()
+                    }
+                    .create(context)
+                    .show()
         }
     }
 
@@ -181,7 +183,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
         playersViewModel.initPlayers()
         nineBallViewModel.initLiveData()
         scoreBoardScreenViewModel.setNavDirection(
-            NineBallFragmentDirections.actionFragmentNineBallToFragmentSetting()
+                NineBallFragmentDirections.actionFragmentNineBallToFragmentSetting()
         )
     }
 

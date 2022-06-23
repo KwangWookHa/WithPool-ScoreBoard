@@ -6,24 +6,9 @@ import wook.pool.board.data.model.NineBallMatch
 import wook.pool.board.data.model.Player
 import javax.inject.Inject
 
-class FirestoreRepository @Inject constructor(
+class MatchRepository @Inject constructor(
     private val fireStore: FirebaseFirestore
 ) {
-
-    fun insertPlayer(player: Player, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        fireStore.collection(Constant.Collection.COLLECTION_PLAYERS)
-            .add(player)
-            .addOnSuccessListener { onSuccess() }
-            .addOnFailureListener(onFailure)
-    }
-
-    fun getPlayers(onSuccess: (QuerySnapshot) -> Unit, onFailure: (e: Exception) -> Unit) {
-        fireStore.collection(Constant.Collection.COLLECTION_PLAYERS)
-            .orderBy(Constant.Field.FIELD_NAME, Query.Direction.ASCENDING)
-            .get()
-            .addOnSuccessListener(onSuccess)
-            .addOnFailureListener(onFailure)
-    }
 
     fun addNineBallMatch(
         nineBallMatch: NineBallMatch,
@@ -85,41 +70,5 @@ class FirestoreRepository @Inject constructor(
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener(onFailure)
 
-    }
-
-    fun getAppVersion(
-        onSuccess: (DocumentSnapshot) -> Unit,
-        onFailure: (Exception) -> Unit
-    ) {
-        fireStore.collection(Constant.Collection.COLLECTION_APP_VERSION)
-            .document(Constant.Collection.COLLECTION_APP_VERSION)
-            .get()
-            .addOnSuccessListener(onSuccess)
-            .addOnFailureListener(onFailure)
-    }
-
-    fun getCount(
-        documentPath: String,
-        onSuccess: (DocumentSnapshot) -> Unit,
-        onFailure: (Exception) -> Unit
-    ) {
-        fireStore.collection(Constant.Collection.COLLECTION_COUNT)
-            .document(documentPath)
-            .get()
-            .addOnSuccessListener(onSuccess)
-            .addOnFailureListener(onFailure)
-    }
-
-    fun updateCount(
-        documentPath: String,
-        count: Int,
-        onSuccess: () -> Unit,
-        onFailure: (Exception) -> Unit
-    ) {
-        fireStore.collection(Constant.Collection.COLLECTION_COUNT)
-            .document(documentPath)
-            .update(Constant.Collection.COLLECTION_COUNT, count)
-            .addOnSuccessListener { onSuccess() }
-            .addOnFailureListener(onFailure)
     }
 }

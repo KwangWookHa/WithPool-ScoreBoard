@@ -27,6 +27,8 @@
     <string name="common_move_to_back">돌아가기</string>
     <string name="common_on_back_pressed_notice">뒤로가기를 한번 더 누르면 앱이 종료됩니다</string>
 
+    <string name="common_coming_soon">준비중입니다</string>
+
 
     <string name="fragment_choice_player">선수 선택</string>
     <string name="fragment_choice_player_change">선수 변경</string>

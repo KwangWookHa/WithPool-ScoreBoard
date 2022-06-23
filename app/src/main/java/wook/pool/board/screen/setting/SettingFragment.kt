@@ -51,7 +51,7 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
                     activity?.finishAffinity()
                 }
                 imgBtnSelectGame -> {
-                    Toast.makeText(hostActivityContext, "준비중입니다", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(hostActivityContext, getString(R.string.common_coming_soon), Toast.LENGTH_SHORT).show()
                 }
                 layoutBtnStartGame -> {
                     val matchPlayers = playersViewModel.getMatchPlayers() ?: null.also {

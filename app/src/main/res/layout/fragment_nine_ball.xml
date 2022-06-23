@@ -252,6 +252,17 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/dp_24"
+            android:src="@drawable/logo_withpool_ratio1"
+            app:layout_constraintBottom_toTopOf="@+id/textBtnPlusLeftRunOut"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
+            app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer"
+            app:layout_constraintTop_toBottomOf="@+id/layoutBtnFinishGame" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textBtnPlusLeftRunOut"
             style="@style/poppins_bold"

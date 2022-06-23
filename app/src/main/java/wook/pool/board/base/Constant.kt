@@ -13,7 +13,12 @@ object Constant {
         const val COLLECTION_COUNT = "count"
     }
 
+    object Document {
+        const val DOCUMENT_SCORE_BOARD = "score_board"
+    }
+
     object Field {
+        const val FIELD_COUNT = "count"
         const val FIELD_NAME = "name"
         const val FILED_IS_LIVE = "isLive"
         const val FILED_PLAYER_LEFT_RUN_OUT = "playerLeftRunOut"

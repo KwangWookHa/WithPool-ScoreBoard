@@ -20,11 +20,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NineBallViewModel @Inject constructor(
-    private val addNineBallMatchUseCase: AddNineBallMatchUseCase,
-    private val setNineBallMatchUseCase: SetNineBallMatchUseCase,
-    private val updateNineBallMatchUseCase: UpdateNineBallMatchUseCase,
-    private val deleteNineBallMatchUseCase: DeleteNineBallMatchUseCase,
-    private val updateCountUseCase: UpdateCountUseCase,
+        private val addNineBallMatchUseCase: AddNineBallMatchUseCase,
+        private val setNineBallMatchUseCase: SetNineBallMatchUseCase,
+        private val updateNineBallMatchUseCase: UpdateNineBallMatchUseCase,
+        private val deleteNineBallMatchUseCase: DeleteNineBallMatchUseCase,
+        private val updateNineBallMatchTotalCountUseCase: UpdateNineBallMatchTotalCountUseCase,
 ) : BaseViewModel() {
 
     private lateinit var startTimeStamp: Timestamp
@@ -64,6 +64,8 @@ class NineBallViewModel @Inject constructor(
     val playerRightAlpha: LiveData<Float> = _playerRightAlpha
 
     /***************************** Player Right *****************************/
+
+    val isGuestMode: Boolean get() = _playerLeft.value?.name == "Guest" || _playerRight.value?.name == "Guest"
 
     val isMatchOver: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
         this.value = false
@@ -125,25 +127,28 @@ class NineBallViewModel @Inject constructor(
             }
 
             _documentPath.value?.let {
-                if (it.isNotBlank()) {
+                val setScore = {
+                    if (isLeft) {
+                        _playerLeftScore.plus(variation)
+                    } else {
+                        _playerRightScore.plus(variation)
+                    }
+                }
+                if (it.isNotBlank() && !isGuestMode) {
                     updateNineBallMatchUseCase(
-                        documentPath = it,
-                        data = mapOf(
-                            if (isLeft) {
-                                Constant.Field.FILED_PLAYER_LEFT_SCORE to _playerLeftScore.value!! + variation
-                            } else {
-                                Constant.Field.FILED_PLAYER_RIGHT_SCORE to _playerRightScore.value!! + variation
-                            }
-                        ),
-                        onSuccess = {
-                            if (isLeft) {
-                                _playerLeftScore.plus(variation)
-                            } else {
-                                _playerRightScore.plus(variation)
-                            }
-                        },
-                        onFailure = { throw it }
+                            documentPath = it,
+                            data = mapOf(
+                                    if (isLeft) {
+                                        Constant.Field.FILED_PLAYER_LEFT_SCORE to _playerLeftScore.value!! + variation
+                                    } else {
+                                        Constant.Field.FILED_PLAYER_RIGHT_SCORE to _playerRightScore.value!! + variation
+                                    }
+                            ),
+                            onSuccess = { setScore() },
+                            onFailure = { throw it }
                     )
+                } else {
+                    setScore()
                 }
             }
         }
@@ -151,46 +156,49 @@ class NineBallViewModel @Inject constructor(
 
     fun setRunOut(isLeft: Boolean, variation: Int) {
         viewModelScope.launch(ioDispatchers) {
-            _documentPath.value?.let {
-                if (isLeft) {
-                    if (_playerLeftScore.value!! + variation > _playerLeftAdjustedHandicap.value!!
+            if (isLeft) {
+                if (_playerLeftScore.value!! + variation > _playerLeftAdjustedHandicap.value!!
                         || _playerLeftScore.value!! + variation < 0
                         || _playerLeftRunOut.value!! + variation < 0
-                    ) return@launch
-                } else {
-                    if (_playerRightScore.value!! + variation > _playerRightAdjustedHandicap.value!!
+                ) return@launch
+            } else {
+                if (_playerRightScore.value!! + variation > _playerRightAdjustedHandicap.value!!
                         || _playerRightScore.value!! + variation < 0
                         || _playerRightScore.value!! + variation < 0
-                    ) return@launch
-                }
+                ) return@launch
+            }
 
-                if (it.isNotBlank()) {
+            _documentPath.value?.let {
+                val setRunOut = {
+                    if (isLeft) {
+                        _playerLeftRunOut.plus(variation)
+                        if (variation > 0)
+                            _playerLeftScore.plus(variation)
+                    } else {
+                        _playerRightRunOut.plus(variation)
+                        if (variation > 0)
+                            _playerRightScore.plus(variation)
+                    }
+                }
+                if (it.isNotBlank() && !isGuestMode) {
                     updateNineBallMatchUseCase(
-                        documentPath = it,
-                        data = hashMapOf<String, Int>().apply {
-                            if (isLeft) {
-                                put(Constant.Field.FILED_PLAYER_LEFT_SCORE, _playerLeftScore.value!! + variation)
-                                if (variation > 0)
-                                    put(Constant.Field.FILED_PLAYER_LEFT_RUN_OUT, _playerLeftRunOut.value!! + variation)
-                            } else {
-                                put(Constant.Field.FILED_PLAYER_RIGHT_RUN_OUT, _playerRightRunOut.value!! + variation)
-                                if (variation > 0)
-                                    put(Constant.Field.FILED_PLAYER_RIGHT_SCORE, _playerRightScore.value!! + variation)
-                            }
-                        },
-                        onSuccess = {
-                            if (isLeft) {
-                                _playerLeftRunOut.plus(variation)
-                                if (variation > 0)
-                                    _playerLeftScore.plus(variation)
-                            } else {
-                                _playerRightRunOut.plus(variation)
-                                if (variation > 0)
-                                    _playerRightScore.plus(variation)
-                            }
-                        },
-                        onFailure = { throw it }
+                            documentPath = it,
+                            data = hashMapOf<String, Int>().apply {
+                                if (isLeft) {
+                                    put(Constant.Field.FILED_PLAYER_LEFT_SCORE, _playerLeftScore.value!! + variation)
+                                    if (variation > 0)
+                                        put(Constant.Field.FILED_PLAYER_LEFT_RUN_OUT, _playerLeftRunOut.value!! + variation)
+                                } else {
+                                    put(Constant.Field.FILED_PLAYER_RIGHT_RUN_OUT, _playerRightRunOut.value!! + variation)
+                                    if (variation > 0)
+                                        put(Constant.Field.FILED_PLAYER_RIGHT_SCORE, _playerRightScore.value!! + variation)
+                                }
+                            },
+                            onSuccess = { setRunOut() },
+                            onFailure = { throw it }
                     )
+                } else {
+                    setRunOut()
                 }
             }
         }
@@ -198,56 +206,60 @@ class NineBallViewModel @Inject constructor(
 
     private fun addNineBallMatch(playerLeft: Player, playerRight: Player, adjustment: Int) {
         viewModelScope.launch(ioDispatchers) {
+            if (playerLeft.name == "Guest" || playerRight.name == "Guest") {
+                _documentPath.postValue("")
+                return@launch
+            }
             addNineBallMatchUseCase(
-                nineBallMatch = NineBallMatch(
-                    gameType = GameType.GAME_9_BALL.text,
-                    adjustment = adjustment,
-                    isLive = true,
-                    players = listOf(playerLeft.name, playerRight.name),
-                    playerLeftName = playerLeft.name,
-                    playerRightName = playerRight.name,
-                    playerLeftRunOut = null,
-                    playerRightRunOut = null,
-                    playerLeftScore = null,
-                    playerRightScore = null,
-                    playerWinnerName = null,
-                    playerLoserName = null,
-                    matchStartTimeStamp = startTimeStamp,
-                    matchEndTimeStamp = null,
-                ),
-                onSuccess = {
-                    updateCountUseCase(
-                        documentPath = Constant.Collection.COLLECTION_NINE_BALL_MATCH,
-                        variation = +1,
-                        onSuccess = { _documentPath.postValue(it.id) },
-                        onFailure = { throw it }
-                    )
-                },
-                onFailure = { throw it }
+                    nineBallMatch = NineBallMatch(
+                            gameType = GameType.GAME_9_BALL.text,
+                            adjustment = adjustment,
+                            isLive = true,
+                            players = listOf(playerLeft.name, playerRight.name),
+                            playerLeftName = playerLeft.name,
+                            playerRightName = playerRight.name,
+                            playerLeftRunOut = null,
+                            playerRightRunOut = null,
+                            playerLeftScore = null,
+                            playerRightScore = null,
+                            playerWinnerName = null,
+                            playerLoserName = null,
+                            matchStartTimeStamp = startTimeStamp,
+                            matchEndTimeStamp = null,
+                    ),
+                    onSuccess = { _documentPath.postValue(it.id) },
+                    onFailure = { throw it }
             )
         }
     }
 
-    fun finishNineBallMatch() {
+    fun updateNineBallMatch() {
         viewModelScope.launch(ioDispatchers) {
             _documentPath.value?.let {
-                if (it.isNotBlank() && isMatchOver.value!!) {
+                if (it.isNotBlank() && isMatchOver.value!! && !isGuestMode) {
                     setNineBallMatchUseCase(
-                        documentPath = it,
-                        nineBallMatch = NineBallMatch(
-                            isLive = false,
-                            playerWinnerName = if (_isPlayerLeftWinner.value!!) _playerLeft.value?.name else _playerRight.value?.name,
-                            playerLoserName = if (_isPlayerLeftWinner.value!!) _playerRight.value?.name else _playerLeft.value?.name,
-                            matchEndTimeStamp = Timestamp.now(),
-                        ),
-                        mergeFields = listOf(
-                            Constant.Field.FILED_IS_LIVE,
-                            Constant.Field.FILED_PLAYER_WINNER_NAME,
-                            Constant.Field.FILED_PLAYER_LOSER_NAME,
-                            Constant.Field.FILED_END_TIME_STAMP
-                        ),
-                        onSuccess = { _isSetMatchSuccessful.postValue(Event(true)) },
-                        onFailure = { throw it }
+                            documentPath = it,
+                            nineBallMatch = NineBallMatch(
+                                    isLive = false,
+                                    playerWinnerName = if (_isPlayerLeftWinner.value!!) _playerLeft.value?.name else _playerRight.value?.name,
+                                    playerLoserName = if (_isPlayerLeftWinner.value!!) _playerRight.value?.name else _playerLeft.value?.name,
+                                    matchEndTimeStamp = Timestamp.now(),
+                            ),
+                            mergeFields = listOf(
+                                    Constant.Field.FILED_IS_LIVE,
+                                    Constant.Field.FILED_PLAYER_WINNER_NAME,
+                                    Constant.Field.FILED_PLAYER_LOSER_NAME,
+                                    Constant.Field.FILED_END_TIME_STAMP
+                            ),
+                            onSuccess = {
+                                updateNineBallMatchTotalCountUseCase(
+                                        documentPath = Constant.Collection.COLLECTION_NINE_BALL_MATCH,
+                                        variation = +1,
+                                        onSuccess = { _isSetMatchSuccessful.postValue(Event(true)) },
+                                        onFailure = { throw it }
+                                )
+                            },
+                            onFailure = { throw it }
                     )
                 }
             }
@@ -257,19 +269,21 @@ class NineBallViewModel @Inject constructor(
     fun deleteNineBallMatch() {
         viewModelScope.launch(ioDispatchers) {
             _documentPath.value?.let {
-                if (it.isNotBlank()) {
+                if (it.isNotBlank() && !isGuestMode) {
                     deleteNineBallMatchUseCase(
-                        documentPath = it,
-                        onSuccess = {
-                            updateCountUseCase(
-                                documentPath = Constant.Collection.COLLECTION_NINE_BALL_MATCH,
-                                variation = -1,
-                                onSuccess = { _isDeleteMatchSuccessful.postValue(Event(true)) },
-                                onFailure = { throw it }
-                            )
-                        },
-                        onFailure = { throw it }
+                            documentPath = it,
+                            onSuccess = {
+                                updateNineBallMatchTotalCountUseCase(
+                                        documentPath = Constant.Collection.COLLECTION_NINE_BALL_MATCH,
+                                        variation = -1,
+                                        onSuccess = { _isDeleteMatchSuccessful.postValue(Event(true)) },
+                                        onFailure = { throw it }
+                                )
+                            },
+                            onFailure = { throw it }
                     )
+                } else {
+                    _isDeleteMatchSuccessful.postValue(Event(true))
                 }
             }
         }

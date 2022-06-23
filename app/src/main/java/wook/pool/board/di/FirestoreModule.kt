@@ -7,7 +7,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import wook.pool.board.data.repository.FirestoreRepository
+import wook.pool.board.data.repository.MatchRepository
 import javax.inject.Singleton
 
 @Module
@@ -17,7 +17,7 @@ object FirestoreModule {
 
     @Singleton
     @Provides
-    fun provideFirestoreRepository(fireStore: FirebaseFirestore): FirestoreRepository = FirestoreRepository(fireStore)
+    fun provideFirestoreRepository(fireStore: FirebaseFirestore): MatchRepository = MatchRepository(fireStore)
 
 
     @Singleton

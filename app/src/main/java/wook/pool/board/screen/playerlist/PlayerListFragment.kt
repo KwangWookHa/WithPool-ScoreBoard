@@ -18,8 +18,8 @@ import wook.pool.board.screen.dialog.DefaultDialog
 import wook.pool.board.screen.scoreboard.ScoreBoardScreenViewModel
 
 class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_player_list) :
-    BaseFragment<FragmentPlayerListBinding>(),
-    View.OnClickListener {
+        BaseFragment<FragmentPlayerListBinding>(),
+        View.OnClickListener {
 
     companion object {
         private const val INITIAL_SELECTED_HANDICAP = 5
@@ -35,25 +35,25 @@ class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_playe
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? =
-        super.onCreateView(inflater, container, savedInstanceState).apply {
-            binding.apply {
-                selectedHandicapIndex = SelectedHandicapIndex.INDEX_HANDICAP_5.index
-                onClickHandicap = this@PlayerListFragment.onClickHandicap
-                listener = this@PlayerListFragment
-                recyclerPlayers.adapter = playerAdapter
-                recyclerPlayers.itemAnimator = FadeInDownAnimator().apply {
-                    addDuration = DURATION_ITEM_ANIMATION
-                    removeDuration = DURATION_ITEM_ANIMATION
-                    moveDuration = DURATION_ITEM_ANIMATION
-                    changeDuration = DURATION_ITEM_ANIMATION
+            super.onCreateView(inflater, container, savedInstanceState).apply {
+                binding.apply {
+                    selectedHandicapIndex = SelectedHandicapIndex.INDEX_HANDICAP_5.index
+                    onClickHandicap = this@PlayerListFragment.onClickHandicap
+                    listener = this@PlayerListFragment
+                    recyclerPlayers.adapter = playerAdapter
+                    recyclerPlayers.itemAnimator = FadeInDownAnimator().apply {
+                        addDuration = DURATION_ITEM_ANIMATION
+                        removeDuration = DURATION_ITEM_ANIMATION
+                        moveDuration = DURATION_ITEM_ANIMATION
+                        changeDuration = DURATION_ITEM_ANIMATION
+                    }
                 }
+                initObserver()
             }
-            initObserver()
-        }
 
     private fun initObserver() {
         with(playersViewModel) {
@@ -69,21 +69,10 @@ class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_playe
             isPlayerSetSuccessful.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
                     scoreBoardScreenViewModel.setNavDirection(
-                        PlayerListFragmentDirections.actionFragmentPlayerListToFragmentSetting()
+                            PlayerListFragmentDirections.actionFragmentPlayerListToFragmentSetting()
                     )
                 } else {
-                    hostActivityContext?.let { context ->
-                        DefaultDialog.Builder()
-                            .setType(DefaultDialog.DialogType.DIALOG_OK)
-                            .setTitle(getString(R.string.fragment_player_list_duplicated_player_title))
-                            .setMessage(getString(R.string.fragment_player_list_duplicated_player_desc))
-                            .setRightButtonText(getString(R.string.common_confirm))
-                            .setOnClickRight { dialog ->
-                                dialog.dismiss()
-                            }
-                            .create(context)
-                            .show()
-                    }
+                    showDialogDuplicatedPlayer()
                 }
             })
         }
@@ -92,6 +81,21 @@ class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_playe
     private fun submitPlayers(handicap: Int) {
         playersViewModel.playersByHandicap.value?.let {
             playerAdapter.submitList(it[handicap])
+        }
+    }
+
+    private fun showDialogDuplicatedPlayer() {
+        hostActivityContext?.let { context ->
+            DefaultDialog.Builder()
+                    .setType(DefaultDialog.DialogType.DIALOG_OK)
+                    .setTitle(getString(R.string.fragment_player_list_duplicated_player_title))
+                    .setMessage(getString(R.string.fragment_player_list_duplicated_player_desc))
+                    .setRightButtonText(getString(R.string.common_confirm))
+                    .setOnClickRight { dialog ->
+                        dialog.dismiss()
+                    }
+                    .create(context)
+                    .show()
         }
     }
 
@@ -111,7 +115,7 @@ class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_playe
             when (v) {
                 imgBtnBack -> {
                     scoreBoardScreenViewModel.setNavDirection(
-                        PlayerListFragmentDirections.actionFragmentPlayerListToFragmentSetting()
+                            PlayerListFragmentDirections.actionFragmentPlayerListToFragmentSetting()
                     )
                 }
             }
