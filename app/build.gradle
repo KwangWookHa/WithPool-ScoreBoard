@@ -104,4 +104,7 @@ dependencies {
 
     // RecyclerView Animators (Apache2.0, https://github.com/wasabeef/recyclerview-animators)
     implementation 'jp.wasabeef:recyclerview-animators:4.0.2'
+
+    implementation 'com.airbnb.android:lottie:5.2.0'
+
 }

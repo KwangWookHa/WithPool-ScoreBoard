@@ -184,6 +184,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
     }
 
     private fun backToChoicePlayerFragment() {
+        playersViewModel.initDice()
         playersViewModel.initPlayers()
         nineBallViewModel.initLiveData()
         scoreBoardScreenViewModel.setNavDirection(

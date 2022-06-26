@@ -10,6 +10,7 @@ import wook.pool.board.R
 import wook.pool.board.base.BaseFragment
 import wook.pool.board.databinding.FragmentSettingBinding
 import wook.pool.board.screen.dialog.DefaultDialog
+import wook.pool.board.screen.dialog.DiceDialog
 import wook.pool.board.screen.playerlist.PlayersViewModel
 import wook.pool.board.screen.scoreboard.ScoreBoardScreenViewModel
 
@@ -18,6 +19,10 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
 
     private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by activityViewModels()
     private val playersViewModel: PlayersViewModel by activityViewModels()
+
+    private val diceDialog: DiceDialog by lazy {
+        DiceDialog(hostActivityContext!!)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,6 +33,15 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
             binding.apply {
                 viewModel = playersViewModel
                 listener = this@SettingFragment
+            }
+            initObserver()
+        }
+    }
+
+    private fun initObserver() {
+        playersViewModel.playerLeftDice.observe(viewLifecycleOwner) {
+            if (diceDialog.isShowing) {
+                diceDialog.dismiss()
             }
         }
     }
@@ -65,6 +79,10 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
                 }
                 textBtnAdjustHandicap -> {
                     playersViewModel.switchHandicapAdjustment()
+                }
+                imgBtnDice -> {
+                    diceDialog.show()
+                    playersViewModel.randomizeDice()
                 }
                 else -> {
 

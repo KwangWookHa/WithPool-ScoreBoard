@@ -32,6 +32,37 @@
             app:layout_constraintWidth_percent="0.35">
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgLeftDice1"
+                bindDiceNumber="@{viewModel.playerLeftDice.first}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/imgLeftCircle"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintEnd_toStartOf="@+id/imgLeftDice2"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.3"
+                tools:src="@drawable/ic_dice_3" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgLeftDice2"
+                bindDiceNumber="@{viewModel.playerLeftDice.second}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/imgLeftDice1"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/imgLeftDice1"
+                app:layout_constraintTop_toTopOf="@+id/imgLeftDice1"
+                app:layout_constraintWidth_percent="0.3"
+                tools:src="@drawable/ic_dice_4" />
+
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgLeftCircle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -136,6 +167,37 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.35">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgRightDice1"
+                bindDiceNumber="@{viewModel.playerRightDice.first}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/imgRightCircle"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintEnd_toStartOf="@+id/imgRightDice2"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.3"
+                tools:src="@drawable/ic_dice_2" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgRightDice2"
+                bindDiceNumber="@{viewModel.playerRightDice.second}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/imgRightDice1"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/imgRightDice1"
+                app:layout_constraintTop_toTopOf="@+id/imgRightDice1"
+                app:layout_constraintWidth_percent="0.3"
+                tools:src="@drawable/ic_dice_6" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgRightCircle"
@@ -279,6 +341,19 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgBtnDice"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/dp_16"
+            android:background="@drawable/bg_ffffff_round_6"
+            android:onClick="@{listener::onClick}"
+            android:src="@drawable/ic_dice"
+            app:layout_constraintBottom_toTopOf="@+id/textBtnAdjustHandicap"
+            app:layout_constraintEnd_toEndOf="@+id/textBtnAdjustHandicap"
+            app:layout_constraintHeight_percent="0.15"
+            app:layout_constraintStart_toStartOf="@+id/textBtnAdjustHandicap" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textBtnAdjustHandicap"
             style="@style/notosans_bold"
@@ -348,6 +423,7 @@
             android:layout_height="0dp"
             android:layout_margin="@dimen/dp_16"
             android:src="@drawable/logo_withpool_ratio1"
+            app:layout_constraintBottom_toTopOf="@+id/imgBtnDice"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
             app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer"
