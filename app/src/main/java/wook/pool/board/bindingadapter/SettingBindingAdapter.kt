@@ -2,6 +2,8 @@ package wook.pool.board.bindingadapter
 
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import wook.pool.board.R
 
@@ -25,5 +27,19 @@ object SettingBindingAdapter {
                 }
         )
         visibility = View.VISIBLE
+    }
+
+    @BindingAdapter("bindTimerMode")
+    @JvmStatic
+    fun AppCompatTextView.bindTimerMode(mode: Boolean) {
+        if (mode) {
+            text = context.getString(R.string.fragment_choice_player_timer_mode_on)
+            alpha = 1f
+            setTextColor(ContextCompat.getColor(context, R.color.black))
+        } else {
+            text = context.getString(R.string.fragment_choice_player_timer_mode_off)
+            alpha = 0.3f
+            setTextColor(ContextCompat.getColor(context, R.color.dark_gray))
+        }
     }
 }

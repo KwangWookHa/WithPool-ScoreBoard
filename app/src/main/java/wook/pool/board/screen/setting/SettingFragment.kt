@@ -15,7 +15,7 @@ import wook.pool.board.screen.playerlist.PlayersViewModel
 import wook.pool.board.screen.scoreboard.ScoreBoardScreenViewModel
 
 class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting) :
-    BaseFragment<FragmentSettingBinding>(), View.OnClickListener {
+        BaseFragment<FragmentSettingBinding>(), View.OnClickListener {
 
     private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by activityViewModels()
     private val playersViewModel: PlayersViewModel by activityViewModels()
@@ -25,9 +25,9 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         return super.onCreateView(inflater, container, savedInstanceState).apply {
             binding.apply {
@@ -68,14 +68,15 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
                     Toast.makeText(hostActivityContext, getString(R.string.common_coming_soon), Toast.LENGTH_SHORT).show()
                 }
                 layoutBtnStartGame -> {
-                    val matchPlayers = playersViewModel.getMatchPlayers() ?: null.also {
+                    val matchPlayers = playersViewModel.getMatchPlayers() ?: let {
                         showDialogPlayerNotSet()
                         return
                     }
-                    matchPlayers?.let {
-                        val navDirection = SettingFragmentDirections.actionFragmentSettingToFragmentNineBall(it)
-                        scoreBoardScreenViewModel.setNavDirection(navDirection)
-                    }
+                    val navDirection = SettingFragmentDirections.actionFragmentSettingToFragmentNineBall(
+                            matchPlayers,
+                            playersViewModel.isTimerMode.value ?: false
+                    )
+                    scoreBoardScreenViewModel.setNavDirection(navDirection)
                 }
                 textBtnAdjustHandicap -> {
                     playersViewModel.switchHandicapAdjustment()
@@ -83,6 +84,9 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
                 imgBtnDice -> {
                     diceDialog.show()
                     playersViewModel.randomizeDice()
+                }
+                textBtnTimerMode -> {
+                    playersViewModel.switchTimer()
                 }
                 else -> {
 
@@ -94,15 +98,15 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
     private fun showDialogPlayerNotSet() {
         hostActivityContext?.let { context ->
             DefaultDialog.Builder()
-                .setType(DefaultDialog.DialogType.DIALOG_OK)
-                .setTitle(getString(R.string.fragment_choice_player_not_set))
-                .setMessage(getString(R.string.fragment_choice_player_not_set_desc))
-                .setRightButtonText(getString(R.string.common_confirm))
-                .setOnClickRight { dialog ->
-                    dialog.dismiss()
-                }
-                .create(context)
-                .show()
+                    .setType(DefaultDialog.DialogType.DIALOG_OK)
+                    .setTitle(getString(R.string.fragment_choice_player_not_set))
+                    .setMessage(getString(R.string.fragment_choice_player_not_set_desc))
+                    .setRightButtonText(getString(R.string.common_confirm))
+                    .setOnClickRight { dialog ->
+                        dialog.dismiss()
+                    }
+                    .create(context)
+                    .show()
         }
     }
 }

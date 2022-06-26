@@ -60,6 +60,11 @@
             app:argType="wook.pool.board.data.model.MatchPlayers"
             app:nullable="true" />
 
+        <argument
+            android:name="isTimerMode"
+            android:defaultValue="false"
+            app:argType="boolean" />
+
         <action
             android:id="@+id/action_fragment_nine_ball_to_fragment_setting"
             app:destination="@id/fragment_setting"

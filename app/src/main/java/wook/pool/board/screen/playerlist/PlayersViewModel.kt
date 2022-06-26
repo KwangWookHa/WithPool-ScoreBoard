@@ -44,6 +44,9 @@ class PlayersViewModel @Inject constructor(
     private val _isTurnLeftPlayer: MutableLiveData<Boolean> = MutableLiveData(true)
     val isTurnLeftPlayer: LiveData<Boolean> = _isTurnLeftPlayer
 
+    private val _isTimerMode: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isTimerMode: LiveData<Boolean> = _isTimerMode
+
     /***************************** Player Left *****************************/
 
     private val _playerLeft: MutableLiveData<Player?> = MutableLiveData(null)
@@ -163,6 +166,14 @@ class PlayersViewModel @Inject constructor(
     }
 
     private fun getDiceValue(): Int = (1..6).random()
+
+    fun switchTimer() {
+        viewModelScope.launch(ioDispatchers) {
+            _isTimerMode.postValue(
+                    !(_isTimerMode.value!!)
+            )
+        }
+    }
 
     fun switchTurn() {
         viewModelScope.launch(ioDispatchers) {
