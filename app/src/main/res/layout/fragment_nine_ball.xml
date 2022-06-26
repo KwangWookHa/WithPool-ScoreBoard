@@ -19,12 +19,27 @@
             name="onLongClickListener"
             type="android.view.View.OnLongClickListener" />
 
+        <import type="android.view.View" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gray_4c4c4c">
+
+        <include
+            android:id="@+id/layoutTimer"
+            layout="@layout/layout_horizontal_timer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/dp_8"
+            android:visibility="@{viewModel.isTimerMode ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:remainingSeconds="@{viewModel.remainingSeconds}" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutLeftPlayer"
@@ -37,7 +52,7 @@
             android:padding="@dimen/dp_16"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutTimer"
             app:layout_constraintWidth_percent="0.35"
             tools:background="@drawable/bg_ffffff_round_12">
 
@@ -253,10 +268,28 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgLogo"
+            bindVisibleOrGone="@{!viewModel.isTimerMode}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="@dimen/dp_24"
+            android:onClick="@{onClickListener::onClick}"
             android:src="@drawable/logo_withpool_ratio1"
+            app:layout_constraintBottom_toTopOf="@+id/textBtnPlusLeftRunOut"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
+            app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer"
+            app:layout_constraintTop_toBottomOf="@+id/layoutBtnFinishGame"
+            tools:src="@drawable/ic_rewind_76" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgRewindTimer"
+            bindVisibleOrGone="@{viewModel.isTimerMode}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/dp_24"
+            android:onClick="@{onClickListener::onClick}"
+            android:src="@drawable/ic_rewind_76"
             app:layout_constraintBottom_toTopOf="@+id/textBtnPlusLeftRunOut"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"

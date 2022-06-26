@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="remainingSeconds"
+            type="Integer" />
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        bindRemainingSeconds="@{remainingSeconds}"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="40">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/green_43A047" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/green_43A047" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/green_43A047" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/green_43A047" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/green_43A047" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/green_43A047" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/green_43A047" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/green_43A047" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/green_43A047" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/green_43A047" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/green_43A047" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/green_43A047" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/green_43A047" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/green_43A047" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/green_43A047" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/green_43A047" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/green_43A047" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/green_43A047" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/green_43A047" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@color/green_43A047" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#FFB300" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#FFB300" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#FFB300" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#FFB300" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#FFB300" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#FFB300" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#FFB300" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#FFB300" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#FFB300" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#FFB300" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#E53935" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#E53935" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#E53935" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#E53935" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#E53935" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#E53935" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#E53935" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#E53935" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#E53935" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#E53935" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

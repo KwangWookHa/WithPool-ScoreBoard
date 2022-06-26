@@ -82,6 +82,10 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
                     playersViewModel.switchHandicapAdjustment()
                 }
                 imgBtnDice -> {
+                    playersViewModel.getMatchPlayers() ?: let {
+                        showDialogPlayerNotSet()
+                        return
+                    }
                     diceDialog.show()
                     playersViewModel.randomizeDice()
                 }

@@ -24,6 +24,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
     private var soundPool: SoundPool? = null
     private var soundScore: Int = Constant.IS_NOT_INITIALIZED
     private var soundRunOut: Int = Constant.IS_NOT_INITIALIZED
+    private var soundTimerBeep: Int = Constant.IS_NOT_INITIALIZED
 
     private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by activityViewModels()
     private val nineBallViewModel: NineBallViewModel by activityViewModels()
@@ -42,6 +43,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
             binding.apply {
                 viewModel = nineBallViewModel.apply {
                     initMatch(args.matchPlayers)
+                    initTimer(args.isTimerMode)
                 }
                 onClickListener = this@NineBallFragment
                 onLongClickListener = this@NineBallFragment
@@ -72,6 +74,11 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                     showDialogToRegisterMatch()
                 }
             }
+//            remainingSeconds.observe(viewLifecycleOwner) {
+//                if (it <= 4) {
+//                    playSound(soundTimerBeep)
+//                }
+//            }
         }
     }
 
@@ -104,11 +111,13 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                         playSound(soundRunOut)
                         setRunOut(false, +1)
                     }
+                    imgRewindTimer -> {
+                        rewindTimer()
+                    }
                     else -> {}
                 }
             }
         }
-
     }
 
     override fun onLongClick(v: View?): Boolean {
@@ -204,6 +213,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
         soundPool = SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(1).build()
         soundScore = soundPool?.load(activity, R.raw.score, 1) ?: return
         soundRunOut = soundPool?.load(activity, R.raw.runout, 1) ?: return
+        soundTimerBeep = soundPool?.load(activity, R.raw.timer_beep, 1) ?: return
     }
 
     private fun playSound(sound: Int) {

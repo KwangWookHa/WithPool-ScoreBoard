@@ -66,6 +66,7 @@
         <entry key="app/src/main/res/drawable/ic_my_game_black.xml" value="0.395" />
         <entry key="app/src/main/res/drawable/ic_play_24.xml" value="0.2555" />
         <entry key="app/src/main/res/drawable/ic_play_arrow_48.xml" value="0.2555" />
+        <entry key="app/src/main/res/drawable/ic_rewind_76.xml" value="0.395" />
         <entry key="app/src/main/res/drawable/ic_score_board.xml" value="0.2555" />
         <entry key="app/src/main/res/drawable/ic_score_board_48.xml" value="0.2555" />
         <entry key="app/src/main/res/drawable/ic_shutterstock_1134350891.xml" value="0.395" />
@@ -114,6 +115,7 @@
         <entry key="app/src/main/res/layout/item_grid_player.xml" value="0.21302083333333333" />
         <entry key="app/src/main/res/layout/item_player_grid.xml" value="0.22057291666666667" />
         <entry key="app/src/main/res/layout/layout_9balls.xml" value="0.8391082561439099" />
+        <entry key="app/src/main/res/layout/layout_horizontal_timer.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_nine_ball_view.xml" value="0.3147047166072136" />
         <entry key="app/src/main/res/menu/menu_bottom_nav.xml" value="0.41354166666666664" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.41354166666666664" />

@@ -1,11 +1,14 @@
 package wook.pool.board.screen.scoreboard
 
+import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
+import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import wook.pool.board.base.BaseViewModel
 import wook.pool.board.base.Constant
@@ -105,6 +108,28 @@ class NineBallViewModel @Inject constructor(
     private val _isDeleteMatchSuccessful: MutableLiveData<Event<Boolean>> = MutableLiveData()
     val isDeleteMatchSuccessful: LiveData<Event<Boolean>> = _isDeleteMatchSuccessful
 
+    private val _isTimerMode: MutableLiveData<Boolean> = MutableLiveData()
+    val isTimerMode: LiveData<Boolean> = _isTimerMode
+
+    private val _remainingSeconds: MutableLiveData<Int> = MutableLiveData(Constant.IS_NOT_INITIALIZED)
+    val remainingSeconds: LiveData<Int> = _remainingSeconds
+
+    private var _timer: CountDownTimer? = object : CountDownTimer(40_000L, 1_000L) {
+        override fun onTick(millisUntilFinished: Long) {
+            val seconds = if (millisUntilFinished % 1000 == 0L) {
+                (millisUntilFinished / 1000L).toInt()
+            } else {
+                ((((40_000L - millisUntilFinished) % 1000) + millisUntilFinished) / 1000L).toInt()
+            }
+            _remainingSeconds.value = seconds
+        }
+
+        override fun onFinish() {
+            _remainingSeconds.value = 0
+            cancel()
+        }
+    }
+
     fun initMatch(matchPlayers: MatchPlayers?) {
         viewModelScope.launch(ioDispatchers) {
             matchPlayers?.let {
@@ -115,6 +140,12 @@ class NineBallViewModel @Inject constructor(
                 _playerRightAdjustedHandicap.postValue(it.playerRight.handicap?.plus(it.adjustment))
                 addNineBallMatch(it.playerLeft, it.playerRight, it.adjustment)
             }
+        }
+    }
+
+    fun initTimer(mode: Boolean) {
+        viewModelScope.launch(ioDispatchers) {
+            _isTimerMode.postValue(mode)
         }
     }
 
@@ -287,6 +318,11 @@ class NineBallViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun rewindTimer() {
+        _timer?.cancel()
+        _timer?.start()
     }
 
 
