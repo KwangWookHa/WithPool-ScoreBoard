@@ -15,26 +15,34 @@ import javax.inject.Inject
 
 @HiltViewModel
 class InitViewModel @Inject constructor(
-    private val getAppVersionUseCase: GetAppVersionUseCase,
+        private val getAppVersionUseCase: GetAppVersionUseCase,
 ) : BaseViewModel() {
 
     private val _isUpdateForced: MutableLiveData<Boolean> = MutableLiveData()
     val isUpdateForced: LiveData<Boolean> = _isUpdateForced
 
+    private val _isUpdateAvailable: MutableLiveData<Boolean> = MutableLiveData()
+    val isUpdateAvailable: LiveData<Boolean> = _isUpdateAvailable
+
+    private val _isUpToDateVersion: MutableLiveData<Boolean> = MutableLiveData()
+    val isUpToDateVersion: LiveData<Boolean> = _isUpToDateVersion
+
     init {
         viewModelScope.launch(ioDispatchers) {
             getAppVersionUseCase(
-                onSuccess = {
-                    val appVersion = it.toObject(AppVersion::class.java)
-                    _isUpdateForced.postValue(
+                    onSuccess = {
+                        val appVersion = it.toObject(AppVersion::class.java)
                         if (BuildConfig.VERSION_NAME != appVersion?.versionName) {
-                            appVersion?.isImmediateUpdate
+                            if (appVersion?.isImmediateUpdate == true) {
+                                _isUpdateForced.postValue(true)
+                            } else {
+                                _isUpdateAvailable.postValue(true)
+                            }
                         } else {
-                            false
+                            _isUpToDateVersion.postValue(true)
                         }
-                    )
-                },
-                onFailure = { throw it }
+                    },
+                    onFailure = { throw it }
             )
         }
     }

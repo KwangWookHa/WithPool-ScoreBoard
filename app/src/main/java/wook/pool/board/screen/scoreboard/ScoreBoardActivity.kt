@@ -88,7 +88,7 @@ class ScoreBoardActivity : BaseActivity() {
                     DefaultDialog.Builder()
                         .setType(DefaultDialog.DialogType.DIALOG_OK)
                         .setTitle(getString(R.string.app_version_update))
-                        .setMessage(getString(R.string.app_version_download_up_to_date_version))
+                        .setMessage(getString(R.string.app_version_update_forced))
                         .setRightButtonText(getString(R.string.common_confirm))
                         .setOnClickRight { dialog ->
                             dialog.dismiss()
@@ -100,6 +100,28 @@ class ScoreBoardActivity : BaseActivity() {
                 } else {
                     signInAnonymously()
                 }
+            }
+            isUpdateAvailable.observe(this@ScoreBoardActivity) {
+                scoreBoardScreenViewModel.setLoadingProgress(false)
+                if (it) {
+                    DefaultDialog.Builder()
+                            .setType(DefaultDialog.DialogType.DIALOG_OK)
+                            .setTitle(getString(R.string.app_version_update))
+                            .setMessage(getString(R.string.app_version_update_available))
+                            .setRightButtonText(getString(R.string.common_confirm))
+                            .setOnClickRight { dialog ->
+                                dialog.dismiss()
+                            }
+                            .setBackPressDisabled(true)
+                            .create(this@ScoreBoardActivity)
+                            .show()
+                } else {
+                    signInAnonymously()
+                }
+            }
+            isUpToDateVersion.observe(this@ScoreBoardActivity) {
+                scoreBoardScreenViewModel.setLoadingProgress(false)
+                signInAnonymously()
             }
         }
     }

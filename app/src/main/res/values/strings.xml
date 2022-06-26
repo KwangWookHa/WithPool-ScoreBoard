@@ -75,6 +75,7 @@
     <string name="activity_score_board_inning">%d Inning</string>
 
     <string name="app_version_update">업데이트 안내</string>
-    <string name="app_version_download_up_to_date_version">사용 가능한 업데이트가 있습니다.\n최신 버젼을 다운로드하여 이용해주시기 바랍니다.</string>
+    <string name="app_version_update_forced">업데이트가 필요합니다.\n최신 버젼을 다운로드하여 이용해주시기 바랍니다.</string>
+    <string name="app_version_update_available">사용 가능한 업데이트가 있습니다.\n최신 버젼 업데이트 후 사용을 권장드립니다.</string>
 
 </resources>
