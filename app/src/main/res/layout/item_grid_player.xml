@@ -38,7 +38,7 @@
             android:text="@{player.club}"
             app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintHeight_percent="0.275"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="위드풀" />
@@ -52,7 +52,7 @@
             android:text="@{player.name}"
             app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.45"
+            app:layout_constraintHeight_percent="0.425"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textClub"
             tools:text="하광욱" />

@@ -105,7 +105,7 @@
         <entry key="app/src/main/res/layout/fragment_point_nine_ball.xml" value="0.20763452602482696" />
         <entry key="app/src/main/res/layout/fragment_score_board.xml" value="0.3500244140625001" />
         <entry key="app/src/main/res/layout/fragment_set_player.xml" value="0.41354166666666664" />
-        <entry key="app/src/main/res/layout/fragment_setting.xml" value="0.5343953450520833" />
+        <entry key="app/src/main/res/layout/fragment_setting.xml" value="0.643781026204427" />
         <entry key="app/src/main/res/layout/item_choice_player.xml" value="0.4401041666666667" />
         <entry key="app/src/main/res/layout/item_grid_player.xml" value="0.21302083333333333" />
         <entry key="app/src/main/res/layout/item_player_grid.xml" value="0.22057291666666667" />
@@ -122,5 +122,8 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="SuppressKotlinCodeStyleNotification">
+    <option name="disableForAll" value="true" />
   </component>
 </project>

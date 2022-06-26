@@ -1,15 +1,16 @@
 package wook.pool.board.screen.scoreboard
 
-import android.media.MediaPlayer
+import android.media.AudioAttributes
+import android.media.SoundPool
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RawRes
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import wook.pool.board.R
 import wook.pool.board.base.BaseFragment
+import wook.pool.board.base.Constant
 import wook.pool.board.base.event.EventObserver
 import wook.pool.board.databinding.FragmentNineBallBinding
 import wook.pool.board.screen.dialog.DefaultDialog
@@ -20,7 +21,9 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
         View.OnClickListener,
         View.OnLongClickListener {
 
-    private var mediaPlayer: MediaPlayer? = null
+    private var soundPool: SoundPool? = null
+    private var soundScore: Int = Constant.IS_NOT_INITIALIZED
+    private var soundRunOut: Int = Constant.IS_NOT_INITIALIZED
 
     private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by activityViewModels()
     private val nineBallViewModel: NineBallViewModel by activityViewModels()
@@ -35,6 +38,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
     ): View? {
         return super.onCreateView(inflater, container, savedInstanceState).apply {
             setLoadingProgress(true)
+            initSoundPool()
             binding.apply {
                 viewModel = nineBallViewModel.apply {
                     initMatch(args.matchPlayers)
@@ -85,19 +89,19 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                     }
                     layoutBtnCancelMatch -> showDialogToCancelMatch()
                     layoutLeftPlayer, textBtnScoreLeft -> {
-                        playSound(R.raw.score)
+                        playSound(soundScore)
                         setScore(true, +1)
                     }
                     layoutRightPlayer, textBtnScoreRight -> {
-                        playSound(R.raw.score)
+                        playSound(soundScore)
                         setScore(false, +1)
                     }
                     textBtnPlusLeftRunOut -> {
-                        playSound(R.raw.runout)
+                        playSound(soundRunOut)
                         setRunOut(true, +1)
                     }
                     textBtnPlusRightRunOut -> {
-                        playSound(R.raw.runout)
+                        playSound(soundRunOut)
                         setRunOut(false, +1)
                     }
                     else -> {}
@@ -191,23 +195,24 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
         scoreBoardScreenViewModel.setLoadingProgress(flag)
     }
 
-    private fun playSound(@RawRes resId: Int) {
-        releaseMediaPlayer()
-        mediaPlayer = MediaPlayer.create(hostActivityContext, resId)
-        mediaPlayer?.start()
-        mediaPlayer?.setOnCompletionListener { releaseMediaPlayer() }
+    private fun initSoundPool() {
+        val audioAttributes = AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build()
+        soundPool = SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(1).build()
+        soundScore = soundPool?.load(activity, R.raw.score, 1) ?: return
+        soundRunOut = soundPool?.load(activity, R.raw.runout, 1) ?: return
     }
 
-    private fun releaseMediaPlayer() {
-        if (mediaPlayer != null) {
-            mediaPlayer?.stop()
-            mediaPlayer?.release()
-            mediaPlayer = null
-        }
+    private fun playSound(sound: Int) {
+        if (sound == Constant.IS_NOT_INITIALIZED) return
+        soundPool?.play(sound, 1f, 1f, 0, 0, 1f)
     }
 
     override fun onStop() {
         super.onStop()
-        releaseMediaPlayer()
+        soundPool?.release()
+        soundPool = null
     }
 }

@@ -232,11 +232,12 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutBtnStartGame"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginHorizontal="@dimen/dp_16"
             android:background="@drawable/bg_main_round_6"
             android:onClick="@{listener::onClick}"
             app:layout_constraintBottom_toBottomOf="@+id/layoutLeftPlayer"
@@ -245,21 +246,21 @@
             app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgStarGame"
+                android:id="@+id/imgStartGame"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:src="@drawable/ic_start_game_24"
-                app:layout_constraintBottom_toBottomOf="@+id/textStarGame"
+                app:layout_constraintBottom_toBottomOf="@+id/textStartGame"
                 app:layout_constraintDimensionRatio="1"
-                app:layout_constraintEnd_toStartOf="@+id/textStarGame"
+                app:layout_constraintEnd_toStartOf="@+id/textStartGame"
                 app:layout_constraintHeight_percent="0.5"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textStarGame" />
+                app:layout_constraintTop_toTopOf="@+id/textStartGame" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textStarGame"
+                android:id="@+id/textStartGame"
                 style="@style/notosans_bold"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -272,7 +273,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/imgStarGame"
+                app:layout_constraintStart_toEndOf="@+id/imgStartGame"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.5" />
 
@@ -345,9 +346,8 @@
             android:id="@+id/imgBtnSelectGame"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/dp_16"
             android:src="@drawable/logo_withpool_ratio1"
-            app:layout_constraintBottom_toTopOf="@+id/textBtnAdjustHandicap"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
             app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer"
