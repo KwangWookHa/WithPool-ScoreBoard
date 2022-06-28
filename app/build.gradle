@@ -21,18 +21,12 @@ android {
     def versionMinor = 2
     def versionPatch = 1
 
-    /**
-     * 0 : 선택 업데이트
-     * 1 : 강제 업데이트
-     */
-    def isImmediateUpdate = 1
-
     defaultConfig {
         applicationId "wook.pool.board"
         minSdk 21
         targetSdk 32
 
-        versionCode versionMajor * 100000 + versionMinor * 1000 + versionPatch * 10 + isImmediateUpdate
+        versionCode versionMajor * 100000 + versionMinor * 1000 + versionPatch * 10
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -102,9 +96,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
 
-    // RecyclerView Animators (Apache2.0, https://github.com/wasabeef/recyclerview-animators)
-    implementation 'jp.wasabeef:recyclerview-animators:4.0.2'
-
+    // Lottie
     implementation 'com.airbnb.android:lottie:5.2.0'
-
 }

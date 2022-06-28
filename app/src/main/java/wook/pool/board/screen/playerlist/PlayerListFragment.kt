@@ -6,11 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
-import com.orhanobut.logger.Logger
-import jp.wasabeef.recyclerview.animators.FadeInDownAnimator
 import wook.pool.board.R
 import wook.pool.board.base.BaseFragment
-import wook.pool.board.base.Constant.DURATION_ITEM_ANIMATION
 import wook.pool.board.base.event.EventObserver
 import wook.pool.board.data.model.SelectedHandicapIndex
 import wook.pool.board.databinding.FragmentPlayerListBinding
@@ -45,12 +42,6 @@ class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_playe
                     onClickHandicap = this@PlayerListFragment.onClickHandicap
                     listener = this@PlayerListFragment
                     recyclerPlayers.adapter = playerAdapter
-                    recyclerPlayers.itemAnimator = FadeInDownAnimator().apply {
-                        addDuration = DURATION_ITEM_ANIMATION
-                        removeDuration = DURATION_ITEM_ANIMATION
-                        moveDuration = DURATION_ITEM_ANIMATION
-                        changeDuration = DURATION_ITEM_ANIMATION
-                    }
                 }
                 initObserver()
             }
