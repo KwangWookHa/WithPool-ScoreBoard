@@ -57,7 +57,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
             documentPath.observe(viewLifecycleOwner) {
                 setLoadingProgress(false)
             }
-            isSetMatchSuccessful.observe(viewLifecycleOwner, EventObserver {
+            isUpdateMatchSuccessful.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
                     setLoadingProgress(false)
                     showDialogRegisterSucceed()

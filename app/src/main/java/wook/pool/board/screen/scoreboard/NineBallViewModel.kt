@@ -6,9 +6,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
-import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import wook.pool.board.base.BaseViewModel
 import wook.pool.board.base.Constant
@@ -18,16 +16,16 @@ import wook.pool.board.data.model.GameType
 import wook.pool.board.data.model.MatchPlayers
 import wook.pool.board.data.model.NineBallMatch
 import wook.pool.board.data.model.Player
-import wook.pool.board.domain.usecase.*
+import wook.pool.board.domain.usecase.AddNineBallMatchUseCase
+import wook.pool.board.domain.usecase.DeleteNineBallMatchUseCase
+import wook.pool.board.domain.usecase.UpdateNineBallMatchUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class NineBallViewModel @Inject constructor(
         private val addNineBallMatchUseCase: AddNineBallMatchUseCase,
-        private val setNineBallMatchUseCase: SetNineBallMatchUseCase,
         private val updateNineBallMatchUseCase: UpdateNineBallMatchUseCase,
         private val deleteNineBallMatchUseCase: DeleteNineBallMatchUseCase,
-        private val updateNineBallMatchTotalCountUseCase: UpdateNineBallMatchTotalCountUseCase,
 ) : BaseViewModel() {
 
     private lateinit var startTimeStamp: Timestamp
@@ -102,8 +100,8 @@ class NineBallViewModel @Inject constructor(
     private val _documentPath: MutableLiveData<String> = MutableLiveData()
     val documentPath: LiveData<String> = _documentPath
 
-    private val _isSetMatchSuccessful: MutableLiveData<Event<Boolean>> = MutableLiveData()
-    val isSetMatchSuccessful: LiveData<Event<Boolean>> = _isSetMatchSuccessful
+    private val _isUpdateMatchSuccessful: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    val isUpdateMatchSuccessful: LiveData<Event<Boolean>> = _isUpdateMatchSuccessful
 
     private val _isDeleteMatchSuccessful: MutableLiveData<Event<Boolean>> = MutableLiveData()
     val isDeleteMatchSuccessful: LiveData<Event<Boolean>> = _isDeleteMatchSuccessful
@@ -268,28 +266,17 @@ class NineBallViewModel @Inject constructor(
         viewModelScope.launch(ioDispatchers) {
             _documentPath.value?.let {
                 if (it.isNotBlank() && isMatchOver.value!! && !isGuestMode) {
-                    setNineBallMatchUseCase(
+                    updateNineBallMatchUseCase(
                             documentPath = it,
-                            nineBallMatch = NineBallMatch(
-                                    isLive = false,
-                                    playerWinnerName = if (_isPlayerLeftWinner.value!!) _playerLeft.value?.name else _playerRight.value?.name,
-                                    playerLoserName = if (_isPlayerLeftWinner.value!!) _playerRight.value?.name else _playerLeft.value?.name,
-                                    matchEndTimeStamp = Timestamp.now(),
-                            ),
-                            mergeFields = listOf(
-                                    Constant.Field.FILED_IS_LIVE,
-                                    Constant.Field.FILED_PLAYER_WINNER_NAME,
-                                    Constant.Field.FILED_PLAYER_LOSER_NAME,
-                                    Constant.Field.FILED_END_TIME_STAMP
-                            ),
-                            onSuccess = {
-                                updateNineBallMatchTotalCountUseCase(
-                                        documentPath = Constant.Collection.COLLECTION_NINE_BALL_MATCH,
-                                        variation = +1,
-                                        onSuccess = { _isSetMatchSuccessful.postValue(Event(true)) },
-                                        onFailure = { throw it }
-                                )
+                            data = hashMapOf<String, Any?>().apply {
+                                put(Constant.Field.FILED_IS_LIVE, false)
+                                put(Constant.Field.FILED_PLAYER_WINNER_NAME, if (_isPlayerLeftWinner.value!!) _playerLeft.value?.name else _playerRight.value?.name)
+                                put(Constant.Field.FILED_PLAYER_LOSER_NAME, if (_isPlayerLeftWinner.value!!) _playerRight.value?.name else _playerLeft.value?.name)
+                                put(Constant.Field.FILED_END_TIME_STAMP, Timestamp.now())
                             },
+                            onSuccess = {
+                                _documentPath.postValue("")
+                                _isUpdateMatchSuccessful.postValue(Event(true)) },
                             onFailure = { throw it }
                     )
                 }
@@ -303,14 +290,7 @@ class NineBallViewModel @Inject constructor(
                 if (it.isNotBlank() && !isGuestMode) {
                     deleteNineBallMatchUseCase(
                             documentPath = it,
-                            onSuccess = {
-                                updateNineBallMatchTotalCountUseCase(
-                                        documentPath = Constant.Collection.COLLECTION_NINE_BALL_MATCH,
-                                        variation = -1,
-                                        onSuccess = { _isDeleteMatchSuccessful.postValue(Event(true)) },
-                                        onFailure = { throw it }
-                                )
-                            },
+                            onSuccess = { _isDeleteMatchSuccessful.postValue(Event(true)) },
                             onFailure = { throw it }
                     )
                 } else {
@@ -343,7 +323,7 @@ class NineBallViewModel @Inject constructor(
             _playerRightAlpha.postValue(1f)
 
             _documentPath.postValue("")
-            _isSetMatchSuccessful.postValue(Event(false))
+            _isUpdateMatchSuccessful.postValue(Event(false))
         }
     }
 }
