@@ -70,8 +70,8 @@ class PlayersViewModel @Inject constructor(
         }
     }
 
-    private val _playerLeftDice: MutableLiveData<Pair<Int, Int>> = MutableLiveData()
-    val playerLeftDice: LiveData<Pair<Int, Int>> = _playerLeftDice
+    private val _playerLeftDice: MutableLiveData<Int> = MutableLiveData()
+    val playerLeftDice: LiveData<Int> = _playerLeftDice
 
     /***************************** Player Right *****************************/
 
@@ -88,8 +88,8 @@ class PlayersViewModel @Inject constructor(
         }
     }
 
-    private val _playerRightDice: MutableLiveData<Pair<Int, Int>> = MutableLiveData()
-    val playerRightDice: LiveData<Pair<Int, Int>> = _playerRightDice
+    private val _playerRightDice: MutableLiveData<Int> = MutableLiveData()
+    val playerRightDice: LiveData<Int> = _playerRightDice
 
     /***************************** Player Right *****************************/
 
@@ -155,17 +155,15 @@ class PlayersViewModel @Inject constructor(
     fun randomizeDice() {
         viewModelScope.launch(ioDispatchers) {
             delay(2000L)
-            _playerLeftDice.postValue(Pair(getDiceValue(), getDiceValue()))
-            _playerRightDice.postValue(Pair(getDiceValue(), getDiceValue()))
+            _playerLeftDice.postValue((1..6).random())
+            _playerRightDice.postValue((1..6).random())
         }
     }
 
     fun initDice() {
-        _playerLeftDice.value = Pair(0, 0)
-        _playerRightDice.value = Pair(0, 0)
+        _playerLeftDice.value = 0
+        _playerRightDice.value = 0
     }
-
-    private fun getDiceValue(): Int = (1..6).random()
 
     fun switchTimer() {
         viewModelScope.launch(ioDispatchers) {

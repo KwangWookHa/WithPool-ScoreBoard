@@ -32,35 +32,21 @@
             app:layout_constraintWidth_percent="0.35">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgLeftDice1"
-                bindDiceNumber="@{viewModel.playerLeftDice.first}"
+                android:id="@+id/imgLeftDice"
+                bindDiceNumber="@{viewModel.playerLeftDice}"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/imgLeftCircle"
                 app:layout_constraintDimensionRatio="1"
-                app:layout_constraintEnd_toStartOf="@+id/imgLeftDice2"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.3"
-                tools:src="@drawable/ic_dice_3" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgLeftDice2"
-                bindDiceNumber="@{viewModel.playerLeftDice.second}"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/imgLeftDice1"
-                app:layout_constraintDimensionRatio="1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/imgLeftDice1"
-                app:layout_constraintTop_toTopOf="@+id/imgLeftDice1"
-                app:layout_constraintWidth_percent="0.3"
-                tools:src="@drawable/ic_dice_4" />
+                tools:src="@drawable/ic_dice_3"
+                tools:visibility="visible" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgLeftCircle"
@@ -169,35 +155,21 @@
             app:layout_constraintWidth_percent="0.35">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgRightDice1"
-                bindDiceNumber="@{viewModel.playerRightDice.first}"
+                android:id="@+id/imgRightDice"
+                bindDiceNumber="@{viewModel.playerRightDice}"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/imgRightCircle"
                 app:layout_constraintDimensionRatio="1"
-                app:layout_constraintEnd_toStartOf="@+id/imgRightDice2"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.3"
-                tools:src="@drawable/ic_dice_2" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgRightDice2"
-                bindDiceNumber="@{viewModel.playerRightDice.second}"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/imgRightDice1"
-                app:layout_constraintDimensionRatio="1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/imgRightDice1"
-                app:layout_constraintTop_toTopOf="@+id/imgRightDice1"
-                app:layout_constraintWidth_percent="0.3"
-                tools:src="@drawable/ic_dice_6" />
+                tools:src="@drawable/ic_dice_2"
+                tools:visibility="visible" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgRightCircle"
@@ -351,6 +323,7 @@
             android:background="@drawable/bg_gray_round_6"
             android:gravity="center"
             android:onClick="@{listener::onClick}"
+            android:visibility="gone"
             app:autoSizeMaxTextSize="@dimen/dp_40"
             app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toTopOf="@+id/imgBtnDice"
