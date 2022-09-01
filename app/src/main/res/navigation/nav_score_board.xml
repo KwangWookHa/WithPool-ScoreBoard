@@ -24,6 +24,13 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_fragment_setting_to_fragment_anycall"
+            app:destination="@id/fragment_anycall"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
     </fragment>
 
@@ -52,7 +59,7 @@
         android:id="@+id/fragment_nine_ball"
         android:name="wook.pool.board.screen.scoreboard.NineBallFragment"
         android:label="NineBallFragment"
-        tools:layout="@layout/fragment_point_nine_ball">
+        tools:layout="@layout/fragment_nine_ball">
 
         <argument
             android:name="matchPlayers"
@@ -67,6 +74,24 @@
 
         <action
             android:id="@+id/action_fragment_nine_ball_to_fragment_setting"
+            app:destination="@id/fragment_setting"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/fragment_setting"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_anycall"
+        android:name="wook.pool.board.screen.scoreboard.AnyCallFragment"
+        android:label="AnyCallFragment"
+        tools:layout="@layout/fragment_anycall">
+
+        <action
+            android:id="@+id/action_fragment_anycall_to_fragment_setting"
             app:destination="@id/fragment_setting"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"

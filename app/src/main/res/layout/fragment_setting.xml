@@ -332,6 +332,24 @@
             app:layout_constraintStart_toStartOf="@+id/layoutBtnStartGame"
             tools:text="@string/fragment_choice_player_timer_mode_on" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textBtnAnyCallGame"
+            style="@style/notosans_bold"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/dp_16"
+            android:background="@drawable/bg_gray_round_6"
+            android:gravity="center"
+            android:onClick="@{listener::onClick}"
+            android:text="@string/fragment_choice_player_anycall"
+            android:visibility="visible"
+            app:autoSizeMaxTextSize="@dimen/dp_40"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toTopOf="@+id/imgBtnDice"
+            app:layout_constraintEnd_toEndOf="@+id/layoutBtnStartGame"
+            app:layout_constraintHeight_percent="0.15"
+            app:layout_constraintStart_toStartOf="@+id/layoutBtnStartGame" />
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgBtnDice"
             android:layout_width="0dp"
@@ -414,7 +432,7 @@
             android:layout_height="0dp"
             android:layout_margin="@dimen/dp_16"
             android:src="@drawable/logo_withpool_ratio1"
-            app:layout_constraintBottom_toTopOf="@+id/textBtnTimerMode"
+            app:layout_constraintBottom_toTopOf="@+id/textBtnAnyCallGame"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
             app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer"

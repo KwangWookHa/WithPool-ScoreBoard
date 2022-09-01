@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="kotlin.Pair" />
+
+        <variable
+            name="viewModel"
+            type="wook.pool.board.screen.scoreboard.AnyCallViewModel" />
+
+        <variable
+            name="onClickListener"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onLongClickListener"
+            type="android.view.View.OnLongClickListener" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_4c4c4c">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutLeftPlayer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/dp_16"
+            android:alpha="@{!viewModel.isMatchOver ? 1f : viewModel.playerLeftAlpha}"
+            android:background="@{viewModel.isMatchOver &amp;&amp; viewModel.isPlayerLeftWinner ? @drawable/bg_ffffff_round_12_bd_red_8 : @drawable/bg_ffffff_round_12}"
+            android:onClick="@{onClickListener::onClick}"
+            android:padding="@dimen/dp_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.35"
+            tools:background="@drawable/bg_ffffff_round_12">
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textBtnScoreLeft"
+                style="@style/poppins_bold"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:onClick="@{onClickListener::onClick}"
+                android:onLongClick="@{onLongClickListener::onLongClick}"
+                android:text="@{String.valueOf(viewModel.playerLeftScore)}"
+                app:autoSizeMaxTextSize="@dimen/dp_400"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toTopOf="@+id/viewDividerLeft"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="0" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                bindVisibleOrGone="@{viewModel.isMatchOver &amp;&amp; viewModel.isPlayerLeftWinner}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/ic_medal_winner"
+                android:visibility="gone"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.5"
+                tools:visibility="visible" />
+
+            <View
+                android:id="@+id/viewDividerLeft"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/dp_12"
+                android:background="@color/dark_gray"
+                app:layout_constraintBottom_toTopOf="@+id/textTotalCountLeft"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textBtnTotalSetCountLeft"
+                style="@style/poppins_semibold"
+                bindVisibleOrGone="@{viewModel.playerLeftTotal == 0}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/bg_gray_round_6"
+                android:gravity="center"
+                android:onClick="@{onClickListener::onClick}"
+                android:padding="20dp"
+                android:text="@string/fragment_anycall_set_score"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.20"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewDividerLeft"
+                app:layout_constraintWidth_percent="0.8" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textTotalCountLeft"
+                style="@style/poppins_semibold"
+                bindVisibleOrInvisible="@{viewModel.playerLeftTotal != 0}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@{String.valueOf(viewModel.playerLeftTotal)}"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.25"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintWidth_percent="0.6"
+                tools:text="40" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutRightPlayer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:alpha="@{!viewModel.isMatchOver ? 1f : viewModel.playerRightAlpha}"
+            android:background="@{viewModel.isMatchOver &amp;&amp; !viewModel.isPlayerLeftWinner ? @drawable/bg_f0f4c3_round_12_bd_red_8 : @drawable/bg_f0f4c3_round_12}"
+            android:onClick="@{onClickListener::onClick}"
+            android:padding="@dimen/dp_16"
+            app:layout_constraintBottom_toBottomOf="@+id/layoutLeftPlayer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/layoutLeftPlayer"
+            app:layout_constraintWidth_percent="0.35"
+            tools:background="@drawable/bg_f0f4c3_round_12">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textBtnScoreRight"
+                style="@style/poppins_bold"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:onClick="@{onClickListener::onClick}"
+                android:onLongClick="@{onLongClickListener::onLongClick}"
+                android:text="@{String.valueOf(viewModel.playerRightScore)}"
+                app:autoSizeMaxTextSize="@dimen/dp_400"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toTopOf="@+id/viewDividerRight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="0" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                bindVisibleOrGone="@{viewModel.isMatchOver &amp;&amp; !viewModel.isPlayerLeftWinner}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/ic_medal_winner"
+                android:visibility="gone"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.5"
+                tools:visibility="visible" />
+
+            <View
+                android:id="@+id/viewDividerRight"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/dp_12"
+                android:background="@color/dark_gray"
+                app:layout_constraintBottom_toTopOf="@+id/textTotalCountRight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textBtnTotalSetCountRight"
+                style="@style/poppins_semibold"
+                bindVisibleOrGone="@{viewModel.playerRightTotal == 0}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/bg_gray_round_6"
+                android:gravity="center"
+                android:onClick="@{onClickListener::onClick}"
+                android:padding="20dp"
+                android:text="@string/fragment_anycall_set_score"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.20"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewDividerRight"
+                app:layout_constraintWidth_percent="0.8" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textTotalCountRight"
+                style="@style/poppins_semibold"
+                bindVisibleOrInvisible="@{viewModel.playerRightTotal != 0}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@{String.valueOf(viewModel.playerRightTotal)}"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.25"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintWidth_percent="0.6"
+                tools:text="40" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutBtnFinishGame"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_16"
+            android:background="@drawable/bg_main_round_6"
+            android:onClick="@{onClickListener::onClick}"
+            app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
+            app:layout_constraintHeight_percent="0.125"
+            app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgStartGame"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/ic_check_circle_24"
+                app:layout_constraintBottom_toBottomOf="@+id/textStartGame"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintEnd_toStartOf="@+id/textStartGame"
+                app:layout_constraintHeight_percent="0.45"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textStartGame" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textStartGame"
+                style="@style/notosans_medium"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="@dimen/dp_8"
+                android:layout_marginStart="@dimen/dp_8"
+                android:gravity="center"
+                android:text="@string/fragment_score_board_finish_game"
+                android:textColor="@color/white"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/imgStartGame"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.5" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgBtnDice"
+            bindVisibleOrGone="@{viewModel.playerLeftScore == 0 &amp;&amp; viewModel.playerRightScore == 0}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_ffffff_round_6"
+            android:onClick="@{onClickListener::onClick}"
+            android:src="@drawable/ic_dice"
+            app:layout_constraintBottom_toBottomOf="@+id/layoutLeftPlayer"
+            app:layout_constraintEnd_toEndOf="@+id/layoutBtnFinishGame"
+            app:layout_constraintHeight_percent="0.2"
+            app:layout_constraintStart_toStartOf="@+id/layoutBtnFinishGame" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/dp_24"
+            android:onClick="@{onClickListener::onClick}"
+            android:src="@drawable/logo_withpool_ratio1"
+            app:layout_constraintBottom_toTopOf="@+id/imgBtnDice"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
+            app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer"
+            app:layout_constraintTop_toBottomOf="@+id/imgLeftDice" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgLeftDice"
+            bindDiceNumber="@{viewModel.playerLeftDice}"
+            bindVisibleOrGone="@{viewModel.playerLeftDice != 0 &amp;&amp; viewModel.playerLeftScore == 0 &amp;&amp; viewModel.playerRightScore == 0}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_ffffff_round_12"
+            android:visibility="gone"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintStart_toStartOf="@+id/imgBtnDice"
+            app:layout_constraintTop_toBottomOf="@+id/layoutBtnFinishGame"
+            app:layout_constraintWidth_percent="0.1"
+            tools:src="@drawable/ic_dice_3"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgRightDice"
+            bindDiceNumber="@{viewModel.playerRightDice}"
+            bindVisibleOrGone="@{viewModel.playerLeftDice != 0 &amp;&amp; viewModel.playerLeftScore == 0 &amp;&amp; viewModel.playerRightScore == 0}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_f0f4c3_round_12"
+            android:visibility="gone"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toEndOf="@+id/imgBtnDice"
+            app:layout_constraintTop_toTopOf="@+id/imgLeftDice"
+            app:layout_constraintWidth_percent="0.1"
+            tools:src="@drawable/ic_dice_3"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

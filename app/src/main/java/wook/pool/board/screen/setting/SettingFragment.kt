@@ -92,6 +92,9 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
                 textBtnTimerMode -> {
                     playersViewModel.switchTimer()
                 }
+                textBtnAnyCallGame -> {
+                    scoreBoardScreenViewModel.setNavDirection(SettingFragmentDirections.actionFragmentSettingToFragmentAnycall())
+                }
                 else -> {
 
                 }
