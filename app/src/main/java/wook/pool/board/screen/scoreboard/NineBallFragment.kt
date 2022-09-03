@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import wook.pool.board.R
@@ -60,7 +61,8 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
             isUpdateMatchSuccessful.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
                     setLoadingProgress(false)
-                    showDialogRegisterSucceed()
+                    Toast.makeText(hostActivityContext!!, getString(R.string.fragment_nine_ball_register_successful), Toast.LENGTH_SHORT).show()
+                    backToChoicePlayerFragment()
                 }
             })
             isDeleteMatchSuccessful.observe(viewLifecycleOwner, EventObserver {
@@ -147,24 +149,6 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                     .setOnClickRight { dialog ->
                         dialog.dismiss()
                         nineBallViewModel.updateNineBallMatch()
-                    }
-                    .create(context)
-                    .show()
-        }
-    }
-
-    private fun showDialogRegisterSucceed() {
-        hostActivityContext?.let { context ->
-            DefaultDialog.Builder()
-                    .setType(DefaultDialog.DialogType.DIALOG_OK)
-                    .setImgResourceId(R.drawable.ic_success_64)
-                    .setIsIconVisible(true)
-                    .setMessage(getString(R.string.fragment_nine_ball_register_successful))
-                    .setBackPressDisabled(true)
-                    .setRightButtonText(getString(R.string.common_confirm))
-                    .setOnClickRight { dialog ->
-                        dialog.dismiss()
-                        backToChoicePlayerFragment()
                     }
                     .create(context)
                     .show()

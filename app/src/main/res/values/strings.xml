@@ -42,7 +42,7 @@
     <string name="fragment_choice_player_info_title">도움말</string>
     <string name="fragment_choice_player_select_mode">게임 선택</string>
     <string name="fragment_choice_player_handicap">%d(%d)</string>
-    <string name="fragment_choice_player_not_set">선수 없음</string>
+    <string name="fragment_choice_player_not_set">선수 미선택</string>
     <string name="fragment_choice_player_not_set_desc">선수를 모두 선택하고 눌러주세요.</string>
     <string name="fragment_choice_player_timer_mode_off">타이머 모드 OFF</string>
     <string name="fragment_choice_player_timer_mode_on">타이머 모드 ON</string>
