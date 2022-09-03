@@ -39,7 +39,8 @@
             app:layout_constraintHeight_percent="0.1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:remainingSeconds="@{viewModel.remainingSeconds}" />
+            app:remainingSeconds="@{viewModel.remainingSeconds}"
+            tools:visibility="gone" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutLeftPlayer"
@@ -279,8 +280,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
             app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer"
-            app:layout_constraintTop_toBottomOf="@+id/layoutBtnFinishGame"
-            tools:src="@drawable/ic_rewind_76" />
+            app:layout_constraintTop_toBottomOf="@+id/layoutBtnFinishGame" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgRewindTimer"
@@ -294,7 +294,8 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
             app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer"
-            app:layout_constraintTop_toBottomOf="@+id/layoutBtnFinishGame" />
+            app:layout_constraintTop_toBottomOf="@+id/layoutBtnFinishGame"
+            tools:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textBtnPlusLeftRunOut"

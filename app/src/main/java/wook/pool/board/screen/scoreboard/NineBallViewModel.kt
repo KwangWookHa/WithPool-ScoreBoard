@@ -150,8 +150,10 @@ class NineBallViewModel @Inject constructor(
     fun setScore(isLeft: Boolean, variation: Int) {
         viewModelScope.launch(ioDispatchers) {
             if (isLeft) {
+                if (variation < 0 && _playerLeftScore.value!! == 0) return@launch
                 if (_playerLeftScore.value!! + variation > _playerLeftAdjustedHandicap.value!!) return@launch
             } else {
+                if (variation < 0 && _playerRightScore.value!! == 0) return@launch
                 if (_playerRightScore.value!! + variation > _playerRightAdjustedHandicap.value!!) return@launch
             }
 

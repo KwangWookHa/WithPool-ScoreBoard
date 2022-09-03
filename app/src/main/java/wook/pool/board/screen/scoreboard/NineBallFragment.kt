@@ -25,6 +25,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
     private var soundPool: SoundPool? = null
     private var soundScore: Int = Constant.IS_NOT_INITIALIZED
     private var soundRunOut: Int = Constant.IS_NOT_INITIALIZED
+    private var soundOldRunOut: Int = Constant.IS_NOT_INITIALIZED
     private var soundTimerBeep: Int = Constant.IS_NOT_INITIALIZED
 
     private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by activityViewModels()
@@ -97,21 +98,15 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                         updateNineBallMatch()
                     }
                     layoutBtnCancelMatch -> showDialogToCancelMatch()
-                    layoutLeftPlayer, textBtnScoreLeft -> {
+                    layoutLeftPlayer, textBtnScoreLeft, layoutRightPlayer, textBtnScoreRight -> {
+                        val isLeft = v == layoutLeftPlayer || v == textBtnScoreLeft
                         playSound(soundScore)
-                        setScore(true, +1)
+                        setScore(isLeft, +1)
                     }
-                    layoutRightPlayer, textBtnScoreRight -> {
-                        playSound(soundScore)
-                        setScore(false, +1)
-                    }
-                    textBtnPlusLeftRunOut -> {
+                    textBtnPlusLeftRunOut, textBtnPlusRightRunOut -> {
+                        val isLeft = v == textBtnPlusLeftRunOut
                         playSound(soundRunOut)
-                        setRunOut(true, +1)
-                    }
-                    textBtnPlusRightRunOut -> {
-                        playSound(soundRunOut)
-                        setRunOut(false, +1)
+                        setRunOut(isLeft, +1)
                     }
                     imgRewindTimer -> {
                         rewindTimer()
@@ -197,6 +192,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
         soundPool = SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(1).build()
         soundScore = soundPool?.load(activity, R.raw.score, 1) ?: return
         soundRunOut = soundPool?.load(activity, R.raw.runout, 1) ?: return
+        soundOldRunOut = soundPool?.load(activity, R.raw.old_runout, 1) ?: return
         soundTimerBeep = soundPool?.load(activity, R.raw.timer_beep, 1) ?: return
     }
 
