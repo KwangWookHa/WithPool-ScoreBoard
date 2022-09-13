@@ -18,6 +18,9 @@ class InitViewModel @Inject constructor(
         private val getAppVersionUseCase: GetAppVersionUseCase,
 ) : BaseViewModel() {
 
+    private val _isSignInSuccessful: MutableLiveData<Boolean> = MutableLiveData()
+    val isSignInSuccessful: LiveData<Boolean> = _isSignInSuccessful
+
     private val _isUpdateForced: MutableLiveData<Boolean> = MutableLiveData()
     val isUpdateForced: LiveData<Boolean> = _isUpdateForced
 
@@ -27,7 +30,7 @@ class InitViewModel @Inject constructor(
     private val _isUpToDateVersion: MutableLiveData<Boolean> = MutableLiveData()
     val isUpToDateVersion: LiveData<Boolean> = _isUpToDateVersion
 
-    init {
+    fun checkAppVersion() {
         viewModelScope.launch(ioDispatchers) {
             getAppVersionUseCase(
                     onSuccess = {
@@ -49,7 +52,11 @@ class InitViewModel @Inject constructor(
 
     fun signInAnonymously() {
         if (Firebase.auth.currentUser == null) {
-            Firebase.auth.signInAnonymously()
+            Firebase.auth.signInAnonymously().addOnSuccessListener {
+                _isSignInSuccessful.value = (it.user != null)
+            }
+        } else {
+            _isSignInSuccessful.value = true
         }
     }
 }

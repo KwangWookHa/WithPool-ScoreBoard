@@ -43,6 +43,7 @@ class ScoreBoardActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_score_board)
         initObserver()
+        initViewModel.signInAnonymously()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -82,6 +83,9 @@ class ScoreBoardActivity : BaseActivity() {
             }
         }
         with(initViewModel) {
+            isSignInSuccessful.observe(this@ScoreBoardActivity) {
+                if (it) checkAppVersion()
+            }
             isUpdateForced.observe(this@ScoreBoardActivity) {
                 scoreBoardScreenViewModel.setLoadingProgress(false)
                 if (it) {
@@ -97,8 +101,6 @@ class ScoreBoardActivity : BaseActivity() {
                         .setBackPressDisabled(true)
                         .create(this@ScoreBoardActivity)
                         .show()
-                } else {
-                    signInAnonymously()
                 }
             }
             isUpdateAvailable.observe(this@ScoreBoardActivity) {
@@ -115,13 +117,10 @@ class ScoreBoardActivity : BaseActivity() {
                             .setBackPressDisabled(true)
                             .create(this@ScoreBoardActivity)
                             .show()
-                } else {
-                    signInAnonymously()
                 }
             }
             isUpToDateVersion.observe(this@ScoreBoardActivity) {
-                scoreBoardScreenViewModel.setLoadingProgress(false)
-                signInAnonymously()
+                if (it) scoreBoardScreenViewModel.setLoadingProgress(false)
             }
         }
     }
