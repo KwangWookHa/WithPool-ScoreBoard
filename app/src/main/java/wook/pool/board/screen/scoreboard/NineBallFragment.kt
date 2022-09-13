@@ -16,6 +16,7 @@ import wook.pool.board.base.event.EventObserver
 import wook.pool.board.databinding.FragmentNineBallBinding
 import wook.pool.board.screen.dialog.DefaultDialog
 import wook.pool.board.screen.playerlist.PlayersViewModel
+import kotlin.random.Random
 
 class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ball) :
         BaseFragment<FragmentNineBallBinding>(),
@@ -105,7 +106,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                     }
                     textBtnPlusLeftRunOut, textBtnPlusRightRunOut -> {
                         val isLeft = v == textBtnPlusLeftRunOut
-                        playSound(soundRunOut)
+                        playSound(if (Random.nextBoolean()) soundRunOut else soundOldRunOut)
                         setRunOut(isLeft, +1)
                     }
                     imgRewindTimer -> {
