@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import wook.pool.board.BuildConfig
 import wook.pool.board.data.enums.AppVersionStatus
-import wook.pool.board.domain.usecase.GetAppVersionUseCase
+import wook.pool.board.domain.usecase.appversion.GetAppVersionUseCase
 import wook.pool.board.global.base.BaseViewModel
 import javax.inject.Inject
 

@@ -9,12 +9,12 @@ import wook.pool.board.global.extension.minus
 import wook.pool.board.global.extension.plus
 import wook.pool.board.data.model.GameType
 import wook.pool.board.data.model.Player
-import wook.pool.board.domain.usecase.GetPlayersUseCase
+import wook.pool.board.domain.usecase.player.GetPlayersUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class PointNineBallViewModel @Inject constructor(
-    private val getPlayersUseCase: GetPlayersUseCase,
+        private val getPlayersUseCase: GetPlayersUseCase,
 ) : BaseViewModel() {
 
     private var isRunOutMode = true

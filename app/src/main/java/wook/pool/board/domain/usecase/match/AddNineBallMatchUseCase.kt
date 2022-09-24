@@ -1,4 +1,4 @@
-package wook.pool.board.domain.usecase
+package wook.pool.board.domain.usecase.match
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

@@ -16,9 +16,9 @@ import wook.pool.board.data.model.GameType
 import wook.pool.board.data.model.MatchPlayers
 import wook.pool.board.data.model.NineBallMatch
 import wook.pool.board.data.model.Player
-import wook.pool.board.domain.usecase.AddNineBallMatchUseCase
-import wook.pool.board.domain.usecase.DeleteNineBallMatchUseCase
-import wook.pool.board.domain.usecase.UpdateNineBallMatchUseCase
+import wook.pool.board.domain.usecase.match.AddNineBallMatchUseCase
+import wook.pool.board.domain.usecase.match.DeleteNineBallMatchUseCase
+import wook.pool.board.domain.usecase.match.UpdateNineBallMatchUseCase
 import javax.inject.Inject
 
 @HiltViewModel

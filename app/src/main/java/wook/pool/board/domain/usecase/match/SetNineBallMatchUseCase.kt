@@ -1,4 +1,4 @@
-package wook.pool.board.domain.usecase
+package wook.pool.board.domain.usecase.match
 
 import wook.pool.board.data.model.NineBallMatch
 import wook.pool.board.data.source.remote.repository.MatchRepository

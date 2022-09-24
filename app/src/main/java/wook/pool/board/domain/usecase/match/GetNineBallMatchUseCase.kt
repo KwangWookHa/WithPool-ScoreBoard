@@ -1,4 +1,4 @@
-package wook.pool.board.domain.usecase
+package wook.pool.board.domain.usecase.match
 
 import com.google.firebase.firestore.QuerySnapshot
 import wook.pool.board.data.source.remote.repository.MatchRepository

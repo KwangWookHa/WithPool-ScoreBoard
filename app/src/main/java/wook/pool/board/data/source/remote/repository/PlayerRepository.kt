@@ -1,26 +1,22 @@
 package wook.pool.board.data.source.remote.repository
 
 import com.google.firebase.firestore.*
+import kotlinx.coroutines.tasks.await
 import wook.pool.board.Constant
 import wook.pool.board.data.model.Player
 import javax.inject.Inject
 
 class PlayerRepository @Inject constructor(
-    private val fireStore: FirebaseFirestore
+        private val fireStore: FirebaseFirestore
 ) {
 
-    fun insertPlayer(player: Player, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        fireStore.collection(Constant.Collection.COLLECTION_PLAYERS)
-            .add(player)
-            .addOnSuccessListener { onSuccess() }
-            .addOnFailureListener(onFailure)
-    }
+    suspend fun insertPlayer(player: Player): DocumentReference =
+            fireStore.collection(Constant.Collection.COLLECTION_PLAYERS).add(player).await()
 
-    fun getPlayers(onSuccess: (QuerySnapshot) -> Unit, onFailure: (e: Exception) -> Unit) {
-        fireStore.collection(Constant.Collection.COLLECTION_PLAYERS)
-            .orderBy(Constant.Field.FIELD_NAME, Query.Direction.ASCENDING)
-            .get()
-            .addOnSuccessListener(onSuccess)
-            .addOnFailureListener(onFailure)
-    }
+    suspend fun getPlayers(): List<Player> =
+            fireStore.collection(Constant.Collection.COLLECTION_PLAYERS)
+                    .orderBy(Constant.Field.FIELD_NAME, Query.Direction.ASCENDING)
+                    .get()
+                    .await()
+                    .toObjects(Player::class.java)
 }

@@ -10,8 +10,8 @@ import wook.pool.board.global.event.Event
 import wook.pool.board.data.model.MatchPlayers
 import wook.pool.board.data.model.Player
 import wook.pool.board.data.model.SelectedHandicapIndex
-import wook.pool.board.domain.usecase.GetHeadToHeadRecordUseCase
-import wook.pool.board.domain.usecase.GetPlayersUseCase
+import wook.pool.board.domain.usecase.match.GetHeadToHeadRecordUseCase
+import wook.pool.board.domain.usecase.player.GetPlayersUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -82,13 +82,11 @@ class PlayersViewModel @Inject constructor(
     private fun getPlayers() {
         viewModelScope.launch(ioDispatchers) {
             if (_players.value == null || _players.value?.isEmpty() == true) {
-                getPlayersUseCase(
-                        onSuccess = {
-                            val players = it.toObjects(Player::class.java)
-                            _players.postValue(players)
-                        },
-                        onFailure = { throw it }
-                )
+                kotlin.runCatching {
+                    getPlayersUseCase.invoke()
+                }.onSuccess {
+                    _players.postValue(it)
+                }
             }
         }
     }
