@@ -1,6 +1,6 @@
 package wook.pool.board.domain.usecase
 
-import wook.pool.board.data.repository.MatchRepository
+import wook.pool.board.data.source.remote.repository.MatchRepository
 import javax.inject.Inject
 
 class DeleteNineBallMatchUseCase @Inject constructor(

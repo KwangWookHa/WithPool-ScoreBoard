@@ -1,4 +1,4 @@
-package wook.pool.board.data.repository
+package wook.pool.board.data.source.remote.repository
 
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.*
@@ -13,16 +13,8 @@ class MatchRepository @Inject constructor(
         private val fireStore: FirebaseFirestore
 ) {
 
-    fun addNineBallMatch(
-            nineBallMatch: NineBallMatch,
-            onSuccess: (DocumentReference) -> Unit,
-            onFailure: (Exception) -> Unit
-    ) {
-        fireStore.collection(Constant.Collection.COLLECTION_NINE_BALL_MATCH)
-                .add(nineBallMatch)
-                .addOnSuccessListener(onSuccess)
-                .addOnFailureListener(onFailure)
-    }
+    suspend fun addNineBallMatch(nineBallMatch: NineBallMatch): DocumentReference =
+            fireStore.collection(Constant.Collection.COLLECTION_NINE_BALL_MATCH).add(nineBallMatch).await()
 
     fun updateNineBallMatch(
             documentPath: String,

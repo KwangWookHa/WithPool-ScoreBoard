@@ -7,7 +7,7 @@ import com.orhanobut.logger.PrettyFormatStrategy
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class WalletApplication : Application() {
+class BoardApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()

@@ -5,7 +5,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import wook.pool.board.data.model.NineBallMatch
-import wook.pool.board.data.repository.MatchRepository
+import wook.pool.board.data.source.remote.repository.MatchRepository
 import javax.inject.Inject
 
 class GetHeadToHeadRecordUseCase @Inject constructor(

@@ -238,29 +238,30 @@ class NineBallViewModel @Inject constructor(
     private fun addNineBallMatch(playerLeft: Player, playerRight: Player, adjustment: Int) {
         viewModelScope.launch(ioDispatchers) {
             if (playerLeft.name == "Guest" || playerRight.name == "Guest") {
-                _documentPath.postValue("")
                 return@launch
             }
-            addNineBallMatchUseCase(
-                    nineBallMatch = NineBallMatch(
-                            gameType = GameType.GAME_9_BALL.text,
-                            adjustment = adjustment,
-                            isLive = true,
-                            players = listOf(playerLeft.name, playerRight.name),
-                            playerLeftName = playerLeft.name,
-                            playerRightName = playerRight.name,
-                            playerLeftRunOut = null,
-                            playerRightRunOut = null,
-                            playerLeftScore = null,
-                            playerRightScore = null,
-                            playerWinnerName = null,
-                            playerLoserName = null,
-                            matchStartTimeStamp = startTimeStamp,
-                            matchEndTimeStamp = null,
-                    ),
-                    onSuccess = { _documentPath.postValue(it.id) },
-                    onFailure = { throw it }
-            )
+            kotlin.runCatching {
+                addNineBallMatchUseCase.invoke(
+                        NineBallMatch(
+                                gameType = GameType.GAME_9_BALL.text,
+                                adjustment = adjustment,
+                                isLive = true,
+                                players = listOf(playerLeft.name, playerRight.name),
+                                playerLeftName = playerLeft.name,
+                                playerRightName = playerRight.name,
+                                playerLeftRunOut = null,
+                                playerRightRunOut = null,
+                                playerLeftScore = null,
+                                playerRightScore = null,
+                                playerWinnerName = null,
+                                playerLoserName = null,
+                                matchStartTimeStamp = startTimeStamp,
+                                matchEndTimeStamp = null,
+                        )
+                )
+            }.onSuccess {
+                _documentPath.postValue(it.id)
+            }
         }
     }
 

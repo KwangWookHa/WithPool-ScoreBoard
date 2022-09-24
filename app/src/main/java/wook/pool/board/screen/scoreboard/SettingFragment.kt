@@ -1,4 +1,4 @@
-package wook.pool.board.screen.setting
+package wook.pool.board.screen.scoreboard
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +12,6 @@ import wook.pool.board.databinding.FragmentSettingBinding
 import wook.pool.board.screen.dialog.DefaultDialog
 import wook.pool.board.screen.dialog.DiceDialog
 import wook.pool.board.screen.players.PlayersViewModel
-import wook.pool.board.screen.scoreboard.ScoreBoardViewModel
 
 class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting) :
         BaseFragment<FragmentSettingBinding>(), View.OnClickListener {

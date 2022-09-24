@@ -7,7 +7,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import wook.pool.board.data.repository.MatchRepository
+import wook.pool.board.data.source.remote.repository.MatchRepository
 import javax.inject.Singleton
 
 @Module

@@ -1,4 +1,4 @@
-package wook.pool.board.data.repository
+package wook.pool.board.data.source.remote.repository
 
 import com.google.firebase.firestore.*
 import kotlinx.coroutines.Dispatchers

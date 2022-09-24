@@ -1,16 +1,17 @@
 package wook.pool.board.domain.usecase
 
-import com.google.firebase.firestore.DocumentReference
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import wook.pool.board.data.model.NineBallMatch
-import wook.pool.board.data.repository.MatchRepository
+import wook.pool.board.data.source.remote.repository.MatchRepository
 import javax.inject.Inject
 
 class AddNineBallMatchUseCase @Inject constructor(
         private val fireStoreRepository: MatchRepository,
 ) {
 
-    operator fun invoke(nineBallMatch: NineBallMatch, onSuccess: (DocumentReference) -> Unit, onFailure: (Exception) -> Unit) {
-        fireStoreRepository.addNineBallMatch(nineBallMatch, onSuccess, onFailure)
+    suspend fun invoke(nineBallMatch: NineBallMatch) = withContext(Dispatchers.IO) {
+        fireStoreRepository.addNineBallMatch(nineBallMatch)
     }
 
 }

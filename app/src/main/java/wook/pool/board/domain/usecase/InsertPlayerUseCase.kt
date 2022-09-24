@@ -1,7 +1,7 @@
 package wook.pool.board.domain.usecase
 
 import wook.pool.board.data.model.Player
-import wook.pool.board.data.repository.PlayerRepository
+import wook.pool.board.data.source.remote.repository.PlayerRepository
 import javax.inject.Inject
 
 class InsertPlayerUseCase @Inject constructor(
