@@ -21,6 +21,8 @@ object Constant {
         const val FIELD_COUNT = "count"
         const val FIELD_NAME = "name"
         const val FILED_IS_LIVE = "isLive"
+        const val FILED_PLAYER_LEFT_NAME = "playerLeftName"
+        const val FILED_PLAYER_RIGHT_NAME = "playerRightName"
         const val FILED_PLAYER_LEFT_RUN_OUT = "playerLeftRunOut"
         const val FILED_PLAYER_RIGHT_RUN_OUT = "playerRightRunOut"
         const val FILED_PLAYER_LEFT_SCORE = "playerLeftScore"

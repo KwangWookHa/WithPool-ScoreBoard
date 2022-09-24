@@ -1,6 +1,7 @@
 package wook.pool.board.screen.playerlist
 
 import androidx.lifecycle.*
+import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -9,12 +10,14 @@ import wook.pool.board.base.event.Event
 import wook.pool.board.data.model.MatchPlayers
 import wook.pool.board.data.model.Player
 import wook.pool.board.data.model.SelectedHandicapIndex
+import wook.pool.board.domain.usecase.GetHeadToHeadRecordUseCase
 import wook.pool.board.domain.usecase.GetPlayersUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class PlayersViewModel @Inject constructor(
         private val getPlayersUseCase: GetPlayersUseCase,
+        private val getHeadToHeadRecordUseCase: GetHeadToHeadRecordUseCase,
 //    private val insertPlayersUseCase: InsertPlayerUseCase,
 ) : BaseViewModel() {
 
@@ -41,9 +44,6 @@ class PlayersViewModel @Inject constructor(
     private val _handicapAdjustment: MutableLiveData<Int> = MutableLiveData(-1)
     val handicapAdjustment: LiveData<Int> = _handicapAdjustment
 
-    private val _isTurnLeftPlayer: MutableLiveData<Boolean> = MutableLiveData(true)
-    val isTurnLeftPlayer: LiveData<Boolean> = _isTurnLeftPlayer
-
     private val _isTimerMode: MutableLiveData<Boolean> = MutableLiveData(false)
     val isTimerMode: LiveData<Boolean> = _isTimerMode
 
@@ -52,44 +52,23 @@ class PlayersViewModel @Inject constructor(
     private val _playerLeft: MutableLiveData<Player?> = MutableLiveData(null)
     val playerLeft: LiveData<Player?> = _playerLeft
 
-    val playerLeftAdjustedHandicap: MediatorLiveData<Int> = MediatorLiveData<Int>().apply {
-        this.value = 0
-        addSource(_playerLeft) {
-            if (it == null) {
-                this.value = 0
-                return@addSource
-            }
-            this.value = it.handicap?.plus(_handicapAdjustment.value!!)
-        }
-        addSource(_handicapAdjustment) {
-            if (it == null) {
-                this.value = 0
-                return@addSource
-            }
-            this.value = _playerLeft.value?.handicap?.plus(it)
-        }
-    }
-
-    private val _playerLeftDice: MutableLiveData<Int> = MutableLiveData()
+    private val _playerLeftDice: MutableLiveData<Int> = MutableLiveData(0)
     val playerLeftDice: LiveData<Int> = _playerLeftDice
+
+    private val _playerLeftRecord: MutableLiveData<Triple<Int, Int, Int>> = MutableLiveData()
+    val playerLeftRecord: LiveData<Triple<Int, Int, Int>> = _playerLeftRecord
 
     /***************************** Player Right *****************************/
 
     private val _playerRight: MutableLiveData<Player?> = MutableLiveData(null)
     val playerRight: LiveData<Player?> = _playerRight
 
-    val playerRightAdjustedHandicap: MediatorLiveData<Int> = MediatorLiveData<Int>().apply {
-        this.value = 0
-        addSource(_playerRight) {
-            this.value = it?.handicap?.plus(_handicapAdjustment.value!!)
-        }
-        addSource(_handicapAdjustment) {
-            this.value = _playerRight.value?.handicap?.plus(it)
-        }
-    }
-
-    private val _playerRightDice: MutableLiveData<Int> = MutableLiveData()
+    private val _playerRightDice: MutableLiveData<Int> = MutableLiveData(0)
     val playerRightDice: LiveData<Int> = _playerRightDice
+
+    val playerRightRecord: LiveData<Triple<Int, Int, Int>> = Transformations.map(_playerLeftRecord) {
+        Triple(it.first, it.third, it.second)
+    }
 
     /***************************** Player Right *****************************/
 
@@ -130,6 +109,27 @@ class PlayersViewModel @Inject constructor(
                 _playerRight.postValue(player)
             }
             _isPlayerSetSuccessful.postValue(Event(true))
+
+            if (_playerLeft.value != null && _playerLeft.value!!.name != "Guest"
+                    && _playerRight.value != null && _playerRight.value!!.name != "Guest") {
+                getHeadToHeadRecords()
+            }
+        }
+    }
+
+    private fun getHeadToHeadRecords() {
+        viewModelScope.launch(ioDispatchers) {
+            if (_playerLeft.value != null && _playerRight.value != null) {
+                val matches = getHeadToHeadRecordUseCase.invoke(
+                        playerLeftName = _playerLeft.value!!.name ?: return@launch,
+                        playerRightName = _playerRight.value!!.name ?: return@launch,
+                )
+                val matchCount = matches.size
+                val leftPlayerWinCount = matches.count { it.playerWinnerName == _playerLeft.value!!.name }
+                val leftPlayerLoseCount = matchCount - leftPlayerWinCount
+                _playerLeftRecord.postValue(Triple(matchCount, leftPlayerWinCount, leftPlayerLoseCount))
+                Logger.i("matches -> $matches")
+            }
         }
     }
 
@@ -169,14 +169,6 @@ class PlayersViewModel @Inject constructor(
         viewModelScope.launch(ioDispatchers) {
             _isTimerMode.postValue(
                     !(_isTimerMode.value!!)
-            )
-        }
-    }
-
-    fun switchTurn() {
-        viewModelScope.launch(ioDispatchers) {
-            _isTurnLeftPlayer.postValue(
-                    !(_isTurnLeftPlayer.value!!)
             )
         }
     }

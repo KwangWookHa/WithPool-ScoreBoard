@@ -5,12 +5,12 @@ import java.io.Serializable
 
 data class AppVersion(
 
-    @DocumentId
-    val documentId: String? = null,
+        @DocumentId
+        val documentId: String? = null,
 
-    val versionName: String? = null,
+        val versionName: String? = null,
 
-    @JvmField
-    val isImmediateUpdate: Boolean? = null,
+        @JvmField
+        val isImmediateUpdate: Boolean? = null,
 
-    ) : Serializable
+        ) : Serializable

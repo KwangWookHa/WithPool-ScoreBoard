@@ -55,7 +55,7 @@ android {
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
@@ -67,12 +67,12 @@ dependencies {
     kapt 'com.google.dagger:hilt-compiler:2.41'
 
     // KTX
-    implementation 'androidx.activity:activity-ktx:1.4.0'
-    implementation 'androidx.fragment:fragment-ktx:1.4.1'
+    implementation 'androidx.activity:activity-ktx:1.5.0'
+    implementation 'androidx.fragment:fragment-ktx:1.5.3'
 
     // navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:2.4.2"
-    implementation "androidx.navigation:navigation-ui-ktx:2.4.2"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.5.2"
+    implementation "androidx.navigation:navigation-ui-ktx:2.5.2"
 
     // Logger (Apache2.0, https://github.com/orhanobut/logger)
     implementation 'com.orhanobut:logger:2.2.0'
@@ -85,9 +85,10 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.2.0'
 
     // Life Cycle
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
-    implementation "androidx.lifecycle:lifecycle-process:2.4.1"
-    implementation "androidx.lifecycle:lifecycle-common:2.4.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-process:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-common:2.5.1"
 
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:30.0.1')
@@ -98,4 +99,10 @@ dependencies {
 
     // Lottie
     implementation 'com.airbnb.android:lottie:5.2.0'
+
+    // kotlinx-coroutines-play-services (Using Firebase APIs becomes simple)
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.1"
+
+    // joda-time-android
+    implementation 'net.danlew:android.joda:2.11.0.1'
 }

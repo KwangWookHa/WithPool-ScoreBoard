@@ -42,6 +42,7 @@ class ScoreBoardActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_score_board)
+        binding?.lifecycleOwner = this
         initObserver()
         initViewModel.signInAnonymously()
     }
@@ -86,7 +87,7 @@ class ScoreBoardActivity : BaseActivity() {
             isSignInSuccessful.observe(this@ScoreBoardActivity) {
                 if (it) checkAppVersion()
             }
-            isUpdateForced.observe(this@ScoreBoardActivity) {
+            isImmediateUpdate.observe(this@ScoreBoardActivity) {
                 scoreBoardScreenViewModel.setLoadingProgress(false)
                 if (it) {
                     DefaultDialog.Builder()

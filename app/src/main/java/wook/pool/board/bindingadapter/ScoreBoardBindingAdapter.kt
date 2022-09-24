@@ -29,20 +29,6 @@ object ScoreBoardBindingAdapter {
         )
     }
 
-    @BindingAdapter(value = ["bindHandicap", "bindAdjustment"], requireAll = true)
-    @JvmStatic
-    fun AppCompatTextView.bindAdjustedHandicapInChoice(handicap: Int, adjustment: Int) {
-        this.text = if (adjustment == 0) {
-            handicap.toString()
-        } else {
-            resources.getString(
-                    R.string.fragment_choice_player_handicap,
-                    handicap + adjustment,
-                    adjustment
-            )
-        }
-    }
-
     @BindingAdapter("bindRemainingSeconds")
     @JvmStatic
     fun LinearLayoutCompat.bindRemainingSeconds(remainingSeconds: Int) {

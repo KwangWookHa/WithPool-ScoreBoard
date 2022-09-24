@@ -42,4 +42,17 @@ object SettingBindingAdapter {
             setTextColor(ContextCompat.getColor(context, R.color.dark_gray))
         }
     }
+
+    @BindingAdapter(value = ["bindOpponentPlayerName", "bindHeadToHeadRecords"], requireAll = true)
+    @JvmStatic
+    fun AppCompatTextView.bindHeadToHeadRecords(opponentPlayerName: String?, records: Triple<Int, Int, Int>?) {
+        if (opponentPlayerName == null || records == null) return
+        this.text = context.getString(
+                R.string.fragment_choice_player_head_to_head_records,
+                opponentPlayerName,
+                records.first,
+                records.second,
+                records.third
+        )
+    }
 }

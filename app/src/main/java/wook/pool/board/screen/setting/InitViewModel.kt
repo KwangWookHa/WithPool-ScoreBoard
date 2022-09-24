@@ -9,7 +9,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import wook.pool.board.BuildConfig
 import wook.pool.board.base.BaseViewModel
-import wook.pool.board.data.model.AppVersion
 import wook.pool.board.domain.usecase.GetAppVersionUseCase
 import javax.inject.Inject
 
@@ -21,8 +20,8 @@ class InitViewModel @Inject constructor(
     private val _isSignInSuccessful: MutableLiveData<Boolean> = MutableLiveData()
     val isSignInSuccessful: LiveData<Boolean> = _isSignInSuccessful
 
-    private val _isUpdateForced: MutableLiveData<Boolean> = MutableLiveData()
-    val isUpdateForced: LiveData<Boolean> = _isUpdateForced
+    private val _isImmediateUpdate: MutableLiveData<Boolean> = MutableLiveData()
+    val isImmediateUpdate: LiveData<Boolean> = _isImmediateUpdate
 
     private val _isUpdateAvailable: MutableLiveData<Boolean> = MutableLiveData()
     val isUpdateAvailable: LiveData<Boolean> = _isUpdateAvailable
@@ -32,31 +31,31 @@ class InitViewModel @Inject constructor(
 
     fun checkAppVersion() {
         viewModelScope.launch(ioDispatchers) {
-            getAppVersionUseCase(
-                    onSuccess = {
-                        val appVersion = it.toObject(AppVersion::class.java)
-                        if (BuildConfig.VERSION_NAME != appVersion?.versionName) {
-                            if (appVersion?.isImmediateUpdate == true) {
-                                _isUpdateForced.postValue(true)
-                            } else {
-                                _isUpdateAvailable.postValue(true)
-                            }
-                        } else {
-                            _isUpToDateVersion.postValue(true)
-                        }
-                    },
-                    onFailure = { throw it }
-            )
+            kotlin.runCatching {
+                getAppVersionUseCase.invoke()
+            }.onSuccess {
+                if (BuildConfig.VERSION_NAME != it?.versionName) {
+                    if (it?.isImmediateUpdate == true) {
+                        _isImmediateUpdate.postValue(true)
+                    } else {
+                        _isUpdateAvailable.postValue(true)
+                    }
+                } else {
+                    _isUpToDateVersion.postValue(true)
+                }
+            }
         }
     }
 
     fun signInAnonymously() {
-        if (Firebase.auth.currentUser == null) {
-            Firebase.auth.signInAnonymously().addOnSuccessListener {
-                _isSignInSuccessful.value = (it.user != null)
+        viewModelScope.launch(ioDispatchers) {
+            if (Firebase.auth.currentUser == null) {
+                Firebase.auth.signInAnonymously().addOnSuccessListener {
+                    _isSignInSuccessful.postValue(it.user != null)
+                }
+            } else {
+                _isSignInSuccessful.postValue(true)
             }
-        } else {
-            _isSignInSuccessful.value = true
         }
     }
 }
