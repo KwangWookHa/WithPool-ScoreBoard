@@ -1,4 +1,4 @@
-package wook.pool.board.base
+package wook.pool.board.global.extension
 
 import androidx.lifecycle.MutableLiveData
 

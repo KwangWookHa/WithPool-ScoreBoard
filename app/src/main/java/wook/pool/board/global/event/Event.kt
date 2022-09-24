@@ -1,4 +1,4 @@
-package wook.pool.board.base.event
+package wook.pool.board.global.event
 
 /**
  * Event Wrapper 를 위한 이벤트

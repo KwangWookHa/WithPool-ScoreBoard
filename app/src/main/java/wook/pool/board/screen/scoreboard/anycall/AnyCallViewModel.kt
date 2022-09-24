@@ -1,4 +1,4 @@
-package wook.pool.board.screen.scoreboard
+package wook.pool.board.screen.scoreboard.anycall
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import wook.pool.board.base.BaseViewModel
-import wook.pool.board.base.plus
+import wook.pool.board.global.base.BaseViewModel
+import wook.pool.board.global.extension.plus
 import javax.inject.Inject
 
 @HiltViewModel

@@ -1,4 +1,4 @@
-package wook.pool.board.base
+package wook.pool.board.global.base
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView

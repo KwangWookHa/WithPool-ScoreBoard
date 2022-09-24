@@ -1,19 +1,15 @@
-package wook.pool.board.screen.scoreboard
+package wook.pool.board.screen.scoreboard.pointnineball
 
-import android.os.Bundle
-import androidx.annotation.IdRes
-import androidx.core.os.bundleOf
 import androidx.lifecycle.*
 import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import wook.pool.board.base.BaseViewModel
-import wook.pool.board.base.minus
-import wook.pool.board.base.plus
+import wook.pool.board.global.base.BaseViewModel
+import wook.pool.board.global.extension.minus
+import wook.pool.board.global.extension.plus
 import wook.pool.board.data.model.GameType
 import wook.pool.board.data.model.Player
 import wook.pool.board.domain.usecase.GetPlayersUseCase
-import wook.pool.board.domain.usecase.InsertPlayerUseCase
 import javax.inject.Inject
 
 @HiltViewModel

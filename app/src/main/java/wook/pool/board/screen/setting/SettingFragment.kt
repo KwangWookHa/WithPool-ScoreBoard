@@ -7,17 +7,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import wook.pool.board.R
-import wook.pool.board.base.BaseFragment
+import wook.pool.board.global.base.BaseFragment
 import wook.pool.board.databinding.FragmentSettingBinding
 import wook.pool.board.screen.dialog.DefaultDialog
 import wook.pool.board.screen.dialog.DiceDialog
-import wook.pool.board.screen.playerlist.PlayersViewModel
-import wook.pool.board.screen.scoreboard.ScoreBoardScreenViewModel
+import wook.pool.board.screen.players.PlayersViewModel
+import wook.pool.board.screen.scoreboard.ScoreBoardViewModel
 
 class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting) :
         BaseFragment<FragmentSettingBinding>(), View.OnClickListener {
 
-    private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by activityViewModels()
+    private val scoreBoardViewModel: ScoreBoardViewModel by activityViewModels()
     private val playersViewModel: PlayersViewModel by activityViewModels()
 
     private val diceDialog: DiceDialog by lazy {
@@ -53,13 +53,13 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
                 textBtnLeftChangePlayer,
                 textBtnLeftChangePlayer -> {
                     val navDirection = SettingFragmentDirections.actionFragmentSettingToFragmentPlayerList(true)
-                    scoreBoardScreenViewModel.setNavDirection(navDirection)
+                    scoreBoardViewModel.setNavDirection(navDirection)
                 }
                 imgRightCircle,
                 textBtnRightChangePlayer,
                 textBtnRightChangePlayer -> {
                     val navDirection = SettingFragmentDirections.actionFragmentSettingToFragmentPlayerList(false)
-                    scoreBoardScreenViewModel.setNavDirection(navDirection)
+                    scoreBoardViewModel.setNavDirection(navDirection)
                 }
                 layoutBtnClose -> {
                     activity?.finishAffinity()
@@ -76,7 +76,7 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
                             matchPlayers,
                             playersViewModel.isTimerMode.value ?: false
                     )
-                    scoreBoardScreenViewModel.setNavDirection(navDirection)
+                    scoreBoardViewModel.setNavDirection(navDirection)
                 }
                 textBtnAdjustHandicap -> {
                     playersViewModel.switchHandicapAdjustment()
@@ -93,7 +93,7 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
                     playersViewModel.switchTimer()
                 }
                 textBtnAnyCallGame -> {
-                    scoreBoardScreenViewModel.setNavDirection(SettingFragmentDirections.actionFragmentSettingToFragmentAnycall())
+                    scoreBoardViewModel.setNavDirection(SettingFragmentDirections.actionFragmentSettingToFragmentAnycall())
                 }
                 else -> {
 

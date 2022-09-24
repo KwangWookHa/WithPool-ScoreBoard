@@ -1,4 +1,4 @@
-package wook.pool.board.screen.playerlist
+package wook.pool.board.screen.players
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import wook.pool.board.R
-import wook.pool.board.base.BaseFragment
-import wook.pool.board.base.event.EventObserver
+import wook.pool.board.global.base.BaseFragment
+import wook.pool.board.global.event.EventObserver
 import wook.pool.board.data.model.SelectedHandicapIndex
 import wook.pool.board.databinding.FragmentPlayerListBinding
 import wook.pool.board.screen.dialog.DefaultDialog
-import wook.pool.board.screen.scoreboard.ScoreBoardScreenViewModel
+import wook.pool.board.screen.scoreboard.ScoreBoardViewModel
 
-class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_player_list) :
+class PlayersFragment(override val layoutResId: Int = R.layout.fragment_player_list) :
         BaseFragment<FragmentPlayerListBinding>(),
         View.OnClickListener {
 
@@ -22,8 +22,8 @@ class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_playe
         private const val INITIAL_SELECTED_HANDICAP = 5
     }
 
-    private val args: PlayerListFragmentArgs by navArgs()
-    private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by activityViewModels()
+    private val args: PlayersFragmentArgs by navArgs()
+    private val scoreBoardViewModel: ScoreBoardViewModel by activityViewModels()
     private val playersViewModel: PlayersViewModel by activityViewModels()
     private val playerAdapter: PlayerAdapter by lazy {
         PlayerAdapter {
@@ -39,8 +39,8 @@ class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_playe
             super.onCreateView(inflater, container, savedInstanceState).apply {
                 binding.apply {
                     selectedHandicapIndex = SelectedHandicapIndex.INDEX_HANDICAP_5.index
-                    onClickHandicap = this@PlayerListFragment.onClickHandicap
-                    listener = this@PlayerListFragment
+                    onClickHandicap = this@PlayersFragment.onClickHandicap
+                    listener = this@PlayersFragment
                     recyclerPlayers.adapter = playerAdapter
                 }
                 initObserver()
@@ -59,8 +59,8 @@ class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_playe
             }
             isPlayerSetSuccessful.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
-                    scoreBoardScreenViewModel.setNavDirection(
-                            PlayerListFragmentDirections.actionFragmentPlayerListToFragmentSetting()
+                    scoreBoardViewModel.setNavDirection(
+                            PlayersFragmentDirections.actionFragmentPlayerListToFragmentSetting()
                     )
                 } else {
                     showDialogDuplicatedPlayer()
@@ -105,8 +105,8 @@ class PlayerListFragment(override val layoutResId: Int = R.layout.fragment_playe
         with(binding) {
             when (v) {
                 imgBtnBack -> {
-                    scoreBoardScreenViewModel.setNavDirection(
-                            PlayerListFragmentDirections.actionFragmentPlayerListToFragmentSetting()
+                    scoreBoardViewModel.setNavDirection(
+                            PlayersFragmentDirections.actionFragmentPlayerListToFragmentSetting()
                     )
                 }
             }

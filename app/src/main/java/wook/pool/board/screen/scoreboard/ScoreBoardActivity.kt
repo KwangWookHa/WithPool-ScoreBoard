@@ -15,11 +15,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import wook.pool.board.R
-import wook.pool.board.base.BaseActivity
+import wook.pool.board.data.enums.AppVersionStatus
+import wook.pool.board.global.base.BaseActivity
 import wook.pool.board.databinding.ActivityScoreBoardBinding
 import wook.pool.board.screen.dialog.DefaultDialog
 import wook.pool.board.screen.dialog.ProgressDialog
-import wook.pool.board.screen.setting.InitViewModel
 
 
 @AndroidEntryPoint
@@ -28,15 +28,12 @@ class ScoreBoardActivity : BaseActivity() {
     private var binding: ActivityScoreBoardBinding? = null
     private val progressDialog by lazy { ProgressDialog(this) }
 
-    private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by viewModels()
-    private val initViewModel: InitViewModel by viewModels()
+    private val scoreBoardViewModel: ScoreBoardViewModel by viewModels()
 
     private val navHostFragment: NavHostFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.fragmentContainerScoreBoard) as NavHostFragment
     }
-    private val navController: NavController by lazy {
-        navHostFragment.navController
-    }
+    private val navController: NavController by lazy { navHostFragment.navController }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +41,7 @@ class ScoreBoardActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_score_board)
         binding?.lifecycleOwner = this
         initObserver()
-        initViewModel.signInAnonymously()
+        scoreBoardViewModel.setLoadingProgress(true)
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -52,26 +49,8 @@ class ScoreBoardActivity : BaseActivity() {
         if (hasFocus) hideSystemUI()
     }
 
-    private fun hideSystemUI() {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        WindowInsetsControllerCompat(window, window.decorView).let { controller ->
-            controller.hide(WindowInsetsCompat.Type.systemBars())
-            controller.systemBarsBehavior =
-                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        }
-    }
-
-    private fun showSystemUI() {
-        WindowCompat.setDecorFitsSystemWindows(window, true)
-        WindowInsetsControllerCompat(
-            window,
-            window.decorView
-        ).show(WindowInsetsCompat.Type.systemBars())
-    }
-
     private fun initObserver() {
-        with(scoreBoardScreenViewModel) {
-            setLoadingProgress(true)
+        with(scoreBoardViewModel) {
             navDirection.observe(this@ScoreBoardActivity) {
                 navController.navigate(it)
             }
@@ -82,48 +61,50 @@ class ScoreBoardActivity : BaseActivity() {
                     progressDialog.hide()
                 }
             }
+            observeAppVersion()
         }
-        with(initViewModel) {
-            isSignInSuccessful.observe(this@ScoreBoardActivity) {
-                if (it) checkAppVersion()
-            }
-            isImmediateUpdate.observe(this@ScoreBoardActivity) {
-                scoreBoardScreenViewModel.setLoadingProgress(false)
-                if (it) {
-                    DefaultDialog.Builder()
-                        .setType(DefaultDialog.DialogType.DIALOG_OK)
-                        .setTitle(getString(R.string.app_version_update))
-                        .setMessage(getString(R.string.app_version_update_forced))
-                        .setRightButtonText(getString(R.string.common_confirm))
-                        .setOnClickRight { dialog ->
-                            dialog.dismiss()
-                            finishAffinity()
-                        }
-                        .setBackPressDisabled(true)
-                        .create(this@ScoreBoardActivity)
-                        .show()
+    }
+
+    private fun observeAppVersion() {
+        with(scoreBoardViewModel) {
+            appVersionStatus.observe(this@ScoreBoardActivity) {
+                when(it) {
+                    AppVersionStatus.UPDATE_IMMEDIATELY -> showDialogToUpdateImmediately()
+                    AppVersionStatus.UPDATE_AVAILABLE -> showDialogToUpdateAvailable()
+                    AppVersionStatus.UP_TO_DATE -> scoreBoardViewModel.setLoadingProgress(false)
                 }
-            }
-            isUpdateAvailable.observe(this@ScoreBoardActivity) {
-                scoreBoardScreenViewModel.setLoadingProgress(false)
-                if (it) {
-                    DefaultDialog.Builder()
-                            .setType(DefaultDialog.DialogType.DIALOG_OK)
-                            .setTitle(getString(R.string.app_version_update))
-                            .setMessage(getString(R.string.app_version_update_available))
-                            .setRightButtonText(getString(R.string.common_confirm))
-                            .setOnClickRight { dialog ->
-                                dialog.dismiss()
-                            }
-                            .setBackPressDisabled(true)
-                            .create(this@ScoreBoardActivity)
-                            .show()
-                }
-            }
-            isUpToDateVersion.observe(this@ScoreBoardActivity) {
-                if (it) scoreBoardScreenViewModel.setLoadingProgress(false)
+                scoreBoardViewModel.setLoadingProgress(false)
             }
         }
+    }
+
+    private fun showDialogToUpdateImmediately() {
+        DefaultDialog.Builder()
+                .setType(DefaultDialog.DialogType.DIALOG_OK)
+                .setTitle(getString(R.string.app_version_update))
+                .setMessage(getString(R.string.app_version_update_forced))
+                .setRightButtonText(getString(R.string.common_confirm))
+                .setOnClickRight { dialog ->
+                    dialog.dismiss()
+                    finishAffinity()
+                }
+                .setBackPressDisabled(true)
+                .create(this@ScoreBoardActivity)
+                .show()
+    }
+
+    private fun showDialogToUpdateAvailable() {
+        DefaultDialog.Builder()
+                .setType(DefaultDialog.DialogType.DIALOG_OK)
+                .setTitle(getString(R.string.app_version_update))
+                .setMessage(getString(R.string.app_version_update_available))
+                .setRightButtonText(getString(R.string.common_confirm))
+                .setOnClickRight { dialog ->
+                    dialog.dismiss()
+                }
+                .setBackPressDisabled(true)
+                .create(this@ScoreBoardActivity)
+                .show()
     }
 
     override fun onBackPressed() {
@@ -137,5 +118,22 @@ class ScoreBoardActivity : BaseActivity() {
                 backPressCount = 0
             }
         }
+    }
+
+    private fun hideSystemUI() {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowInsetsControllerCompat(window, window.decorView).let { controller ->
+            controller.hide(WindowInsetsCompat.Type.systemBars())
+            controller.systemBarsBehavior =
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+    }
+
+    private fun showSystemUI() {
+        WindowCompat.setDecorFitsSystemWindows(window, true)
+        WindowInsetsControllerCompat(
+                window,
+                window.decorView
+        ).show(WindowInsetsCompat.Type.systemBars())
     }
 }

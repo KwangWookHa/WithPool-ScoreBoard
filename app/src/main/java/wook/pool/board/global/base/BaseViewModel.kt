@@ -1,4 +1,4 @@
-package wook.pool.board.base
+package wook.pool.board.global.base
 
 import androidx.lifecycle.ViewModel
 import com.orhanobut.logger.Logger

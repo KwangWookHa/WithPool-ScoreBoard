@@ -1,4 +1,4 @@
-package wook.pool.board.screen.scoreboard
+package wook.pool.board.screen.scoreboard.nineball
 
 import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
@@ -8,10 +8,10 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import wook.pool.board.base.BaseViewModel
-import wook.pool.board.base.Constant
-import wook.pool.board.base.event.Event
-import wook.pool.board.base.plus
+import wook.pool.board.global.base.BaseViewModel
+import wook.pool.board.Constant
+import wook.pool.board.global.event.Event
+import wook.pool.board.global.extension.plus
 import wook.pool.board.data.model.GameType
 import wook.pool.board.data.model.MatchPlayers
 import wook.pool.board.data.model.NineBallMatch

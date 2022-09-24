@@ -1,4 +1,4 @@
-package wook.pool.board.screen.scoreboard
+package wook.pool.board.screen.scoreboard.nineball
 
 import android.media.AudioAttributes
 import android.media.SoundPool
@@ -10,12 +10,13 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import wook.pool.board.R
-import wook.pool.board.base.BaseFragment
-import wook.pool.board.base.Constant
-import wook.pool.board.base.event.EventObserver
+import wook.pool.board.global.base.BaseFragment
+import wook.pool.board.Constant
+import wook.pool.board.global.event.EventObserver
 import wook.pool.board.databinding.FragmentNineBallBinding
 import wook.pool.board.screen.dialog.DefaultDialog
-import wook.pool.board.screen.playerlist.PlayersViewModel
+import wook.pool.board.screen.players.PlayersViewModel
+import wook.pool.board.screen.scoreboard.ScoreBoardViewModel
 import kotlin.random.Random
 
 class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ball) :
@@ -29,7 +30,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
     private var soundOldRunOut: Int = Constant.IS_NOT_INITIALIZED
     private var soundTimerBeep: Int = Constant.IS_NOT_INITIALIZED
 
-    private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by activityViewModels()
+    private val scoreBoardViewModel: ScoreBoardViewModel by activityViewModels()
     private val nineBallViewModel: NineBallViewModel by activityViewModels()
     private val playersViewModel: PlayersViewModel by activityViewModels()
 
@@ -176,13 +177,13 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
         playersViewModel.initDice()
         playersViewModel.initPlayers()
         nineBallViewModel.initLiveData()
-        scoreBoardScreenViewModel.setNavDirection(
+        scoreBoardViewModel.setNavDirection(
                 NineBallFragmentDirections.actionFragmentNineBallToFragmentSetting()
         )
     }
 
     private fun setLoadingProgress(flag: Boolean) {
-        scoreBoardScreenViewModel.setLoadingProgress(flag)
+        scoreBoardViewModel.setLoadingProgress(flag)
     }
 
     private fun initSoundPool() {

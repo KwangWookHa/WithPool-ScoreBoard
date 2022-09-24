@@ -1,12 +1,12 @@
-package wook.pool.board.screen.playerlist
+package wook.pool.board.screen.players
 
 import androidx.lifecycle.*
 import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import wook.pool.board.base.BaseViewModel
-import wook.pool.board.base.event.Event
+import wook.pool.board.global.base.BaseViewModel
+import wook.pool.board.global.event.Event
 import wook.pool.board.data.model.MatchPlayers
 import wook.pool.board.data.model.Player
 import wook.pool.board.data.model.SelectedHandicapIndex

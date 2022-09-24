@@ -1,4 +1,4 @@
-package wook.pool.board.base.event
+package wook.pool.board.global.event
 
 import androidx.lifecycle.Observer
 

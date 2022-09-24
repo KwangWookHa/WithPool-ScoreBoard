@@ -6,7 +6,7 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.view.*
 import androidx.databinding.BindingAdapter
 import wook.pool.board.R
-import wook.pool.board.base.Constant
+import wook.pool.board.Constant
 import kotlin.math.absoluteValue
 
 object ScoreBoardBindingAdapter {

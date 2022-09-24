@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="wook.pool.board.screen.scoreboard.AnyCallViewModel" />
+            type="wook.pool.board.screen.scoreboard.anycall.AnyCallViewModel" />
 
         <variable
             name="onClickListener"

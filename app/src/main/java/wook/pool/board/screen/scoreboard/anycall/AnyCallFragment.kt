@@ -1,4 +1,4 @@
-package wook.pool.board.screen.scoreboard
+package wook.pool.board.screen.scoreboard.anycall
 
 import android.media.AudioAttributes
 import android.media.SoundPool
@@ -8,12 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import wook.pool.board.R
-import wook.pool.board.base.BaseFragment
-import wook.pool.board.base.Constant
+import wook.pool.board.global.base.BaseFragment
+import wook.pool.board.Constant
 import wook.pool.board.databinding.FragmentAnycallBinding
 import wook.pool.board.screen.dialog.DefaultDialog
 import wook.pool.board.screen.dialog.DiceDialog
 import wook.pool.board.screen.dialog.SetTotalDialog
+import wook.pool.board.screen.scoreboard.ScoreBoardViewModel
 
 class AnyCallFragment(override val layoutResId: Int = R.layout.fragment_anycall) :
         BaseFragment<FragmentAnycallBinding>(),
@@ -26,7 +27,7 @@ class AnyCallFragment(override val layoutResId: Int = R.layout.fragment_anycall)
         DiceDialog(hostActivityContext!!)
     }
 
-    private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by activityViewModels()
+    private val scoreBoardViewModel: ScoreBoardViewModel by activityViewModels()
     private val anyCallViewModel: AnyCallViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -168,7 +169,7 @@ class AnyCallFragment(override val layoutResId: Int = R.layout.fragment_anycall)
 
     private fun backToSettingFragment() {
         anyCallViewModel.initLiveData()
-        scoreBoardScreenViewModel.setNavDirection(
+        scoreBoardViewModel.setNavDirection(
                 AnyCallFragmentDirections.actionFragmentAnycallToFragmentSetting()
         )
     }

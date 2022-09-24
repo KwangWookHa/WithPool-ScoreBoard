@@ -1,6 +1,6 @@
 package wook.pool.board.domain.usecase
 
-import wook.pool.board.base.Constant.Field.FIELD_COUNT
+import wook.pool.board.Constant.Field.FIELD_COUNT
 import wook.pool.board.data.repository.CountRepository
 import javax.inject.Inject
 

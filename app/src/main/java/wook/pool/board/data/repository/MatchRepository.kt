@@ -1,12 +1,10 @@
 package wook.pool.board.data.repository
 
-import android.icu.util.Calendar
-import android.icu.util.GregorianCalendar
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.*
 import kotlinx.coroutines.tasks.await
 import org.joda.time.DateTime
-import wook.pool.board.base.Constant
+import wook.pool.board.Constant
 import wook.pool.board.data.model.NineBallMatch
 import javax.inject.Inject
 

@@ -36,7 +36,7 @@
 
     <fragment
         android:id="@+id/fragment_player_list"
-        android:name="wook.pool.board.screen.playerlist.PlayerListFragment"
+        android:name="wook.pool.board.screen.players.PlayersFragment"
         android:label="PlayerListFragment"
         tools:layout="@layout/fragment_player_list">
         <action
@@ -57,7 +57,7 @@
 
     <fragment
         android:id="@+id/fragment_nine_ball"
-        android:name="wook.pool.board.screen.scoreboard.NineBallFragment"
+        android:name="wook.pool.board.screen.scoreboard.nineball.NineBallFragment"
         android:label="NineBallFragment"
         tools:layout="@layout/fragment_nine_ball">
 
@@ -86,7 +86,7 @@
 
     <fragment
         android:id="@+id/fragment_anycall"
-        android:name="wook.pool.board.screen.scoreboard.AnyCallFragment"
+        android:name="wook.pool.board.screen.scoreboard.anycall.AnyCallFragment"
         android:label="AnyCallFragment"
         tools:layout="@layout/fragment_anycall">
 

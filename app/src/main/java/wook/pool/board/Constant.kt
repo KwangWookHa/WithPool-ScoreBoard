@@ -1,4 +1,4 @@
-package wook.pool.board.base
+package wook.pool.board
 
 object Constant {
 

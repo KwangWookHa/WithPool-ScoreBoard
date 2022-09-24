@@ -1,4 +1,4 @@
-package wook.pool.board.screen.scoreboard
+package wook.pool.board.screen.scoreboard.pointnineball
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,15 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import wook.pool.board.R
-import wook.pool.board.base.BaseFragment
+import wook.pool.board.global.base.BaseFragment
 import wook.pool.board.databinding.FragmentPointNineBallBinding
+import wook.pool.board.screen.scoreboard.ScoreBoardViewModel
 
 class PointNineBallFragment(override val layoutResId: Int = R.layout.fragment_point_nine_ball) :
     BaseFragment<FragmentPointNineBallBinding>(),
     View.OnClickListener,
     View.OnLongClickListener {
 
-    private val scoreBoardScreenViewModel: ScoreBoardScreenViewModel by activityViewModels()
+    private val scoreBoardViewModel: ScoreBoardViewModel by activityViewModels()
     private val pointNineBallViewModel: PointNineBallViewModel by activityViewModels()
 
     override fun onCreateView(
