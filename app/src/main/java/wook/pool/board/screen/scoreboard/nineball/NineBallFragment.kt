@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
-import wook.pool.board.R
-import wook.pool.board.global.base.BaseFragment
 import wook.pool.board.Constant
-import wook.pool.board.global.event.EventObserver
+import wook.pool.board.R
 import wook.pool.board.databinding.FragmentNineBallBinding
+import wook.pool.board.global.base.BaseFragment
+import wook.pool.board.global.event.EventObserver
 import wook.pool.board.screen.dialog.DefaultDialog
 import wook.pool.board.screen.players.PlayersViewModel
 import wook.pool.board.screen.scoreboard.ScoreBoardViewModel
@@ -61,17 +61,17 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
             documentPath.observe(viewLifecycleOwner) {
                 setLoadingProgress(false)
             }
-            isUpdateMatchSuccessful.observe(viewLifecycleOwner, EventObserver {
+            isFinishMatchSuccessful.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
                     setLoadingProgress(false)
                     Toast.makeText(hostActivityContext!!, getString(R.string.fragment_nine_ball_register_successful), Toast.LENGTH_SHORT).show()
-                    backToChoicePlayerFragment()
+                    backToSettingFragment()
                 }
             })
             isDeleteMatchSuccessful.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
                     setLoadingProgress(false)
-                    backToChoicePlayerFragment()
+                    backToSettingFragment()
                 }
             })
             isMatchOver.observe(viewLifecycleOwner) {
@@ -79,11 +79,11 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                     showDialogToRegisterMatch()
                 }
             }
-//            remainingSeconds.observe(viewLifecycleOwner) {
-//                if (it <= 4) {
-//                    playSound(soundTimerBeep)
-//                }
-//            }
+            remainingSeconds.observe(viewLifecycleOwner) {
+                if (it <= 4) {
+                    playSound(soundTimerBeep)
+                }
+            }
         }
     }
 
@@ -93,7 +93,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                 when (v) {
                     layoutBtnFinishGame -> {
                         if (isGuestMode) {
-                            backToChoicePlayerFragment()
+                            backToSettingFragment()
                             return
                         }
                         setLoadingProgress(true)
@@ -173,7 +173,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
         }
     }
 
-    private fun backToChoicePlayerFragment() {
+    private fun backToSettingFragment() {
         playersViewModel.initDice()
         playersViewModel.initPlayers()
         nineBallViewModel.initLiveData()

@@ -28,8 +28,6 @@ class NineBallViewModel @Inject constructor(
         private val deleteNineBallMatchUseCase: DeleteNineBallMatchUseCase,
 ) : BaseViewModel() {
 
-    private lateinit var startTimeStamp: Timestamp
-
     /***************************** Player Left *****************************/
 
     private val _playerLeft: MutableLiveData<Player?> = MutableLiveData(null)
@@ -100,8 +98,8 @@ class NineBallViewModel @Inject constructor(
     private val _documentPath: MutableLiveData<String> = MutableLiveData()
     val documentPath: LiveData<String> = _documentPath
 
-    private val _isUpdateMatchSuccessful: MutableLiveData<Event<Boolean>> = MutableLiveData()
-    val isUpdateMatchSuccessful: LiveData<Event<Boolean>> = _isUpdateMatchSuccessful
+    private val _isFinishMatchSuccessful: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    val isFinishMatchSuccessful: LiveData<Event<Boolean>> = _isFinishMatchSuccessful
 
     private val _isDeleteMatchSuccessful: MutableLiveData<Event<Boolean>> = MutableLiveData()
     val isDeleteMatchSuccessful: LiveData<Event<Boolean>> = _isDeleteMatchSuccessful
@@ -131,12 +129,11 @@ class NineBallViewModel @Inject constructor(
     fun initMatch(matchPlayers: MatchPlayers?) {
         viewModelScope.launch(ioDispatchers) {
             matchPlayers?.let {
-                startTimeStamp = Timestamp.now()
                 _playerLeft.postValue(it.playerLeft)
                 _playerRight.postValue(it.playerRight)
                 _playerLeftAdjustedHandicap.postValue(it.playerLeft.handicap?.plus(it.adjustment))
                 _playerRightAdjustedHandicap.postValue(it.playerRight.handicap?.plus(it.adjustment))
-                addNineBallMatch(it.playerLeft, it.playerRight, it.adjustment)
+                initNineBallMatch(it.playerLeft, it.playerRight, it.adjustment)
             }
         }
     }
@@ -233,11 +230,9 @@ class NineBallViewModel @Inject constructor(
         }
     }
 
-    private fun addNineBallMatch(playerLeft: Player, playerRight: Player, adjustment: Int) {
+    private fun initNineBallMatch(playerLeft: Player, playerRight: Player, adjustment: Int) {
         viewModelScope.launch(ioDispatchers) {
-            if (playerLeft.name == "Guest" || playerRight.name == "Guest") {
-                return@launch
-            }
+            if (playerLeft.name == "Guest" || playerRight.name == "Guest") return@launch
             kotlin.runCatching {
                 addNineBallMatchUseCase.invoke(
                         NineBallMatch(
@@ -253,7 +248,7 @@ class NineBallViewModel @Inject constructor(
                                 playerRightScore = null,
                                 playerWinnerName = null,
                                 playerLoserName = null,
-                                matchStartTimeStamp = startTimeStamp,
+                                matchStartTimeStamp = Timestamp.now(),
                                 matchEndTimeStamp = null,
                         )
                 )
@@ -280,7 +275,7 @@ class NineBallViewModel @Inject constructor(
                                 })
                     }.onSuccess {
                         _documentPath.postValue("")
-                        _isUpdateMatchSuccessful.postValue(Event(true))
+                        _isFinishMatchSuccessful.postValue(Event(true))
                     }
                 }
             }
@@ -326,7 +321,7 @@ class NineBallViewModel @Inject constructor(
             _playerRightAlpha.postValue(1f)
 
             _documentPath.postValue("")
-            _isUpdateMatchSuccessful.postValue(Event(false))
+            _isFinishMatchSuccessful.postValue(Event(false))
         }
     }
 }
