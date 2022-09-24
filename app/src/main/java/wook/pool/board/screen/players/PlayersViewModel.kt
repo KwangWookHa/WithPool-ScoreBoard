@@ -75,6 +75,9 @@ class PlayersViewModel @Inject constructor(
     private val _isPlayerSetSuccessful: MutableLiveData<Event<Boolean>> = MutableLiveData()
     val isPlayerSetSuccessful: LiveData<Event<Boolean>> = _isPlayerSetSuccessful
 
+    val isGuestMode: Boolean get() = _playerLeft.value?.name == "Guest" || _playerRight.value?.name == "Guest"
+
+
     init {
         getPlayers()
     }
@@ -108,27 +111,22 @@ class PlayersViewModel @Inject constructor(
             }
             _isPlayerSetSuccessful.postValue(Event(true))
 
-            if (_playerLeft.value != null && _playerLeft.value!!.name != "Guest"
-                    && _playerRight.value != null && _playerRight.value!!.name != "Guest") {
+            if (_playerLeft.value != null && _playerRight.value != null && !isGuestMode) {
                 getHeadToHeadRecords()
             }
         }
     }
 
-    private fun getHeadToHeadRecords() {
-        viewModelScope.launch(ioDispatchers) {
-            if (_playerLeft.value != null && _playerRight.value != null) {
-                val matches = getHeadToHeadRecordUseCase.invoke(
-                        playerLeftName = _playerLeft.value!!.name ?: return@launch,
-                        playerRightName = _playerRight.value!!.name ?: return@launch,
-                )
-                val matchCount = matches.size
-                val leftPlayerWinCount = matches.count { it.playerWinnerName == _playerLeft.value!!.name }
-                val leftPlayerLoseCount = matchCount - leftPlayerWinCount
-                _playerLeftRecord.postValue(Triple(matchCount, leftPlayerWinCount, leftPlayerLoseCount))
-                Logger.i("matches -> $matches")
-            }
-        }
+    private suspend fun getHeadToHeadRecords() {
+        val matches = getHeadToHeadRecordUseCase.invoke(
+                playerLeftName = _playerLeft.value!!.name ?: return,
+                playerRightName = _playerRight.value!!.name ?: return,
+        )
+        val matchCount = matches.size
+        val leftPlayerWinCount = matches.count { it.playerWinnerName == _playerLeft.value!!.name }
+        val leftPlayerLoseCount = matchCount - leftPlayerWinCount
+        _playerLeftRecord.postValue(Triple(matchCount, leftPlayerWinCount, leftPlayerLoseCount))
+        Logger.i("matches -> $matches")
     }
 
     fun initPlayers() {
