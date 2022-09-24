@@ -97,7 +97,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                             return
                         }
                         setLoadingProgress(true)
-                        updateNineBallMatch()
+                        finishNineBallMatch()
                     }
                     layoutBtnCancelMatch -> showDialogToCancelMatch()
                     layoutLeftPlayer, textBtnScoreLeft, layoutRightPlayer, textBtnScoreRight -> {
@@ -145,7 +145,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                     .setRightButtonText(getString(R.string.common_register))
                     .setOnClickRight { dialog ->
                         dialog.dismiss()
-                        nineBallViewModel.updateNineBallMatch()
+                        nineBallViewModel.finishNineBallMatch()
                     }
                     .create(context)
                     .show()

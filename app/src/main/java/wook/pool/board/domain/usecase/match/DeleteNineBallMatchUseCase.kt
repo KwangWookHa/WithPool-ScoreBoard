@@ -4,15 +4,11 @@ import wook.pool.board.data.source.remote.repository.MatchRepository
 import javax.inject.Inject
 
 class DeleteNineBallMatchUseCase @Inject constructor(
-        private val fireStoreRepository: MatchRepository,
+        private val matchRepository: MatchRepository,
 ) {
 
-    operator fun invoke(
-        documentPath: String,
-        onSuccess: () -> Unit,
-        onFailure: (Exception) -> Unit
-    ) {
-        fireStoreRepository.deleteNineBallMatch(documentPath, onSuccess, onFailure)
+    suspend operator fun invoke(documentPath: String) {
+        matchRepository.deleteNineBallMatch(documentPath)
     }
 
 }

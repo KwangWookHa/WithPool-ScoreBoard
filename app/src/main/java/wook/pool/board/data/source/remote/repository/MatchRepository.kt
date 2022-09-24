@@ -16,55 +16,21 @@ class MatchRepository @Inject constructor(
     suspend fun addNineBallMatch(nineBallMatch: NineBallMatch): DocumentReference =
             fireStore.collection(Constant.Collection.COLLECTION_NINE_BALL_MATCH).add(nineBallMatch).await()
 
-    fun updateNineBallMatch(
+    suspend fun updateNineBallMatch(
             documentPath: String,
-            data: Map<String, Any?>,
-            onSuccess: () -> Unit,
-            onFailure: (Exception) -> Unit
+            data: Map<String, Any>,
     ) {
         fireStore.collection(Constant.Collection.COLLECTION_NINE_BALL_MATCH)
                 .document(documentPath)
                 .update(data)
-                .addOnSuccessListener { onSuccess() }
-                .addOnFailureListener(onFailure)
+                .await()
     }
 
-    fun setNineBallMatch(
-            documentPath: String,
-            nineBallMatch: NineBallMatch,
-            mergeFields: List<String>,
-            onSuccess: () -> Unit,
-            onFailure: (Exception) -> Unit
-    ) {
-        fireStore.collection(Constant.Collection.COLLECTION_NINE_BALL_MATCH)
-                .document(documentPath)
-                .set(nineBallMatch, SetOptions.mergeFields(mergeFields))
-                .addOnSuccessListener { onSuccess() }
-                .addOnFailureListener(onFailure)
-
-    }
-
-    fun getNineBallMatch(
-            onSuccess: (QuerySnapshot) -> Unit,
-            onFailure: (Exception) -> Unit
-    ) {
-        fireStore.collection(Constant.Collection.COLLECTION_NINE_BALL_MATCH)
-                .get()
-                .addOnSuccessListener(onSuccess)
-                .addOnFailureListener(onFailure)
-    }
-
-    fun deleteNineBallMatch(
-            documentPath: String,
-            onSuccess: () -> Unit,
-            onFailure: (Exception) -> Unit
-    ) {
+    suspend fun deleteNineBallMatch(documentPath: String) {
         fireStore.collection(Constant.Collection.COLLECTION_NINE_BALL_MATCH)
                 .document(documentPath)
                 .delete()
-                .addOnSuccessListener { onSuccess() }
-                .addOnFailureListener(onFailure)
-
+                .await()
     }
 
     suspend fun getHeadToHeadRecords(

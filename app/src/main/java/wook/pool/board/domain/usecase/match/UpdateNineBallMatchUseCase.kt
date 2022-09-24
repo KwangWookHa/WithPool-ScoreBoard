@@ -7,13 +7,11 @@ class UpdateNineBallMatchUseCase @Inject constructor(
         private val fireStoreRepository: MatchRepository,
 ) {
 
-    operator fun invoke(
+    suspend fun invoke(
         documentPath: String,
-        data: Map<String, Any?>,
-        onSuccess: () -> Unit,
-        onFailure: (Exception) -> Unit
+        data: Map<String, Any>
     ) {
-        fireStoreRepository.updateNineBallMatch(documentPath, data, onSuccess, onFailure)
+        fireStoreRepository.updateNineBallMatch(documentPath, data)
     }
 
 }

@@ -212,22 +212,6 @@ class PointNineBallViewModel @Inject constructor(
         }
     }
 
-    fun getPlayers() {
-        viewModelScope.launch(ioDispatchers) {
-            if (_players.value == null || _players.value?.isEmpty() == true) {
-                getPlayersUseCase(
-                    onSuccess = {
-                        val players = it.toObjects(Player::class.java)
-                        _players.value = players
-                    },
-                    onFailure = {
-
-                    }
-                )
-            }
-        }
-    }
-
     fun setPlayer(player: Player, isLeftPlayer: Boolean) {
         viewModelScope.launch(ioDispatchers) {
             if (isLeftPlayer) {

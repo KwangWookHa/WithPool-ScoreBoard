@@ -166,18 +166,19 @@ class NineBallViewModel @Inject constructor(
                     }
                 }
                 if (it.isNotBlank() && !isGuestMode) {
-                    updateNineBallMatchUseCase(
-                            documentPath = it,
-                            data = mapOf(
-                                    if (isLeft) {
-                                        Constant.Field.FILED_PLAYER_LEFT_SCORE to _playerLeftScore.value!! + variation
-                                    } else {
-                                        Constant.Field.FILED_PLAYER_RIGHT_SCORE to _playerRightScore.value!! + variation
-                                    }
-                            ),
-                            onSuccess = { setScore() },
-                            onFailure = { throw it }
-                    )
+                    kotlin.runCatching {
+                        updateNineBallMatchUseCase.invoke(
+                                documentPath = it,
+                                data = mapOf(
+                                        if (isLeft) {
+                                            Constant.Field.FILED_PLAYER_LEFT_SCORE to _playerLeftScore.value!! + variation
+                                        } else {
+                                            Constant.Field.FILED_PLAYER_RIGHT_SCORE to _playerRightScore.value!! + variation
+                                        }
+                                ))
+                    }.onSuccess {
+                        setScore()
+                    }
                 } else {
                     setScore()
                 }
@@ -203,31 +204,28 @@ class NineBallViewModel @Inject constructor(
                 val setRunOut = {
                     if (isLeft) {
                         _playerLeftRunOut.plus(variation)
-                        if (variation > 0)
-                            _playerLeftScore.plus(variation)
+                        _playerLeftScore.plus(variation)
                     } else {
                         _playerRightRunOut.plus(variation)
-                        if (variation > 0)
-                            _playerRightScore.plus(variation)
+                        _playerRightScore.plus(variation)
                     }
                 }
                 if (it.isNotBlank() && !isGuestMode) {
-                    updateNineBallMatchUseCase(
-                            documentPath = it,
-                            data = hashMapOf<String, Int>().apply {
-                                if (isLeft) {
-                                    put(Constant.Field.FILED_PLAYER_LEFT_SCORE, _playerLeftScore.value!! + variation)
-                                    if (variation > 0)
+                    kotlin.runCatching {
+                        updateNineBallMatchUseCase.invoke(
+                                documentPath = it,
+                                data = hashMapOf<String, Int>().apply {
+                                    if (isLeft) {
+                                        put(Constant.Field.FILED_PLAYER_LEFT_SCORE, _playerLeftScore.value!! + variation)
                                         put(Constant.Field.FILED_PLAYER_LEFT_RUN_OUT, _playerLeftRunOut.value!! + variation)
-                                } else {
-                                    put(Constant.Field.FILED_PLAYER_RIGHT_RUN_OUT, _playerRightRunOut.value!! + variation)
-                                    if (variation > 0)
+                                    } else {
+                                        put(Constant.Field.FILED_PLAYER_RIGHT_RUN_OUT, _playerRightRunOut.value!! + variation)
                                         put(Constant.Field.FILED_PLAYER_RIGHT_SCORE, _playerRightScore.value!! + variation)
-                                }
-                            },
-                            onSuccess = { setRunOut() },
-                            onFailure = { throw it }
-                    )
+                                    }
+                                })
+                    }.onSuccess {
+                        setRunOut()
+                    }
                 } else {
                     setRunOut()
                 }
@@ -265,23 +263,25 @@ class NineBallViewModel @Inject constructor(
         }
     }
 
-    fun updateNineBallMatch() {
+    fun finishNineBallMatch() {
         viewModelScope.launch(ioDispatchers) {
             _documentPath.value?.let {
                 if (it.isNotBlank() && isMatchOver.value!! && !isGuestMode) {
-                    updateNineBallMatchUseCase(
-                            documentPath = it,
-                            data = hashMapOf<String, Any?>().apply {
-                                put(Constant.Field.FILED_IS_LIVE, false)
-                                put(Constant.Field.FILED_PLAYER_WINNER_NAME, if (_isPlayerLeftWinner.value!!) _playerLeft.value?.name else _playerRight.value?.name)
-                                put(Constant.Field.FILED_PLAYER_LOSER_NAME, if (_isPlayerLeftWinner.value!!) _playerRight.value?.name else _playerLeft.value?.name)
-                                put(Constant.Field.FILED_END_TIME_STAMP, Timestamp.now())
-                            },
-                            onSuccess = {
-                                _documentPath.postValue("")
-                                _isUpdateMatchSuccessful.postValue(Event(true)) },
-                            onFailure = { throw it }
-                    )
+                    val winnerName = (if (_isPlayerLeftWinner.value!!) _playerLeft.value?.name else _playerRight.value?.name) ?: ""
+                    val loserName = (if (_isPlayerLeftWinner.value!!) _playerRight.value?.name else _playerLeft.value?.name) ?: ""
+                    kotlin.runCatching {
+                        updateNineBallMatchUseCase.invoke(
+                                documentPath = it,
+                                data = hashMapOf<String, Any>().apply {
+                                    put(Constant.Field.FILED_IS_LIVE, false)
+                                    put(Constant.Field.FILED_PLAYER_WINNER_NAME, winnerName)
+                                    put(Constant.Field.FILED_PLAYER_LOSER_NAME, loserName)
+                                    put(Constant.Field.FILED_END_TIME_STAMP, Timestamp.now())
+                                })
+                    }.onSuccess {
+                        _documentPath.postValue("")
+                        _isUpdateMatchSuccessful.postValue(Event(true))
+                    }
                 }
             }
         }
@@ -291,11 +291,11 @@ class NineBallViewModel @Inject constructor(
         viewModelScope.launch(ioDispatchers) {
             _documentPath.value?.let {
                 if (it.isNotBlank() && !isGuestMode) {
-                    deleteNineBallMatchUseCase(
-                            documentPath = it,
-                            onSuccess = { _isDeleteMatchSuccessful.postValue(Event(true)) },
-                            onFailure = { throw it }
-                    )
+                    kotlin.runCatching {
+                        deleteNineBallMatchUseCase.invoke(it)
+                    }.onSuccess {
+                        _isDeleteMatchSuccessful.postValue(Event(true))
+                    }
                 } else {
                     _isDeleteMatchSuccessful.postValue(Event(true))
                 }
