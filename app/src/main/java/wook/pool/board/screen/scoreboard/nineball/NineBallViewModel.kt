@@ -12,7 +12,7 @@ import wook.pool.board.global.base.BaseViewModel
 import wook.pool.board.Constant
 import wook.pool.board.global.event.Event
 import wook.pool.board.global.extension.plus
-import wook.pool.board.data.model.GameType
+import wook.pool.board.data.enums.GameType
 import wook.pool.board.data.model.MatchPlayers
 import wook.pool.board.data.model.NineBallMatch
 import wook.pool.board.data.model.Player

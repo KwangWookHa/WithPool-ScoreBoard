@@ -1,7 +1,6 @@
 package wook.pool.board.data.model
 
 import com.google.firebase.firestore.DocumentId
-import java.io.Serializable
 
 data class AppVersion(
 
@@ -13,4 +12,4 @@ data class AppVersion(
         @JvmField
         val isImmediateUpdate: Boolean? = null,
 
-        ) : Serializable
+        )

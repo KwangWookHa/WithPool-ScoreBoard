@@ -9,7 +9,7 @@ import androidx.navigation.fragment.navArgs
 import wook.pool.board.R
 import wook.pool.board.global.base.BaseFragment
 import wook.pool.board.global.event.EventObserver
-import wook.pool.board.data.model.SelectedHandicapIndex
+import wook.pool.board.data.enums.SelectedHandicapIndex
 import wook.pool.board.databinding.FragmentPlayerListBinding
 import wook.pool.board.screen.dialog.DefaultDialog
 import wook.pool.board.screen.scoreboard.ScoreBoardViewModel

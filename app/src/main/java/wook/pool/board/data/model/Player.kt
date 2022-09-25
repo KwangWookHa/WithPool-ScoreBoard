@@ -5,13 +5,13 @@ import java.io.Serializable
 
 data class Player(
 
-    @DocumentId
-    val documentId: String? = null,
+        @DocumentId
+        val documentId: String? = null,
 
-    val club: String? = null,
+        val club: String? = null,
 
-    val name: String? = null,
+        val name: String? = null,
 
-    val handicap: Int? = null,
+        val handicap: Int? = null,
 
-    ) : Serializable
+        ) : Serializable

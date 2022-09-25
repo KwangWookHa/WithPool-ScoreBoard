@@ -9,7 +9,7 @@ import wook.pool.board.global.base.BaseViewModel
 import wook.pool.board.global.event.Event
 import wook.pool.board.data.model.MatchPlayers
 import wook.pool.board.data.model.Player
-import wook.pool.board.data.model.SelectedHandicapIndex
+import wook.pool.board.data.enums.SelectedHandicapIndex
 import wook.pool.board.domain.usecase.match.GetHeadToHeadRecordUseCase
 import wook.pool.board.domain.usecase.player.GetPlayersUseCase
 import javax.inject.Inject

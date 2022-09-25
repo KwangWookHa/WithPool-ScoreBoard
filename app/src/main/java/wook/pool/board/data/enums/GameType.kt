@@ -1,4 +1,4 @@
-package wook.pool.board.data.model
+package wook.pool.board.data.enums
 
 enum class GameType(val text: String) {
 

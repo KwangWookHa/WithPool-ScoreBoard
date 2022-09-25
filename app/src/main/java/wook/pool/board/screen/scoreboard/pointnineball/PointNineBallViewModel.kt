@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 import wook.pool.board.global.base.BaseViewModel
 import wook.pool.board.global.extension.minus
 import wook.pool.board.global.extension.plus
-import wook.pool.board.data.model.GameType
+import wook.pool.board.data.enums.GameType
 import wook.pool.board.data.model.Player
 import wook.pool.board.domain.usecase.player.GetPlayersUseCase
 import javax.inject.Inject
