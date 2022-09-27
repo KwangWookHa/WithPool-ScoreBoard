@@ -59,9 +59,8 @@ class PlayersFragment(override val layoutResId: Int = R.layout.fragment_player_l
             }
             isPlayerSetSuccessful.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
-                    scoreBoardViewModel.setNavDirection(
-                            PlayersFragmentDirections.actionFragmentPlayerListToFragmentSetting()
-                    )
+                    playersViewModel.getHeadToHeadRecords()
+                    scoreBoardViewModel.setNavDirection(PlayersFragmentDirections.actionFragmentPlayerListToFragmentSetting())
                 } else {
                     showDialogDuplicatedPlayer()
                 }
