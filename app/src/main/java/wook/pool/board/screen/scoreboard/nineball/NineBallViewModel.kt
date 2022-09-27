@@ -193,7 +193,7 @@ class NineBallViewModel @Inject constructor(
             } else {
                 if (_playerRightScore.value!! + variation > _playerRightAdjustedHandicap.value!!
                         || _playerRightScore.value!! + variation < 0
-                        || _playerRightScore.value!! + variation < 0
+                        || _playerRightRunOut.value!! + variation < 0
                 ) return@launch
             }
 
