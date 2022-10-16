@@ -23,25 +23,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="120dp"
         android:layout_margin="@dimen/dp_8"
         android:background="@drawable/ripple_bg_ffffff_r_12"
         android:onClick="@{() -> onClickPlayer.invoke(player)}"
         android:padding="@dimen/dp_8">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textClub"
-            style="@style/notosans_medium"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="center"
-            android:text="@{player.club}"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.275"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="위드풀" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textName"
@@ -52,9 +38,9 @@
             android:text="@{player.name}"
             app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.425"
+            app:layout_constraintHeight_percent="0.65"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textClub"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="하광욱" />
 
         <androidx.appcompat.widget.AppCompatTextView

@@ -7,10 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import wook.pool.board.R
-import wook.pool.board.global.base.BaseFragment
 import wook.pool.board.databinding.FragmentSettingBinding
+import wook.pool.board.global.base.BaseFragment
 import wook.pool.board.screen.dialog.DefaultDialog
-import wook.pool.board.screen.dialog.DiceDialog
 import wook.pool.board.screen.players.PlayersViewModel
 
 class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting) :
@@ -18,10 +17,6 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
 
     private val scoreBoardViewModel: ScoreBoardViewModel by activityViewModels()
     private val playersViewModel: PlayersViewModel by activityViewModels()
-
-    private val diceDialog: DiceDialog by lazy {
-        DiceDialog(hostActivityContext!!)
-    }
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -39,9 +34,7 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
 
     private fun initObserver() {
         playersViewModel.playerLeftDice.observe(viewLifecycleOwner) {
-            if (diceDialog.isShowing) {
-                diceDialog.dismiss()
-            }
+            binding.inDiceProgress = false
         }
     }
 
@@ -85,7 +78,7 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
                         showDialogPlayerNotSet()
                         return
                     }
-                    diceDialog.show()
+                    showDiceProgress()
                     playersViewModel.randomizeDice()
                 }
                 textBtnTimerMode -> {
@@ -98,6 +91,14 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
 
                 }
             }
+        }
+    }
+
+    private fun showDiceProgress() {
+        binding.apply {
+            inDiceProgress = true
+            imgLeftDiceProgress.playAnimation()
+            imgRightDiceProgress.playAnimation()
         }
     }
 

@@ -13,6 +13,10 @@
             name="listener"
             type="android.view.View.OnClickListener" />
 
+        <variable
+            name="inDiceProgress"
+            type="Boolean" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,17 +35,31 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.35">
 
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/imgLeftDiceProgress"
+                bindVisibleOrGone="@{inDiceProgress}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/imgLeftDice"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintEnd_toEndOf="@id/imgLeftDice"
+                app:layout_constraintStart_toStartOf="@id/imgLeftDice"
+                app:layout_constraintTop_toTopOf="@id/imgLeftDice"
+                app:lottie_autoPlay="false"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/dice" />
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgLeftDice"
                 bindDiceNumber="@{viewModel.playerLeftDice}"
+                bindVisibleOrInvisible="@{!inDiceProgress}"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:visibility="gone"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toTopOf="@+id/imgLeftCircle"
                 app:layout_constraintDimensionRatio="1"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.3"
@@ -52,7 +70,7 @@
                 style="@style/notosans_bold"
                 bindHeadToHeadRecords="@{viewModel.playerLeftRecord}"
                 bindOpponentPlayerName="@{viewModel.playerRight.name}"
-                bindVisibleOrGone="@{viewModel.playerLeftDice == 0}"
+                bindVisibleOrGone="@{viewModel.playerLeft != null &amp;&amp; viewModel.playerLeftDice == 0}"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:gravity="center"
@@ -187,12 +205,28 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.35">
 
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/imgRightDiceProgress"
+                bindVisibleOrGone="@{inDiceProgress}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/imgRightDice"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintEnd_toEndOf="@id/imgRightDice"
+                app:layout_constraintStart_toStartOf="@id/imgRightDice"
+                app:layout_constraintTop_toTopOf="@id/imgRightDice"
+                app:lottie_autoPlay="false"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/dice" />
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgRightDice"
                 bindDiceNumber="@{viewModel.playerRightDice}"
+                bindVisibleOrInvisible="@{!inDiceProgress}"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:visibility="gone"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toTopOf="@+id/imgRightCircle"
                 app:layout_constraintDimensionRatio="1"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -208,7 +242,7 @@
                 style="@style/notosans_bold"
                 bindHeadToHeadRecords="@{viewModel.playerRightRecord}"
                 bindOpponentPlayerName="@{viewModel.playerLeft.name}"
-                bindVisibleOrGone="@{viewModel.playerRightDice == 0}"
+                bindVisibleOrGone="@{viewModel.playerRight != null &amp;&amp; viewModel.playerRightDice == 0}"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:gravity="center"

@@ -108,12 +108,12 @@
         <entry key="app/src/main/res/layout/fragment_anycall.xml" value="0.6113023425412145" />
         <entry key="app/src/main/res/layout/fragment_choice_player.xml" value="0.37080689029918407" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.41354166666666664" />
-        <entry key="app/src/main/res/layout/fragment_nine_ball.xml" value="0.197821044921875" />
+        <entry key="app/src/main/res/layout/fragment_nine_ball.xml" value="0.11744791666666667" />
         <entry key="app/src/main/res/layout/fragment_player_list.xml" value="0.5925337569499602" />
         <entry key="app/src/main/res/layout/fragment_point_nine_ball.xml" value="0.20763452602482696" />
         <entry key="app/src/main/res/layout/fragment_score_board.xml" value="0.3500244140625001" />
         <entry key="app/src/main/res/layout/fragment_set_player.xml" value="0.41354166666666664" />
-        <entry key="app/src/main/res/layout/fragment_setting.xml" value="0.22994689941406252" />
+        <entry key="app/src/main/res/layout/fragment_setting.xml" value="0.1762152777777778" />
         <entry key="app/src/main/res/layout/item_choice_player.xml" value="0.4401041666666667" />
         <entry key="app/src/main/res/layout/item_grid_player.xml" value="0.21302083333333333" />
         <entry key="app/src/main/res/layout/item_player_grid.xml" value="0.22057291666666667" />

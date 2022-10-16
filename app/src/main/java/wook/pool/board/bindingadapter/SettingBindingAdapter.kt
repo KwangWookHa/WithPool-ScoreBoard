@@ -13,7 +13,7 @@ object SettingBindingAdapter {
     @JvmStatic
     fun AppCompatImageView.bindDiceNumber(number: Int) {
         if (number == 0) {
-            visibility = View.GONE
+            visibility = View.INVISIBLE
             return
         }
         setImageResource(
@@ -46,7 +46,10 @@ object SettingBindingAdapter {
     @BindingAdapter(value = ["bindOpponentPlayerName", "bindHeadToHeadRecords"], requireAll = true)
     @JvmStatic
     fun AppCompatTextView.bindHeadToHeadRecords(opponentPlayerName: String?, records: Triple<Int, Int, Int>?) {
-        if (opponentPlayerName == null || records == null) return
+        if (opponentPlayerName == null || records == null || records.toList().all { it == 0 }) {
+            this.visibility = View.GONE
+            return
+        }
         this.text = context.getString(
                 R.string.fragment_choice_player_head_to_head_records,
                 opponentPlayerName,
