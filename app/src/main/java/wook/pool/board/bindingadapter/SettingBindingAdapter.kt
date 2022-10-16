@@ -57,5 +57,6 @@ object SettingBindingAdapter {
                 records.second,
                 records.third
         )
+        this.visibility = View.VISIBLE
     }
 }
