@@ -64,7 +64,9 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
             isFinishMatchSuccessful.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
                     setLoadingProgress(false)
-                    Toast.makeText(hostActivityContext!!, getString(R.string.fragment_nine_ball_register_successful), Toast.LENGTH_SHORT).show()
+                    hostActivityContext?.let { context ->
+                        Toast.makeText(context, getString(R.string.fragment_nine_ball_register_successful), Toast.LENGTH_SHORT).show()
+                    }
                     backToSettingFragment()
                 }
             })
@@ -75,7 +77,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                 }
             })
             isMatchOver.observe(viewLifecycleOwner) {
-                if (it && !isGuestMode) {
+                if (it && !isGuestModeValue) {
                     showDialogToRegisterMatch()
                 }
             }
@@ -83,6 +85,9 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                 if (it <= 4) {
                     playSound(soundTimerBeep)
                 }
+            }
+            isGuestMode.observe(viewLifecycleOwner) {
+                if (it) setLoadingProgress(false)
             }
         }
     }
@@ -92,7 +97,7 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
             with(nineBallViewModel) {
                 when (v) {
                     layoutBtnFinishGame -> {
-                        if (isGuestMode) {
+                        if (isGuestModeValue) {
                             backToSettingFragment()
                             return
                         }

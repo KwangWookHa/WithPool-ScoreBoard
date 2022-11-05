@@ -6,6 +6,8 @@ object Constant {
 
     const val DURATION_ITEM_ANIMATION = 200L
 
+    const val GUEST = "Guest"
+
     object Collection {
         const val COLLECTION_NINE_BALL_MATCH = "nine_ball_match"
         const val COLLECTION_PLAYERS = "players"

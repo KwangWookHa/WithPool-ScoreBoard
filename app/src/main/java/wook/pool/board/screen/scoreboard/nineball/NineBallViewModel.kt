@@ -8,10 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import wook.pool.board.global.base.BaseViewModel
 import wook.pool.board.Constant
-import wook.pool.board.global.event.Event
-import wook.pool.board.global.extension.plus
+import wook.pool.board.Constant.GUEST
 import wook.pool.board.data.enums.GameType
 import wook.pool.board.data.model.MatchPlayers
 import wook.pool.board.data.model.NineBallMatch
@@ -19,6 +17,9 @@ import wook.pool.board.data.model.Player
 import wook.pool.board.domain.usecase.match.AddNineBallMatchUseCase
 import wook.pool.board.domain.usecase.match.DeleteNineBallMatchUseCase
 import wook.pool.board.domain.usecase.match.UpdateNineBallMatchUseCase
+import wook.pool.board.global.base.BaseViewModel
+import wook.pool.board.global.event.Event
+import wook.pool.board.global.extension.plus
 import javax.inject.Inject
 
 @HiltViewModel
@@ -64,7 +65,19 @@ class NineBallViewModel @Inject constructor(
 
     /***************************** Player Right *****************************/
 
-    val isGuestMode: Boolean get() = _playerLeft.value?.name == "Guest" || _playerRight.value?.name == "Guest"
+    val isGuestMode: LiveData<Boolean> = MediatorLiveData<Boolean>().apply {
+        this.value = false
+        addSource(_playerLeft) {
+            val containGuest = it?.name == GUEST || _playerRight.value?.name == GUEST
+            this.value = containGuest
+        }
+        addSource(_playerRight) {
+            val containGuest = it?.name == GUEST || _playerLeft.value?.name == GUEST
+            this.value = containGuest
+        }
+    }
+    val isGuestModeValue: Boolean get() = isGuestMode.value!!
+
 
     val isMatchOver: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
         this.value = false
@@ -162,7 +175,7 @@ class NineBallViewModel @Inject constructor(
                         _playerRightScore.plus(variation)
                     }
                 }
-                if (it.isNotBlank() && !isGuestMode) {
+                if (it.isNotBlank() && !isGuestModeValue) {
                     kotlin.runCatching {
                         updateNineBallMatchUseCase.invoke(
                                 documentPath = it,
@@ -207,7 +220,7 @@ class NineBallViewModel @Inject constructor(
                         _playerRightScore.plus(variation)
                     }
                 }
-                if (it.isNotBlank() && !isGuestMode) {
+                if (it.isNotBlank() && !isGuestModeValue) {
                     kotlin.runCatching {
                         updateNineBallMatchUseCase.invoke(
                                 documentPath = it,
@@ -231,8 +244,8 @@ class NineBallViewModel @Inject constructor(
     }
 
     private fun initNineBallMatch(playerLeft: Player, playerRight: Player, adjustment: Int) {
+        if (playerLeft.name == GUEST || playerLeft.name == GUEST) return
         viewModelScope.launch(ioDispatchers) {
-            if (playerLeft.name == "Guest" || playerRight.name == "Guest") return@launch
             kotlin.runCatching {
                 addNineBallMatchUseCase.invoke(
                         NineBallMatch(
@@ -261,9 +274,11 @@ class NineBallViewModel @Inject constructor(
     fun finishNineBallMatch() {
         viewModelScope.launch(ioDispatchers) {
             _documentPath.value?.let {
-                if (it.isNotBlank() && isMatchOver.value!! && !isGuestMode) {
-                    val winnerName = (if (_isPlayerLeftWinner.value!!) _playerLeft.value?.name else _playerRight.value?.name) ?: ""
-                    val loserName = (if (_isPlayerLeftWinner.value!!) _playerRight.value?.name else _playerLeft.value?.name) ?: ""
+                if (it.isNotBlank() && isMatchOver.value!! && !isGuestModeValue) {
+                    val winnerName = (if (_isPlayerLeftWinner.value!!) _playerLeft.value?.name else _playerRight.value?.name)
+                            ?: ""
+                    val loserName = (if (_isPlayerLeftWinner.value!!) _playerRight.value?.name else _playerLeft.value?.name)
+                            ?: ""
                     kotlin.runCatching {
                         updateNineBallMatchUseCase.invoke(
                                 documentPath = it,
@@ -285,7 +300,7 @@ class NineBallViewModel @Inject constructor(
     fun deleteNineBallMatch() {
         viewModelScope.launch(ioDispatchers) {
             _documentPath.value?.let {
-                if (it.isNotBlank() && !isGuestMode) {
+                if (it.isNotBlank() && !isGuestModeValue) {
                     kotlin.runCatching {
                         deleteNineBallMatchUseCase.invoke(it)
                     }.onSuccess {
