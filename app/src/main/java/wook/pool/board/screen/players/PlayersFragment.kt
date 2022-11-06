@@ -18,8 +18,6 @@ class PlayersFragment(override val layoutResId: Int = R.layout.fragment_players)
         BaseFragment<FragmentPlayersBinding>(),
         View.OnClickListener {
 
-    private var selectedHandicap = 5
-
     private val args: PlayersFragmentArgs by navArgs()
     private val scoreBoardViewModel: ScoreBoardViewModel by activityViewModels()
     private val playersViewModel: PlayersViewModel by activityViewModels()
@@ -48,12 +46,12 @@ class PlayersFragment(override val layoutResId: Int = R.layout.fragment_players)
     private fun initObserver() {
         with(playersViewModel) {
             players.observe(viewLifecycleOwner) {
-                submitPlayers(selectedHandicap)
-                binding.layoutPlayers.isRefreshing = false
+                selectedHandicapIndex()
             }
             selectedHandicapIndex.observe(viewLifecycleOwner) {
-                binding.selectedHandicapIndex = it.index
                 submitPlayers(it.handicap)
+                binding.selectedHandicapIndex = it.index
+                binding.layoutPlayers.isRefreshing = false
             }
             isPlayerSetSuccessful.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
@@ -93,8 +91,7 @@ class PlayersFragment(override val layoutResId: Int = R.layout.fragment_players)
             val index = binding.layoutHandicapSelector.indexOfChild(it)
             if (selectedHandicapIndex == index) return@OnClickListener
             SelectedHandicapIndex.values().firstOrNull { it.handicap == index + 3 }?.let { selectedHandicapIndex ->
-                playersViewModel.setSelectedHandicapIndex(selectedHandicapIndex)
-                selectedHandicap = selectedHandicapIndex.handicap
+                playersViewModel.selectedHandicapIndex(selectedHandicapIndex)
             }
         }
     }

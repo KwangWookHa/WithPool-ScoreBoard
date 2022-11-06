@@ -24,7 +24,10 @@ class PlayersViewModel @Inject constructor(
     private val _selectedHandicapIndex: MutableLiveData<SelectedHandicapIndex> = MutableLiveData()
     val selectedHandicapIndex: LiveData<SelectedHandicapIndex> = _selectedHandicapIndex
 
-    private val _players: MutableLiveData<List<Player>> = liveData { emit(getPlayersUseCase.invoke()) } as MutableLiveData<List<Player>>
+    private val _players: MutableLiveData<List<Player>> = liveData {
+        emit(getPlayersUseCase.invoke())
+    } as MutableLiveData<List<Player>>
+
     val players: LiveData<List<List<Player>>> = Transformations.map(_players) {
         mutableListOf<List<Player>>().apply {
             if (it.isNotEmpty()) {
@@ -137,7 +140,10 @@ class PlayersViewModel @Inject constructor(
         }
     }
 
-    fun setSelectedHandicapIndex(selectedHandicapIndex: SelectedHandicapIndex) {
+    fun selectedHandicapIndex(
+            selectedHandicapIndex: SelectedHandicapIndex = _selectedHandicapIndex.value
+                    ?: SelectedHandicapIndex.INDEX_HANDICAP_5
+    ) {
         viewModelScope.launch(ioDispatchers) {
             _selectedHandicapIndex.postValue(selectedHandicapIndex)
         }
