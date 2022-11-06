@@ -7,7 +7,7 @@ data class AppVersion(
         @DocumentId
         val documentId: String? = null,
 
-        val versionName: String? = null,
+        val versionCode: Int? = null,
 
         @JvmField
         val isImmediateUpdate: Boolean? = null,

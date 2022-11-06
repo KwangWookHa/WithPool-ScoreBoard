@@ -46,8 +46,13 @@ class ScoreBoardViewModel @Inject constructor(
         kotlin.runCatching {
             getAppVersionUseCase.invoke()
         }.onSuccess {
+            val isOutOfDate = try {
+                BuildConfig.VERSION_CODE < it?.versionCode!!
+            } catch (e: Exception) {
+                false
+            }
             _appVersionStatus.postValue(
-                    if (BuildConfig.VERSION_NAME != it?.versionName) {
+                    if (isOutOfDate) {
                         if (it?.isImmediateUpdate == true) {
                             AppVersionStatus.UPDATE_IMMEDIATELY
                         } else {
