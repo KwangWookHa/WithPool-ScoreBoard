@@ -45,14 +45,12 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
             setLoadingProgress(true)
             initSoundPool()
             binding.apply {
-                viewModel = nineBallViewModel.apply {
-                    initMatch(args.matchPlayers)
-                    initTimer(args.isTimerMode)
-                }
+                viewModel = nineBallViewModel
                 onClickListener = this@NineBallFragment
                 onLongClickListener = this@NineBallFragment
             }
             initObserver()
+            nineBallViewModel.initMatch(args.matchPlayers)
         }
     }
 
@@ -79,11 +77,6 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
             isMatchOver.observe(viewLifecycleOwner) {
                 if (it && !isGuestModeValue) {
                     showDialogToRegisterMatch()
-                }
-            }
-            remainingSeconds.observe(viewLifecycleOwner) {
-                if (it <= 4) {
-                    playSound(soundTimerBeep)
                 }
             }
             isGuestMode.observe(viewLifecycleOwner) {
@@ -115,10 +108,9 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
                         playSound(if (Random.nextBoolean()) soundRunOut else soundOldRunOut)
                         setRunOut(isLeft, +1)
                     }
-                    imgRewindTimer -> {
-                        rewindTimer()
+                    else -> {
+
                     }
-                    else -> {}
                 }
             }
         }

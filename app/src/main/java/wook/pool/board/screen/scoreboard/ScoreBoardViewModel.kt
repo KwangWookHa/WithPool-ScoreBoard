@@ -26,16 +26,17 @@ class ScoreBoardViewModel @Inject constructor(
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: LiveData<Boolean> = _isLoading
 
+
+    init {
+        signIn()
+    }
+
     fun setNavDirection(navDirection: NavDirections) {
         _navDirection.value = navDirection
     }
 
     fun setLoadingProgress(value: Boolean) {
         _isLoading.value = value
-    }
-
-    init {
-        signIn()
     }
 
     private val _appVersionStatus: MutableLiveData<AppVersionStatus> = MutableLiveData()
@@ -65,7 +66,7 @@ class ScoreBoardViewModel @Inject constructor(
                 kotlin.runCatching {
                     Firebase.auth.signInAnonymously().await()
                 }.onSuccess {
-                    checkAppVersion()
+                    if (it.user != null) checkAppVersion()
                 }
             } else {
                 checkAppVersion()

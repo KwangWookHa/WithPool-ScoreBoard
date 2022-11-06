@@ -1,6 +1,5 @@
 package wook.pool.board.screen.scoreboard.nineball
 
-import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,8 +17,8 @@ import wook.pool.board.domain.usecase.match.AddNineBallMatchUseCase
 import wook.pool.board.domain.usecase.match.DeleteNineBallMatchUseCase
 import wook.pool.board.domain.usecase.match.UpdateNineBallMatchUseCase
 import wook.pool.board.global.base.BaseViewModel
+import wook.pool.board.global.base.ScoreLiveData
 import wook.pool.board.global.event.Event
-import wook.pool.board.global.extension.plus
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,13 +33,13 @@ class NineBallViewModel @Inject constructor(
     private val _playerLeft: MutableLiveData<Player?> = MutableLiveData(null)
     val playerLeft: LiveData<Player?> = _playerLeft
 
-    private val _playerLeftAdjustedHandicap: MutableLiveData<Int> = MutableLiveData(Constant.IS_NOT_INITIALIZED)
+    private val _playerLeftAdjustedHandicap: ScoreLiveData = ScoreLiveData(Constant.IS_NOT_INITIALIZED)
     val playerLeftAdjustedHandicap: LiveData<Int> = _playerLeftAdjustedHandicap
 
-    private val _playerLeftScore: MutableLiveData<Int> = MutableLiveData(0)
+    private val _playerLeftScore: ScoreLiveData = ScoreLiveData()
     val playerLeftScore: LiveData<Int> = _playerLeftScore
 
-    private val _playerLeftRunOut: MutableLiveData<Int> = MutableLiveData(0)
+    private val _playerLeftRunOut: ScoreLiveData = ScoreLiveData()
     val playerLeftRunOut: LiveData<Int> = _playerLeftRunOut
 
     private val _playerLeftAlpha: MutableLiveData<Float> = MutableLiveData(1f)
@@ -51,13 +50,13 @@ class NineBallViewModel @Inject constructor(
     private val _playerRight: MutableLiveData<Player?> = MutableLiveData(null)
     val playerRight: LiveData<Player?> = _playerRight
 
-    private val _playerRightAdjustedHandicap: MutableLiveData<Int> = MutableLiveData()
+    private val _playerRightAdjustedHandicap: ScoreLiveData = ScoreLiveData(Constant.IS_NOT_INITIALIZED)
     val playerRightAdjustedHandicap: LiveData<Int> = _playerRightAdjustedHandicap
 
-    private val _playerRightScore: MutableLiveData<Int> = MutableLiveData(0)
+    private val _playerRightScore: ScoreLiveData = ScoreLiveData()
     val playerRightScore: LiveData<Int> = _playerRightScore
 
-    private val _playerRightRunOut: MutableLiveData<Int> = MutableLiveData(0)
+    private val _playerRightRunOut: ScoreLiveData = ScoreLiveData()
     val playerRightRunOut: LiveData<Int> = _playerRightRunOut
 
     private val _playerRightAlpha: MutableLiveData<Float> = MutableLiveData(1f)
@@ -67,14 +66,8 @@ class NineBallViewModel @Inject constructor(
 
     val isGuestMode: LiveData<Boolean> = MediatorLiveData<Boolean>().apply {
         this.value = false
-        addSource(_playerLeft) {
-            val containGuest = it?.name == GUEST || _playerRight.value?.name == GUEST
-            this.value = containGuest
-        }
-        addSource(_playerRight) {
-            val containGuest = it?.name == GUEST || _playerLeft.value?.name == GUEST
-            this.value = containGuest
-        }
+        addSource(_playerLeft) { this.value = (it?.name == GUEST || _playerRight.value?.name == GUEST) }
+        addSource(_playerRight) { this.value = (it?.name == GUEST || _playerLeft.value?.name == GUEST) }
     }
     val isGuestModeValue: Boolean get() = isGuestMode.value!!
 
@@ -117,28 +110,6 @@ class NineBallViewModel @Inject constructor(
     private val _isDeleteMatchSuccessful: MutableLiveData<Event<Boolean>> = MutableLiveData()
     val isDeleteMatchSuccessful: LiveData<Event<Boolean>> = _isDeleteMatchSuccessful
 
-    private val _isTimerMode: MutableLiveData<Boolean> = MutableLiveData()
-    val isTimerMode: LiveData<Boolean> = _isTimerMode
-
-    private val _remainingSeconds: MutableLiveData<Int> = MutableLiveData(Constant.IS_NOT_INITIALIZED)
-    val remainingSeconds: LiveData<Int> = _remainingSeconds
-
-    private var _timer: CountDownTimer? = object : CountDownTimer(40_000L, 1_000L) {
-        override fun onTick(millisUntilFinished: Long) {
-            val seconds = if (millisUntilFinished % 1000 == 0L) {
-                (millisUntilFinished / 1000L).toInt()
-            } else {
-                ((((40_000L - millisUntilFinished) % 1000) + millisUntilFinished) / 1000L).toInt()
-            }
-            _remainingSeconds.value = seconds
-        }
-
-        override fun onFinish() {
-            _remainingSeconds.value = 0
-            cancel()
-        }
-    }
-
     fun initMatch(matchPlayers: MatchPlayers?) {
         viewModelScope.launch(ioDispatchers) {
             matchPlayers?.let {
@@ -151,100 +122,64 @@ class NineBallViewModel @Inject constructor(
         }
     }
 
-    fun initTimer(mode: Boolean) {
-        viewModelScope.launch(ioDispatchers) {
-            _isTimerMode.postValue(mode)
-        }
-    }
-
     fun setScore(isLeft: Boolean, variation: Int) {
         viewModelScope.launch(ioDispatchers) {
-            if (isLeft) {
-                if (variation < 0 && _playerLeftScore.value!! == 0) return@launch
-                if (_playerLeftScore.value!! + variation > _playerLeftAdjustedHandicap.value!!) return@launch
-            } else {
-                if (variation < 0 && _playerRightScore.value!! == 0) return@launch
-                if (_playerRightScore.value!! + variation > _playerRightAdjustedHandicap.value!!) return@launch
-            }
+            val score = if (isLeft) _playerLeftScore else _playerRightScore
+            val handicap = if (isLeft) _playerLeftAdjustedHandicap else _playerRightAdjustedHandicap
+            val field = if (isLeft) Constant.Field.FILED_PLAYER_LEFT_SCORE else Constant.Field.FILED_PLAYER_RIGHT_SCORE
+            if (score.value!! + variation > handicap.value!!) return@launch
 
             _documentPath.value?.let {
-                val setScore = {
-                    if (isLeft) {
-                        _playerLeftScore.plus(variation)
-                    } else {
-                        _playerRightScore.plus(variation)
-                    }
-                }
                 if (it.isNotBlank() && !isGuestModeValue) {
                     kotlin.runCatching {
                         updateNineBallMatchUseCase.invoke(
                                 documentPath = it,
-                                data = mapOf(
-                                        if (isLeft) {
-                                            Constant.Field.FILED_PLAYER_LEFT_SCORE to _playerLeftScore.value!! + variation
-                                        } else {
-                                            Constant.Field.FILED_PLAYER_RIGHT_SCORE to _playerRightScore.value!! + variation
-                                        }
-                                ))
+                                data = mapOf(field to score.value!! + variation)
+                        )
                     }.onSuccess {
-                        setScore()
+                        score.plus(variation)
+                        return@launch
                     }
-                } else {
-                    setScore()
                 }
             }
+            score.plus(variation)
         }
     }
 
     fun setRunOut(isLeft: Boolean, variation: Int) {
         viewModelScope.launch(ioDispatchers) {
-            if (isLeft) {
-                if (_playerLeftScore.value!! + variation > _playerLeftAdjustedHandicap.value!!
-                        || _playerLeftScore.value!! + variation < 0
-                        || _playerLeftRunOut.value!! + variation < 0
-                ) return@launch
-            } else {
-                if (_playerRightScore.value!! + variation > _playerRightAdjustedHandicap.value!!
-                        || _playerRightScore.value!! + variation < 0
-                        || _playerRightRunOut.value!! + variation < 0
-                ) return@launch
-            }
+            val score = if (isLeft) _playerLeftScore else _playerRightScore
+            val handicap = if (isLeft) _playerLeftAdjustedHandicap else _playerRightAdjustedHandicap
+            val runOut = if (isLeft) _playerLeftRunOut else _playerRightRunOut
+
+            val scoreField = if (isLeft) Constant.Field.FILED_PLAYER_LEFT_SCORE else Constant.Field.FILED_PLAYER_RIGHT_SCORE
+            val runOutField = if (isLeft) Constant.Field.FILED_PLAYER_LEFT_RUN_OUT else Constant.Field.FILED_PLAYER_RIGHT_RUN_OUT
+            if (score.value!! + variation > handicap.value!!) return@launch
 
             _documentPath.value?.let {
-                val setRunOut = {
-                    if (isLeft) {
-                        _playerLeftRunOut.plus(variation)
-                        _playerLeftScore.plus(variation)
-                    } else {
-                        _playerRightRunOut.plus(variation)
-                        _playerRightScore.plus(variation)
-                    }
-                }
                 if (it.isNotBlank() && !isGuestModeValue) {
                     kotlin.runCatching {
                         updateNineBallMatchUseCase.invoke(
                                 documentPath = it,
                                 data = hashMapOf<String, Int>().apply {
-                                    if (isLeft) {
-                                        put(Constant.Field.FILED_PLAYER_LEFT_SCORE, _playerLeftScore.value!! + variation)
-                                        put(Constant.Field.FILED_PLAYER_LEFT_RUN_OUT, _playerLeftRunOut.value!! + variation)
-                                    } else {
-                                        put(Constant.Field.FILED_PLAYER_RIGHT_RUN_OUT, _playerRightRunOut.value!! + variation)
-                                        put(Constant.Field.FILED_PLAYER_RIGHT_SCORE, _playerRightScore.value!! + variation)
-                                    }
-                                })
+                                    put(scoreField, score.value!! + variation)
+                                    put(runOutField, runOut.value!! + variation)
+                                }
+                        )
                     }.onSuccess {
-                        setRunOut()
+                        score.plus(variation)
+                        runOut.plus(variation)
+                        return@launch
                     }
-                } else {
-                    setRunOut()
                 }
             }
+            score.plus(variation)
+            runOut.plus(variation)
         }
     }
 
     private fun initNineBallMatch(playerLeft: Player, playerRight: Player, adjustment: Int) {
-        if (playerLeft.name == GUEST || playerLeft.name == GUEST) return
+        if (isGuestModeValue) return
         viewModelScope.launch(ioDispatchers) {
             kotlin.runCatching {
                 addNineBallMatchUseCase.invoke(
@@ -287,7 +222,8 @@ class NineBallViewModel @Inject constructor(
                                     put(Constant.Field.FILED_PLAYER_WINNER_NAME, winnerName)
                                     put(Constant.Field.FILED_PLAYER_LOSER_NAME, loserName)
                                     put(Constant.Field.FILED_END_TIME_STAMP, Timestamp.now())
-                                })
+                                }
+                        )
                     }.onSuccess {
                         _documentPath.postValue("")
                         _isFinishMatchSuccessful.postValue(Event(true))
@@ -305,19 +241,13 @@ class NineBallViewModel @Inject constructor(
                         deleteNineBallMatchUseCase.invoke(it)
                     }.onSuccess {
                         _isDeleteMatchSuccessful.postValue(Event(true))
+                        return@launch
                     }
-                } else {
-                    _isDeleteMatchSuccessful.postValue(Event(true))
                 }
             }
+            _isDeleteMatchSuccessful.postValue(Event(true))
         }
     }
-
-    fun rewindTimer() {
-        _timer?.cancel()
-        _timer?.start()
-    }
-
 
     fun initLiveData() {
         viewModelScope.launch(ioDispatchers) {

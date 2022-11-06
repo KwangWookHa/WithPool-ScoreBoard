@@ -38,9 +38,11 @@ class ScoreBoardActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_score_board)
-        binding?.lifecycleOwner = this
+        binding = DataBindingUtil.setContentView<ActivityScoreBoardBinding?>(this, R.layout.activity_score_board).apply {
+            lifecycleOwner = this@ScoreBoardActivity
+        }
         initObserver()
+        observeAppVersion()
         scoreBoardViewModel.setLoadingProgress(true)
     }
 
@@ -61,14 +63,13 @@ class ScoreBoardActivity : BaseActivity() {
                     progressDialog.hide()
                 }
             }
-            observeAppVersion()
         }
     }
 
     private fun observeAppVersion() {
         with(scoreBoardViewModel) {
             appVersionStatus.observe(this@ScoreBoardActivity) {
-                when(it) {
+                when (it) {
                     AppVersionStatus.UPDATE_IMMEDIATELY -> showDialogToUpdateImmediately()
                     AppVersionStatus.UPDATE_AVAILABLE -> showDialogToUpdateAvailable()
                     AppVersionStatus.UP_TO_DATE -> scoreBoardViewModel.setLoadingProgress(false)
@@ -105,35 +106,5 @@ class ScoreBoardActivity : BaseActivity() {
                 .setBackPressDisabled(true)
                 .create(this@ScoreBoardActivity)
                 .show()
-    }
-
-    override fun onBackPressed() {
-        when (++backPressCount) {
-            1 -> Toast.makeText(this, getString(R.string.common_on_back_pressed_notice), Toast.LENGTH_SHORT).show()
-            2 -> finishAffinity()
-        }
-        lifecycleScope.launch(Dispatchers.IO) {
-            delay(3000)
-            kotlin.runCatching {
-                backPressCount = 0
-            }
-        }
-    }
-
-    private fun hideSystemUI() {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        WindowInsetsControllerCompat(window, window.decorView).let { controller ->
-            controller.hide(WindowInsetsCompat.Type.systemBars())
-            controller.systemBarsBehavior =
-                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        }
-    }
-
-    private fun showSystemUI() {
-        WindowCompat.setDecorFitsSystemWindows(window, true)
-        WindowInsetsControllerCompat(
-                window,
-                window.decorView
-        ).show(WindowInsetsCompat.Type.systemBars())
     }
 }

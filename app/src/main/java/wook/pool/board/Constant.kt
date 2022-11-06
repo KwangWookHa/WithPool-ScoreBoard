@@ -4,15 +4,12 @@ object Constant {
 
     const val IS_NOT_INITIALIZED = -9999
 
-    const val DURATION_ITEM_ANIMATION = 200L
-
     const val GUEST = "Guest"
 
     object Collection {
         const val COLLECTION_NINE_BALL_MATCH = "nine_ball_match"
         const val COLLECTION_PLAYERS = "players"
         const val COLLECTION_APP_VERSION = "app_version"
-        const val COLLECTION_COUNT = "count"
     }
 
     object Document {
@@ -20,7 +17,6 @@ object Constant {
     }
 
     object Field {
-        const val FIELD_COUNT = "count"
         const val FIELD_NAME = "name"
         const val FILED_IS_LIVE = "isLive"
         const val FILED_PLAYER_LEFT_NAME = "playerLeftName"
