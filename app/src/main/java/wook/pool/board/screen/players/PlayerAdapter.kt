@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import wook.pool.board.global.base.BaseViewHolder
 import wook.pool.board.data.model.Player
 import wook.pool.board.databinding.ItemGridPlayerBinding
+import wook.pool.board.global.base.BaseViewHolder
 
 class PlayerAdapter(
         private val onClickPlayer: ((Player) -> Unit)

@@ -28,7 +28,6 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
     private var soundScore: Int = Constant.IS_NOT_INITIALIZED
     private var soundRunOut: Int = Constant.IS_NOT_INITIALIZED
     private var soundOldRunOut: Int = Constant.IS_NOT_INITIALIZED
-    private var soundTimerBeep: Int = Constant.IS_NOT_INITIALIZED
 
     private val scoreBoardViewModel: ScoreBoardViewModel by activityViewModels()
     private val nineBallViewModel: NineBallViewModel by activityViewModels()
@@ -171,7 +170,6 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
     }
 
     private fun backToSettingFragment() {
-        playersViewModel.initDice()
         playersViewModel.initPlayers()
         nineBallViewModel.initLiveData()
         scoreBoardViewModel.setNavDirection(
@@ -192,7 +190,6 @@ class NineBallFragment(override val layoutResId: Int = R.layout.fragment_nine_ba
         soundScore = soundPool?.load(activity, R.raw.score, 1) ?: return
         soundRunOut = soundPool?.load(activity, R.raw.runout, 1) ?: return
         soundOldRunOut = soundPool?.load(activity, R.raw.old_runout, 1) ?: return
-        soundTimerBeep = soundPool?.load(activity, R.raw.timer_beep, 1) ?: return
     }
 
     private fun playSound(sound: Int) {

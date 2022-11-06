@@ -64,10 +64,7 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
                         showDialogPlayerNotSet()
                         return
                     }
-                    val navDirection = SettingFragmentDirections.actionFragmentSettingToFragmentNineBall(
-                            matchPlayers,
-                            playersViewModel.isTimerMode.value ?: false
-                    )
+                    val navDirection = SettingFragmentDirections.actionFragmentSettingToFragmentNineBall(matchPlayers)
                     scoreBoardViewModel.setNavDirection(navDirection)
                 }
                 textBtnAdjustHandicap -> {
@@ -79,10 +76,7 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
                         return
                     }
                     showDiceProgress()
-                    playersViewModel.randomizeDice()
-                }
-                textBtnTimerMode -> {
-                    playersViewModel.switchTimer()
+                    playersViewModel.rollDice()
                 }
                 textBtnAnyCallGame -> {
                     scoreBoardViewModel.setNavDirection(SettingFragmentDirections.actionFragmentSettingToFragmentAnycall())

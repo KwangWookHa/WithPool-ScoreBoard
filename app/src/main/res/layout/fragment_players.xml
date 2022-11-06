@@ -10,7 +10,7 @@
             type="Integer" />
 
         <variable
-            name="onClickHandicap"
+            name="onClickHandicapButton"
             type="android.view.View.OnClickListener" />
 
         <variable
@@ -86,7 +86,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{onClickHandicap::onClick}"
+                android:onClick="@{onClickHandicapButton::onClick}"
                 android:padding="@dimen/dp_4"
                 android:text="3점"
                 app:autoSizeTextType="uniform" />
@@ -99,7 +99,7 @@
                 android:layout_marginTop="@dimen/dp_8"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{onClickHandicap::onClick}"
+                android:onClick="@{onClickHandicapButton::onClick}"
                 android:padding="@dimen/dp_4"
                 android:text="4점"
                 app:autoSizeTextType="uniform" />
@@ -112,7 +112,7 @@
                 android:layout_marginTop="@dimen/dp_8"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{onClickHandicap::onClick}"
+                android:onClick="@{onClickHandicapButton::onClick}"
                 android:padding="@dimen/dp_4"
                 android:text="5점"
                 app:autoSizeTextType="uniform" />
@@ -125,7 +125,7 @@
                 android:layout_marginTop="@dimen/dp_8"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{onClickHandicap::onClick}"
+                android:onClick="@{onClickHandicapButton::onClick}"
                 android:padding="@dimen/dp_4"
                 android:text="6점"
                 app:autoSizeTextType="uniform" />
@@ -138,7 +138,7 @@
                 android:layout_marginTop="@dimen/dp_8"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{onClickHandicap::onClick}"
+                android:onClick="@{onClickHandicapButton::onClick}"
                 android:padding="@dimen/dp_4"
                 android:text="7점"
                 app:autoSizeTextType="uniform" />
@@ -151,7 +151,7 @@
                 android:layout_marginTop="@dimen/dp_8"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{onClickHandicap::onClick}"
+                android:onClick="@{onClickHandicapButton::onClick}"
                 android:padding="@dimen/dp_4"
                 android:text="8점"
                 app:autoSizeTextType="uniform" />
@@ -164,7 +164,7 @@
                 android:layout_marginTop="@dimen/dp_8"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{onClickHandicap::onClick}"
+                android:onClick="@{onClickHandicapButton::onClick}"
                 android:padding="@dimen/dp_4"
                 android:text="9점"
                 app:autoSizeTextType="uniform" />
@@ -177,32 +177,37 @@
                 android:layout_marginTop="@dimen/dp_8"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{onClickHandicap::onClick}"
+                android:onClick="@{onClickHandicapButton::onClick}"
                 android:padding="@dimen/dp_4"
                 android:text="10점"
                 app:autoSizeTextType="uniform" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerPlayers"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/layoutPlayers"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginHorizontal="@dimen/dp_24"
             android:layout_marginVertical="@dimen/dp_16"
             android:layout_weight="1"
-            android:overScrollMode="never"
-            android:scrollbars="none"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.446"
             app:layout_constraintStart_toEndOf="@+id/layoutHandicapSelector"
-            app:layout_constraintTop_toTopOf="parent"
-            app:spanCount="4"
-            tools:itemCount="10"
-            tools:listitem="@layout/item_grid_player" />
+            app:layout_constraintTop_toTopOf="parent">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerPlayers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="4"
+                tools:itemCount="10"
+                tools:listitem="@layout/item_grid_player" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

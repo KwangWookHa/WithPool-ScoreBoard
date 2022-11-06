@@ -415,25 +415,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textBtnTimerMode"
-            style="@style/notosans_bold"
-            bindTimerMode="@{viewModel.isTimerMode}"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/dp_16"
-            android:background="@drawable/bg_gray_round_6"
-            android:gravity="center"
-            android:onClick="@{listener::onClick}"
-            android:visibility="gone"
-            app:autoSizeMaxTextSize="@dimen/dp_40"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toTopOf="@+id/imgBtnDice"
-            app:layout_constraintEnd_toEndOf="@+id/layoutBtnStartGame"
-            app:layout_constraintHeight_percent="0.15"
-            app:layout_constraintStart_toStartOf="@+id/layoutBtnStartGame"
-            tools:text="@string/fragment_choice_player_timer_mode_on" />
-
-        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textBtnAnyCallGame"
             style="@style/notosans_bold"
             android:layout_width="0dp"

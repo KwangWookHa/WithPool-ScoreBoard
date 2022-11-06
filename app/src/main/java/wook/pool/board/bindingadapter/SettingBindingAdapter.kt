@@ -29,20 +29,6 @@ object SettingBindingAdapter {
         visibility = View.VISIBLE
     }
 
-    @BindingAdapter("bindTimerMode")
-    @JvmStatic
-    fun AppCompatTextView.bindTimerMode(mode: Boolean) {
-        if (mode) {
-            text = context.getString(R.string.fragment_choice_player_timer_mode_on)
-            alpha = 1f
-            setTextColor(ContextCompat.getColor(context, R.color.black))
-        } else {
-            text = context.getString(R.string.fragment_choice_player_timer_mode_off)
-            alpha = 0.3f
-            setTextColor(ContextCompat.getColor(context, R.color.dark_gray))
-        }
-    }
-
     @BindingAdapter(value = ["bindOpponentPlayerName", "bindHeadToHeadRecords"], requireAll = true)
     @JvmStatic
     fun AppCompatTextView.bindHeadToHeadRecords(opponentPlayerName: String?, records: Triple<Int, Int, Int>?) {

@@ -18,6 +18,7 @@ object Constant {
 
     object Field {
         const val FIELD_NAME = "name"
+        const val FIELD_HANDICAP = "handicap"
         const val FILED_IS_LIVE = "isLive"
         const val FILED_PLAYER_LEFT_NAME = "playerLeftName"
         const val FILED_PLAYER_RIGHT_NAME = "playerRightName"

@@ -5,6 +5,7 @@ import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import wook.pool.board.Constant
 import wook.pool.board.global.base.BaseViewModel
 import wook.pool.board.global.event.Event
 import wook.pool.board.data.model.MatchPlayers
@@ -18,14 +19,13 @@ import javax.inject.Inject
 class PlayersViewModel @Inject constructor(
         private val getPlayersUseCase: GetPlayersUseCase,
         private val getHeadToHeadRecordUseCase: GetHeadToHeadRecordUseCase,
-//    private val insertPlayersUseCase: InsertPlayerUseCase,
 ) : BaseViewModel() {
 
     private val _selectedHandicapIndex: MutableLiveData<SelectedHandicapIndex> = MutableLiveData()
     val selectedHandicapIndex: LiveData<SelectedHandicapIndex> = _selectedHandicapIndex
 
-    private val _players: MutableLiveData<List<Player>> = MutableLiveData()
-    val playersByHandicap: LiveData<MutableList<List<Player>>> = Transformations.map(_players) {
+    private val _players: MutableLiveData<List<Player>> = liveData { emit(getPlayersUseCase.invoke()) } as MutableLiveData<List<Player>>
+    val players: LiveData<List<List<Player>>> = Transformations.map(_players) {
         mutableListOf<List<Player>>().apply {
             if (it.isNotEmpty()) {
                 for (i in 0..10) {
@@ -43,9 +43,6 @@ class PlayersViewModel @Inject constructor(
 
     private val _handicapAdjustment: MutableLiveData<Int> = MutableLiveData(-1)
     val handicapAdjustment: LiveData<Int> = _handicapAdjustment
-
-    private val _isTimerMode: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isTimerMode: LiveData<Boolean> = _isTimerMode
 
     /***************************** Player Left *****************************/
 
@@ -75,42 +72,24 @@ class PlayersViewModel @Inject constructor(
     private val _isPlayerSetSuccessful: MutableLiveData<Event<Boolean>> = MutableLiveData()
     val isPlayerSetSuccessful: LiveData<Event<Boolean>> = _isPlayerSetSuccessful
 
-    val isGuestMode: Boolean get() = _playerLeft.value?.name == "Guest" || _playerRight.value?.name == "Guest"
+    private val isGuestMode: Boolean
+        get() = _playerLeft.value?.name == Constant.GUEST || _playerRight.value?.name == Constant.GUEST
 
-
-    init {
-        getPlayers()
-    }
-
-    private fun getPlayers() {
+    fun getPlayers() {
         viewModelScope.launch(ioDispatchers) {
-            if (_players.value == null || _players.value?.isEmpty() == true) {
-                kotlin.runCatching {
-                    getPlayersUseCase.invoke()
-                }.onSuccess {
-                    _players.postValue(it)
-                }
-            }
+            _players.postValue(getPlayersUseCase.invoke())
         }
     }
 
-    fun setPlayer(player: Player, isLeftPlayer: Boolean) {
+    fun setPlayer(player: Player, isLeft: Boolean) {
         viewModelScope.launch(ioDispatchers) {
-            if (isLeftPlayer) {
-                if (player.name == _playerRight.value?.name && player.name != "Guest") {
-                    _isPlayerSetSuccessful.postValue(Event(false))
-                    return@launch
-                }
-                _playerLeft.postValue(player)
-            } else {
-                if (player.name == _playerLeft.value?.name && player.name != "Guest") {
-                    _isPlayerSetSuccessful.postValue(Event(false))
-                    return@launch
-                }
-                _playerRight.postValue(player)
+            val opponentPlayer = if (isLeft) _playerRight else _playerLeft
+            val clickedPlayer = if (isLeft) _playerLeft else _playerRight
+            if (player.name == opponentPlayer.value?.name && player.name != Constant.GUEST) {
+                _isPlayerSetSuccessful.postValue(Event(false))
+                return@launch
             }
-            _playerLeftDice.postValue(0)
-            _playerRightDice.postValue(0)
+            clickedPlayer.postValue(player)
             _isPlayerSetSuccessful.postValue(Event(true))
         }
     }
@@ -132,10 +111,10 @@ class PlayersViewModel @Inject constructor(
     }
 
     fun initPlayers() {
-        viewModelScope.launch(ioDispatchers) {
-            _playerLeft.postValue(null)
-            _playerRight.postValue(null)
-        }
+        _playerLeft.value = null
+        _playerRight.value = null
+        _playerLeftDice.value = 0
+        _playerRightDice.value = 0
     }
 
     fun switchHandicapAdjustment() {
@@ -150,24 +129,11 @@ class PlayersViewModel @Inject constructor(
         }
     }
 
-    fun randomizeDice() {
+    fun rollDice() {
         viewModelScope.launch(ioDispatchers) {
             delay(2000L)
             _playerLeftDice.postValue((1..6).random())
             _playerRightDice.postValue((1..6).random())
-        }
-    }
-
-    fun initDice() {
-        _playerLeftDice.value = 0
-        _playerRightDice.value = 0
-    }
-
-    fun switchTimer() {
-        viewModelScope.launch(ioDispatchers) {
-            _isTimerMode.postValue(
-                    !(_isTimerMode.value!!)
-            )
         }
     }
 

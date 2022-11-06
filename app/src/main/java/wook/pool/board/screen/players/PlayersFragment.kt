@@ -7,20 +7,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import wook.pool.board.R
+import wook.pool.board.data.enums.SelectedHandicapIndex
+import wook.pool.board.databinding.FragmentPlayersBinding
 import wook.pool.board.global.base.BaseFragment
 import wook.pool.board.global.event.EventObserver
-import wook.pool.board.data.enums.SelectedHandicapIndex
-import wook.pool.board.databinding.FragmentPlayerListBinding
 import wook.pool.board.screen.dialog.DefaultDialog
 import wook.pool.board.screen.scoreboard.ScoreBoardViewModel
 
-class PlayersFragment(override val layoutResId: Int = R.layout.fragment_player_list) :
-        BaseFragment<FragmentPlayerListBinding>(),
+class PlayersFragment(override val layoutResId: Int = R.layout.fragment_players) :
+        BaseFragment<FragmentPlayersBinding>(),
         View.OnClickListener {
 
-    companion object {
-        private const val INITIAL_SELECTED_HANDICAP = 5
-    }
+    private var selectedHandicap = 5
 
     private val args: PlayersFragmentArgs by navArgs()
     private val scoreBoardViewModel: ScoreBoardViewModel by activityViewModels()
@@ -39,19 +37,19 @@ class PlayersFragment(override val layoutResId: Int = R.layout.fragment_player_l
             super.onCreateView(inflater, container, savedInstanceState).apply {
                 binding.apply {
                     selectedHandicapIndex = SelectedHandicapIndex.INDEX_HANDICAP_5.index
-                    onClickHandicap = this@PlayersFragment.onClickHandicap
+                    onClickHandicapButton = this@PlayersFragment.onClickHandicapButton
                     listener = this@PlayersFragment
                     recyclerPlayers.adapter = playerAdapter
+                    layoutPlayers.setOnRefreshListener { playersViewModel.getPlayers() }
                 }
                 initObserver()
             }
 
     private fun initObserver() {
         with(playersViewModel) {
-            playersByHandicap.observe(viewLifecycleOwner) {
-                if (selectedHandicapIndex.value == null) {
-                    submitPlayers(INITIAL_SELECTED_HANDICAP)
-                }
+            players.observe(viewLifecycleOwner) {
+                submitPlayers(selectedHandicap)
+                binding.layoutPlayers.isRefreshing = false
             }
             selectedHandicapIndex.observe(viewLifecycleOwner) {
                 binding.selectedHandicapIndex = it.index
@@ -69,7 +67,7 @@ class PlayersFragment(override val layoutResId: Int = R.layout.fragment_player_l
     }
 
     private fun submitPlayers(handicap: Int) {
-        playersViewModel.playersByHandicap.value?.let {
+        playersViewModel.players.value?.let {
             playerAdapter.submitList(it[handicap])
         }
     }
@@ -90,12 +88,13 @@ class PlayersFragment(override val layoutResId: Int = R.layout.fragment_player_l
     }
 
 
-    private val onClickHandicap = View.OnClickListener {
+    private val onClickHandicapButton = View.OnClickListener {
         with(binding) {
             val index = binding.layoutHandicapSelector.indexOfChild(it)
             if (selectedHandicapIndex == index) return@OnClickListener
             SelectedHandicapIndex.values().firstOrNull { it.handicap == index + 3 }?.let { selectedHandicapIndex ->
                 playersViewModel.setSelectedHandicapIndex(selectedHandicapIndex)
+                selectedHandicap = selectedHandicapIndex.handicap
             }
         }
     }
@@ -103,11 +102,8 @@ class PlayersFragment(override val layoutResId: Int = R.layout.fragment_player_l
     override fun onClick(v: View?) {
         with(binding) {
             when (v) {
-                imgBtnBack -> {
-                    scoreBoardViewModel.setNavDirection(
-                            PlayersFragmentDirections.actionFragmentPlayerListToFragmentSetting()
-                    )
-                }
+                imgBtnBack ->
+                    scoreBoardViewModel.setNavDirection(PlayersFragmentDirections.actionFragmentPlayerListToFragmentSetting())
             }
         }
     }
