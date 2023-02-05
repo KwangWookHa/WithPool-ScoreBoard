@@ -51,20 +51,42 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/appCompatTextView"
-            style="@style/poppins_medium"
+            android:id="@+id/textBtnMinusHandicap"
+            style="@style/poppins_bold"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="@dimen/dp_16"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_8"
+            android:layout_weight="1"
+            android:background="@drawable/bg_gray_round_6"
             android:gravity="center"
-            android:padding="@dimen/dp_16"
-            android:text="@string/common_handicap"
+            android:onClick="@{listener::onClick}"
+            android:padding="@dimen/dp_8"
+            android:text="-"
             app:autoSizeTextType="uniform"
-            app:layout_constraintEnd_toEndOf="@+id/layoutHandicapSelector"
-            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintEnd_toStartOf="@+id/textBtnPlusHandicap"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@+id/imgBtnBack"
             app:layout_constraintTop_toBottomOf="@+id/textTitle" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textBtnPlusHandicap"
+            style="@style/poppins_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_weight="1"
+            android:background="@drawable/bg_gray_round_6"
+            android:gravity="center"
+            android:onClick="@{listener::onClick}"
+            android:padding="@dimen/dp_8"
+            android:text="+"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@+id/textBtnMinusHandicap"
+            app:layout_constraintEnd_toEndOf="@+id/textTitle"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/textBtnMinusHandicap"
+            app:layout_constraintTop_toTopOf="@+id/textBtnMinusHandicap" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/layoutHandicapSelector"
@@ -76,7 +98,7 @@
             android:weightSum="8"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView"
+            app:layout_constraintTop_toBottomOf="@+id/textBtnMinusHandicap"
             app:layout_constraintWidth_percent="0.2">
 
             <androidx.appcompat.widget.AppCompatTextView

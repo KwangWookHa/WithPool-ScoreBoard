@@ -57,7 +57,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.6"
-                tools:text="하광욱 (5)" />
+                tools:text="하광욱 (6)" />
 
             <View
                 android:id="@+id/viewDividerLeft"
@@ -253,19 +253,6 @@
                 app:layout_constraintWidth_percent="0.5" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgLogo"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="@dimen/dp_24"
-            android:onClick="@{onClickListener::onClick}"
-            android:src="@drawable/logo_withpool_ratio1"
-            app:layout_constraintBottom_toTopOf="@+id/textBtnPlusLeftRunOut"
-            app:layout_constraintDimensionRatio="1"
-            app:layout_constraintEnd_toStartOf="@+id/layoutRightPlayer"
-            app:layout_constraintStart_toEndOf="@+id/layoutLeftPlayer"
-            app:layout_constraintTop_toBottomOf="@+id/layoutBtnFinishGame" />
 
 
         <androidx.appcompat.widget.AppCompatTextView

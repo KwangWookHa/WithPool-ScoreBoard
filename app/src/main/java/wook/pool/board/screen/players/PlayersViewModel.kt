@@ -10,7 +10,7 @@ import wook.pool.board.global.base.BaseViewModel
 import wook.pool.board.global.event.Event
 import wook.pool.board.data.model.MatchPlayers
 import wook.pool.board.data.model.Player
-import wook.pool.board.data.enums.SelectedHandicapIndex
+import wook.pool.board.data.enums.Handicap
 import wook.pool.board.domain.usecase.match.GetHeadToHeadRecordUseCase
 import wook.pool.board.domain.usecase.player.GetPlayersUseCase
 import javax.inject.Inject
@@ -21,8 +21,8 @@ class PlayersViewModel @Inject constructor(
         private val getHeadToHeadRecordUseCase: GetHeadToHeadRecordUseCase,
 ) : BaseViewModel() {
 
-    private val _selectedHandicapIndex: MutableLiveData<SelectedHandicapIndex> = MutableLiveData()
-    val selectedHandicapIndex: LiveData<SelectedHandicapIndex> = _selectedHandicapIndex
+    private val _selectedHandicap: MutableLiveData<Handicap> = MutableLiveData()
+    val selectedHandicap: LiveData<Handicap> = _selectedHandicap
 
     private val _players: MutableLiveData<List<Player>> = liveData {
         emit(getPlayersUseCase.invoke())
@@ -140,12 +140,9 @@ class PlayersViewModel @Inject constructor(
         }
     }
 
-    fun selectedHandicapIndex(
-            selectedHandicapIndex: SelectedHandicapIndex = _selectedHandicapIndex.value
-                    ?: SelectedHandicapIndex.INDEX_HANDICAP_5
-    ) {
+    fun selectHandicap(handicap: Handicap) {
         viewModelScope.launch(ioDispatchers) {
-            _selectedHandicapIndex.postValue(selectedHandicapIndex)
+            _selectedHandicap.postValue(handicap)
         }
     }
 

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import wook.pool.board.R
-import wook.pool.board.data.enums.SelectedHandicapIndex
+import wook.pool.board.data.enums.Handicap
 import wook.pool.board.databinding.FragmentPlayersBinding
 import wook.pool.board.global.base.BaseFragment
 import wook.pool.board.global.event.EventObserver
@@ -31,26 +31,25 @@ class PlayersFragment(override val layoutResId: Int = R.layout.fragment_players)
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? =
-            super.onCreateView(inflater, container, savedInstanceState).apply {
-                binding.apply {
-                    selectedHandicapIndex = SelectedHandicapIndex.INDEX_HANDICAP_5.index
-                    onClickHandicapButton = this@PlayersFragment.onClickHandicapButton
-                    listener = this@PlayersFragment
-                    recyclerPlayers.adapter = playerAdapter
-                    layoutPlayers.setOnRefreshListener { playersViewModel.getPlayers() }
-                }
-                initObserver()
-            }
+    ): View? = super.onCreateView(inflater, container, savedInstanceState).apply {
+        binding.apply {
+            selectedHandicapIndex = Handicap.HANDICAP_5.ordinal
+            onClickHandicapButton = this@PlayersFragment.onClickHandicapButton
+            listener = this@PlayersFragment
+            recyclerPlayers.adapter = playerAdapter
+            layoutPlayers.setOnRefreshListener { playersViewModel.getPlayers() }
+        }
+        initObserver()
+    }
 
     private fun initObserver() {
         with(playersViewModel) {
             players.observe(viewLifecycleOwner) {
-                selectedHandicapIndex()
+                selectHandicap(selectedHandicap.value ?: Handicap.HANDICAP_5)
             }
-            selectedHandicapIndex.observe(viewLifecycleOwner) {
-                submitPlayers(it.handicap)
-                binding.selectedHandicapIndex = it.index
+            selectedHandicap.observe(viewLifecycleOwner) {
+                submitPlayers(it.value)
+                binding.selectedHandicapIndex = it.ordinal
                 binding.layoutPlayers.isRefreshing = false
             }
             isPlayerSetSuccessful.observe(viewLifecycleOwner, EventObserver {
@@ -90,8 +89,8 @@ class PlayersFragment(override val layoutResId: Int = R.layout.fragment_players)
         with(binding) {
             val index = binding.layoutHandicapSelector.indexOfChild(it)
             if (selectedHandicapIndex == index) return@OnClickListener
-            SelectedHandicapIndex.values().firstOrNull { it.handicap == index + 3 }?.let { selectedHandicapIndex ->
-                playersViewModel.selectedHandicapIndex(selectedHandicapIndex)
+            Handicap.values().firstOrNull { it.value == index + 3 }?.let { selectedHandicapIndex ->
+                playersViewModel.selectHandicap(selectedHandicapIndex)
             }
         }
     }
@@ -101,6 +100,21 @@ class PlayersFragment(override val layoutResId: Int = R.layout.fragment_players)
             when (v) {
                 imgBtnBack ->
                     scoreBoardViewModel.setNavDirection(PlayersFragmentDirections.actionFragmentPlayerListToFragmentSetting())
+                textBtnMinusHandicap -> {
+                    playersViewModel.selectedHandicap.value?.ordinal?.minus(1)?.let {
+                        kotlin.runCatching {
+                            playersViewModel.selectHandicap(Handicap.values()[it])
+                        }
+                    }
+                }
+                textBtnPlusHandicap -> {
+                    playersViewModel.selectedHandicap.value?.ordinal?.plus(1)?.let {
+                        kotlin.runCatching {
+                            playersViewModel.selectHandicap(Handicap.values()[it])
+                        }
+                    }
+                }
+                else -> return
             }
         }
     }
