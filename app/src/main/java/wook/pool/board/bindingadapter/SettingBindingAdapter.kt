@@ -32,17 +32,21 @@ object SettingBindingAdapter {
     @BindingAdapter(value = ["bindOpponentPlayerName", "bindHeadToHeadRecords"], requireAll = true)
     @JvmStatic
     fun AppCompatTextView.bindHeadToHeadRecords(opponentPlayerName: String?, records: Triple<Int, Int, Int>?) {
-        if (opponentPlayerName == null || records == null || records.toList().all { it == 0 }) {
+        if (opponentPlayerName == null || records == null) {
             this.visibility = View.GONE
             return
         }
-        this.text = context.getString(
-                R.string.fragment_choice_player_head_to_head_records,
-                opponentPlayerName,
-                records.first,
-                records.second,
-                records.third
-        )
+        if (records.toList().all { it == 0 }) {
+            this.text = context.getString(R.string.fragment_choice_player_none_head_to_head_records)
+        } else {
+            this.text = context.getString(
+                    R.string.fragment_choice_player_head_to_head_records,
+                    opponentPlayerName,
+                    records.first,
+                    records.second,
+                    records.third
+            )
+        }
         this.visibility = View.VISIBLE
     }
 }

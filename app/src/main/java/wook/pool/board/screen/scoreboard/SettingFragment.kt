@@ -36,6 +36,7 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
         playersViewModel.playerLeftDice.observe(viewLifecycleOwner) {
             binding.inDiceProgress = false
         }
+
     }
 
     override fun onClick(v: View?) {

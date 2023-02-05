@@ -94,6 +94,8 @@ class PlayersViewModel @Inject constructor(
             }
             clickedPlayer.postValue(player)
             _isPlayerSetSuccessful.postValue(Event(true))
+            _playerLeftDice.postValue(0)
+            _playerRightDice.postValue(0)
         }
     }
 
