@@ -14,6 +14,7 @@ import wook.pool.board.data.enums.Handicap
 import wook.pool.board.domain.usecase.match.GetHeadToHeadRecordUseCase
 import wook.pool.board.domain.usecase.player.GetPlayersUseCase
 import wook.pool.board.domain.usecase.player.DeletePlayerUseCase
+import wook.pool.board.domain.usecase.player.InsertPlayerUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,6 +22,7 @@ class PlayersViewModel @Inject constructor(
         private val getPlayersUseCase: GetPlayersUseCase,
         private val getHeadToHeadRecordUseCase: GetHeadToHeadRecordUseCase,
         private val deletePlayerUseCase: DeletePlayerUseCase,
+        private val insertPlayerUseCase: InsertPlayerUseCase,
 ) : BaseViewModel() {
 
     private val _selectedHandicap: MutableLiveData<Handicap> = MutableLiveData()
@@ -87,6 +89,9 @@ class PlayersViewModel @Inject constructor(
 
     private val _deletePlayerEvent: MutableLiveData<Event<Pair<Boolean, String?>>> = MutableLiveData()
     val deletePlayerEvent: LiveData<Event<Pair<Boolean, String?>>> = _deletePlayerEvent
+
+    private val _addPlayerEvent: MutableLiveData<Event<Pair<Boolean, String?>>> = MutableLiveData()
+    val addPlayerEvent: LiveData<Event<Pair<Boolean, String?>>> = _addPlayerEvent
 
     private val isGuestMode: Boolean
         get() = _playerLeft.value?.name == Constant.GUEST || _playerRight.value?.name == Constant.GUEST
@@ -183,6 +188,43 @@ class PlayersViewModel @Inject constructor(
             } catch (e: Exception) {
                 Logger.e("Failed to delete player: ${e.message}")
                 _deletePlayerEvent.postValue(Event(Pair(false, player.name)))
+            }
+        }
+    }
+
+    fun addPlayer(name: String) {
+        viewModelScope.launch(ioDispatchers) {
+            try {
+                // 이름 검증
+                if (name.length > 10) {
+                    _addPlayerEvent.postValue(Event(Pair(false, "이름은 10자 이하로 입력해주세요.")))
+                    return@launch
+                }
+
+                // 중복 체크
+                val existingPlayers = _players.value ?: emptyList()
+                if (existingPlayers.any { it.name == name }) {
+                    _addPlayerEvent.postValue(Event(Pair(false, "이미 존재하는 이름입니다.")))
+                    return@launch
+                }
+
+                // 현재 선택된 핸디캡 가져오기
+                val currentHandicap = _selectedHandicap.value?.value ?: return@launch
+
+                // 새 플레이어 생성
+                val newPlayer = Player(
+                    name = name,
+                    handicap = currentHandicap,
+                    club = "위드풀"
+                )
+
+                // 플레이어 추가
+                insertPlayerUseCase.invoke(newPlayer)
+                _addPlayerEvent.postValue(Event(Pair(true, name)))
+                getPlayers() // 추가 후 목록 새로고침
+            } catch (e: Exception) {
+                Logger.e("Failed to add player: ${e.message}")
+                _addPlayerEvent.postValue(Event(Pair(false, "플레이어 추가에 실패했습니다.")))
             }
         }
     }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
@@ -77,6 +78,14 @@ class PlayersFragment(override val layoutResId: Int = R.layout.fragment_players)
                     showDeleteSuccessDialog(playerName)
                 } else {
                     showDeleteFailedDialog()
+                }
+            })
+            addPlayerEvent.observe(viewLifecycleOwner, EventObserver { result ->
+                val (success, message) = result
+                if (success) {
+                    showAddSuccessDialog(message)
+                } else {
+                    showAddFailedDialog(message)
                 }
             })
         }
@@ -159,10 +168,44 @@ class PlayersFragment(override val layoutResId: Int = R.layout.fragment_players)
                         dialog.dismiss()
                     }
                     .setOnClickConfirm { dialog, playerName ->
-                        if (playerName.isNotBlank()) {
-                            // TODO: 플레이어 추가 로직 구현
-                            dialog.dismiss()
+                        when {
+                            playerName.isBlank() -> {
+                                Toast.makeText(context, "이름을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                            }
+                            else -> {
+                                playersViewModel.addPlayer(playerName.trim())
+                                dialog.dismiss()
+                            }
                         }
+                    }
+                    .create(context)
+                    .show()
+        }
+    }
+    private fun showAddSuccessDialog(playerName: String?) {
+        hostActivityContext?.let { context ->
+            DefaultDialog.Builder()
+                    .setType(DefaultDialog.DialogType.DIALOG_OK)
+                    .setTitle("추가 완료")
+                    .setMessage("${playerName ?: "회원"}님이 추가되었습니다.")
+                    .setRightButtonText(getString(R.string.common_confirm))
+                    .setOnClickRight { dialog ->
+                        dialog.dismiss()
+                    }
+                    .create(context)
+                    .show()
+        }
+    }
+
+    private fun showAddFailedDialog(message: String?) {
+        hostActivityContext?.let { context ->
+            DefaultDialog.Builder()
+                    .setType(DefaultDialog.DialogType.DIALOG_OK)
+                    .setTitle("추가 실패")
+                    .setMessage(message ?: "회원 추가에 실패했습니다.")
+                    .setRightButtonText(getString(R.string.common_confirm))
+                    .setOnClickRight { dialog ->
+                        dialog.dismiss()
                     }
                     .create(context)
                     .show()

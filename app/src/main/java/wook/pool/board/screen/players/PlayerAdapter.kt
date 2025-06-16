@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.viewbinding.ViewBinding
 import wook.pool.board.data.model.Player
 import wook.pool.board.databinding.ItemGridAddPlayerBinding
 import wook.pool.board.databinding.ItemGridPlayerBinding
