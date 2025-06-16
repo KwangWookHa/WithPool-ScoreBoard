@@ -30,17 +30,25 @@ class PlayersViewModel @Inject constructor(
         emit(getPlayersUseCase.invoke())
     } as MutableLiveData<List<Player>>
 
-    val players: LiveData<List<List<Player>>> = Transformations.map(_players) {
-        mutableListOf<List<Player>>().apply {
+    val players: LiveData<List<List<PlayerListItem>>> = Transformations.map(_players) {
+        mutableListOf<List<PlayerListItem>>().apply {
             if (it.isNotEmpty()) {
                 for (i in 0..10) {
-                    add(
-                            if (i < 3) {
-                                emptyList()
-                            } else {
-                                it.filter { player -> player.handicap == i }
-                            }
-                    )
+                    val playerList = mutableListOf<PlayerListItem>()
+                    
+                    if (i < 3) {
+                        // 핸디캡 0,1,2는 빈 리스트
+                        add(emptyList())
+                    } else {
+                        // 해당 핸디캡의 플레이어들을 추가
+                        it.filter { player -> player.handicap == i }
+                            .forEach { player -> playerList.add(PlayerListItem.PlayerItem(player)) }
+                        
+                        // 마지막에 "+" 버튼 추가
+                        playerList.add(PlayerListItem.AddPlayerItem)
+                        
+                        add(playerList)
+                    }
                 }
             }
         }

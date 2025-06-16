@@ -14,6 +14,7 @@ import wook.pool.board.databinding.FragmentPlayersBinding
 import wook.pool.board.global.base.BaseFragment
 import wook.pool.board.global.event.EventObserver
 import wook.pool.board.screen.dialog.DefaultDialog
+import wook.pool.board.screen.dialog.AddPlayerDialog
 import wook.pool.board.screen.scoreboard.ScoreBoardViewModel
 
 class PlayersFragment(override val layoutResId: Int = R.layout.fragment_players) :
@@ -30,6 +31,9 @@ class PlayersFragment(override val layoutResId: Int = R.layout.fragment_players)
             },
             onLongClickPlayer = { player ->
                 showDeletePlayerDialog(player)
+            },
+            onClickAddPlayer = {
+                showAddPlayerDialog()
             }
         )
     }
@@ -143,6 +147,22 @@ class PlayersFragment(override val layoutResId: Int = R.layout.fragment_players)
                     .setRightButtonText(getString(R.string.common_confirm))
                     .setOnClickRight { dialog ->
                         dialog.dismiss()
+                    }
+                    .create(context)
+                    .show()
+        }
+    }
+    private fun showAddPlayerDialog() {
+        hostActivityContext?.let { context ->
+            AddPlayerDialog.Builder()
+                    .setOnClickCancel { dialog ->
+                        dialog.dismiss()
+                    }
+                    .setOnClickConfirm { dialog, playerName ->
+                        if (playerName.isNotBlank()) {
+                            // TODO: 플레이어 추가 로직 구현
+                            dialog.dismiss()
+                        }
                     }
                     .create(context)
                     .show()
