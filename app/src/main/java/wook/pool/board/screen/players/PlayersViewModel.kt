@@ -13,12 +13,14 @@ import wook.pool.board.data.model.Player
 import wook.pool.board.data.enums.Handicap
 import wook.pool.board.domain.usecase.match.GetHeadToHeadRecordUseCase
 import wook.pool.board.domain.usecase.player.GetPlayersUseCase
+import wook.pool.board.domain.usecase.player.DeletePlayerUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class PlayersViewModel @Inject constructor(
         private val getPlayersUseCase: GetPlayersUseCase,
         private val getHeadToHeadRecordUseCase: GetHeadToHeadRecordUseCase,
+        private val deletePlayerUseCase: DeletePlayerUseCase,
 ) : BaseViewModel() {
 
     private val _selectedHandicap: MutableLiveData<Handicap> = MutableLiveData()
@@ -74,6 +76,9 @@ class PlayersViewModel @Inject constructor(
 
     private val _isPlayerSetSuccessful: MutableLiveData<Event<Boolean>> = MutableLiveData()
     val isPlayerSetSuccessful: LiveData<Event<Boolean>> = _isPlayerSetSuccessful
+
+    private val _deletePlayerEvent: MutableLiveData<Event<Pair<Boolean, String?>>> = MutableLiveData()
+    val deletePlayerEvent: LiveData<Event<Pair<Boolean, String?>>> = _deletePlayerEvent
 
     private val isGuestMode: Boolean
         get() = _playerLeft.value?.name == Constant.GUEST || _playerRight.value?.name == Constant.GUEST
@@ -158,4 +163,19 @@ class PlayersViewModel @Inject constructor(
                         adjustment = _handicapAdjustment.value!!,
                 )
             }
+
+    fun deletePlayer(player: Player) {
+        viewModelScope.launch(ioDispatchers) {
+            try {
+                player.documentId?.let { documentId ->
+                    deletePlayerUseCase.invoke(documentId)
+                    _deletePlayerEvent.postValue(Event(Pair(true, player.name)))
+                    getPlayers() // 삭제 후 목록 새로고침
+                }
+            } catch (e: Exception) {
+                Logger.e("Failed to delete player: ${e.message}")
+                _deletePlayerEvent.postValue(Event(Pair(false, player.name)))
+            }
+        }
+    }
 }

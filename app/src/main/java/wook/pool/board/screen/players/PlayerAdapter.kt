@@ -9,7 +9,8 @@ import wook.pool.board.databinding.ItemGridPlayerBinding
 import wook.pool.board.global.base.BaseViewHolder
 
 class PlayerAdapter(
-        private val onClickPlayer: ((Player) -> Unit)
+        private val onClickPlayer: ((Player) -> Unit),
+        private val onLongClickPlayer: ((Player) -> Unit)? = null
 ) : ListAdapter<Player, BaseViewHolder<Player>>(object : DiffUtil.ItemCallback<Player>() {
 
     override fun areItemsTheSame(oldItem: Player, newItem: Player): Boolean =
@@ -33,6 +34,12 @@ class PlayerAdapter(
         override fun bind(position: Int, item: Player, listener: ((Player) -> Unit)?) {
             binding.player = item
             binding.onClickPlayer = listener
+            
+            // 롱클릭 이벤트 설정
+            binding.root.setOnLongClickListener {
+                onLongClickPlayer?.invoke(item)
+                true
+            }
         }
     }
 
