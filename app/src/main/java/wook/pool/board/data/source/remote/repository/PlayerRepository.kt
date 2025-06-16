@@ -19,4 +19,11 @@ class PlayerRepository @Inject constructor(
                     .get()
                     .await()
                     .toObjects(Player::class.java)
+
+    suspend fun deletePlayer(documentId: String) {
+        fireStore.collection(Constant.Collection.COLLECTION_PLAYERS)
+                .document(documentId)
+                .delete()
+                .await()
+    }
 }
