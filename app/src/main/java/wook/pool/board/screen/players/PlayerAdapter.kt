@@ -1,6 +1,7 @@
 package wook.pool.board.screen.players
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -17,7 +18,7 @@ sealed class PlayerListItem {
 
 class PlayerAdapter(
         private val onClickPlayer: ((Player) -> Unit),
-        private val onLongClickPlayer: ((Player) -> Unit)? = null,
+        private val onLongClickPlayer: ((Player, View) -> Unit)? = null,
         private val onClickAddPlayer: (() -> Unit)? = null
 ) : ListAdapter<PlayerListItem, BaseViewHolder<*>>(object : DiffUtil.ItemCallback<PlayerListItem>() {
 
@@ -79,8 +80,8 @@ class PlayerAdapter(
             binding.onClickPlayer = listener
             
             // 롱클릭 이벤트 설정
-            binding.root.setOnLongClickListener {
-                onLongClickPlayer?.invoke(item)
+            binding.root.setOnLongClickListener { view ->
+                onLongClickPlayer?.invoke(item, view)
                 true
             }
         }

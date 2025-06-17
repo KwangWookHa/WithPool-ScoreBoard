@@ -15,6 +15,7 @@ import wook.pool.board.domain.usecase.match.GetHeadToHeadRecordUseCase
 import wook.pool.board.domain.usecase.player.GetPlayersUseCase
 import wook.pool.board.domain.usecase.player.DeletePlayerUseCase
 import wook.pool.board.domain.usecase.player.InsertPlayerUseCase
+import wook.pool.board.domain.usecase.player.UpdatePlayerUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,6 +24,7 @@ class PlayersViewModel @Inject constructor(
         private val getHeadToHeadRecordUseCase: GetHeadToHeadRecordUseCase,
         private val deletePlayerUseCase: DeletePlayerUseCase,
         private val insertPlayerUseCase: InsertPlayerUseCase,
+        private val updatePlayerUseCase: UpdatePlayerUseCase,
 ) : BaseViewModel() {
 
     private val _selectedHandicap: MutableLiveData<Handicap> = MutableLiveData()
@@ -92,6 +94,9 @@ class PlayersViewModel @Inject constructor(
 
     private val _addPlayerEvent: MutableLiveData<Event<Pair<Boolean, String?>>> = MutableLiveData()
     val addPlayerEvent: LiveData<Event<Pair<Boolean, String?>>> = _addPlayerEvent
+
+    private val _updatePlayerEvent: MutableLiveData<Event<Pair<Boolean, String?>>> = MutableLiveData()
+    val updatePlayerEvent: LiveData<Event<Pair<Boolean, String?>>> = _updatePlayerEvent
 
     private val isGuestMode: Boolean
         get() = _playerLeft.value?.name == Constant.GUEST || _playerRight.value?.name == Constant.GUEST
@@ -225,6 +230,22 @@ class PlayersViewModel @Inject constructor(
             } catch (e: Exception) {
                 Logger.e("Failed to add player: ${e.message}")
                 _addPlayerEvent.postValue(Event(Pair(false, "플레이어 추가에 실패했습니다.")))
+            }
+        }
+    }
+
+    fun updatePlayerHandicap(player: Player, newHandicap: Int) {
+        viewModelScope.launch(ioDispatchers) {
+            try {
+                player.documentId?.let { documentId ->
+                    val updatedPlayer = player.copy(handicap = newHandicap)
+                    updatePlayerUseCase.invoke(documentId, updatedPlayer)
+                    _updatePlayerEvent.postValue(Event(Pair(true, player.name)))
+                    getPlayers() // 수정 후 목록 새로고침
+                }
+            } catch (e: Exception) {
+                Logger.e("Failed to update player handicap: ${e.message}")
+                _updatePlayerEvent.postValue(Event(Pair(false, "핸디캡 수정에 실패했습니다.")))
             }
         }
     }
