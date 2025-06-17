@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="wook.pool.board.screen.dialog.EditHandicapDialog" />
+        <import type="kotlin.jvm.functions.Function1" />
+        <import type="kotlin.jvm.functions.Function2" />
+        <import type="kotlin.Unit" />
+
+        <variable
+            name="dialog"
+            type="wook.pool.board.screen.dialog.EditHandicapDialog" />
+
+        <variable
+            name="playerName"
+            type="String" />
+
+        <variable
+            name="currentHandicap"
+            type="Integer" />
+
+        <variable
+            name="onClickCancel"
+            type="kotlin.jvm.functions.Function1&lt;wook.pool.board.screen.dialog.EditHandicapDialog, kotlin.Unit>" />
+
+        <variable
+            name="onClickConfirm"
+            type="kotlin.jvm.functions.Function2&lt;wook.pool.board.screen.dialog.EditHandicapDialog, Integer, kotlin.Unit>" />
+
+        <variable
+            name="onClickHandicap"
+            type="kotlin.jvm.functions.Function2&lt;wook.pool.board.screen.dialog.EditHandicapDialog, Integer, kotlin.Unit>" />
+
+        <variable
+            name="selectedHandicap"
+            type="Integer" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutDialog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_ffffff_round_24"
+            android:paddingVertical="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.7">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textTitle"
+                style="@style/notosans_bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:gravity="center"
+                android:text="핸디캡 수정"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textPlayerName"
+                style="@style/notosans_medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@{playerName}"
+                android:textColor="#606060"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textHandicapChange"
+                style="@style/notosans_regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textPlayerName" />
+
+            <LinearLayout
+                android:id="@+id/layoutHandicapButtons"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textHandicapChange">
+
+                <!-- 핸디캡 3 -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btnHandicap3"
+                    style="@style/notosans_medium"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_handicap_button"
+                    android:gravity="center"
+                    android:onClick="@{() -> onClickHandicap.invoke(dialog, 3)}"
+                    android:selected="@{selectedHandicap == 3}"
+                    android:text="3"
+                    android:textColor="@color/selector_handicap_text"
+                    android:textSize="18sp" />
+
+                <!-- 핸디캡 4 -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btnHandicap4"
+                    style="@style/notosans_medium"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_handicap_button"
+                    android:gravity="center"
+                    android:onClick="@{() -> onClickHandicap.invoke(dialog, 4)}"
+                    android:selected="@{selectedHandicap == 4}"
+                    android:text="4"
+                    android:textColor="@color/selector_handicap_text"
+                    android:textSize="18sp" />
+
+                <!-- 핸디캡 5 -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btnHandicap5"
+                    style="@style/notosans_medium"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_handicap_button"
+                    android:gravity="center"
+                    android:onClick="@{() -> onClickHandicap.invoke(dialog, 5)}"
+                    android:selected="@{selectedHandicap == 5}"
+                    android:text="5"
+                    android:textColor="@color/selector_handicap_text"
+                    android:textSize="18sp" />
+
+                <!-- 핸디캡 6 -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btnHandicap6"
+                    style="@style/notosans_medium"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_handicap_button"
+                    android:gravity="center"
+                    android:onClick="@{() -> onClickHandicap.invoke(dialog, 6)}"
+                    android:selected="@{selectedHandicap == 6}"
+                    android:text="6"
+                    android:textColor="@color/selector_handicap_text"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutHandicapButtons2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layoutHandicapButtons">
+
+                <!-- 핸디캡 7 -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btnHandicap7"
+                    style="@style/notosans_medium"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_handicap_button"
+                    android:gravity="center"
+                    android:onClick="@{() -> onClickHandicap.invoke(dialog, 7)}"
+                    android:selected="@{selectedHandicap == 7}"
+                    android:text="7"
+                    android:textColor="@color/selector_handicap_text"
+                    android:textSize="18sp" />
+
+                <!-- 핸디캡 8 -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btnHandicap8"
+                    style="@style/notosans_medium"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_handicap_button"
+                    android:gravity="center"
+                    android:onClick="@{() -> onClickHandicap.invoke(dialog, 8)}"
+                    android:selected="@{selectedHandicap == 8}"
+                    android:text="8"
+                    android:textColor="@color/selector_handicap_text"
+                    android:textSize="18sp" />
+
+                <!-- 핸디캡 9 -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btnHandicap9"
+                    style="@style/notosans_medium"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_handicap_button"
+                    android:gravity="center"
+                    android:onClick="@{() -> onClickHandicap.invoke(dialog, 9)}"
+                    android:selected="@{selectedHandicap == 9}"
+                    android:text="9"
+                    android:textColor="@color/selector_handicap_text"
+                    android:textSize="18sp" />
+
+                <!-- 핸디캡 10 -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btnHandicap10"
+                    style="@style/notosans_medium"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_handicap_button"
+                    android:gravity="center"
+                    android:onClick="@{() -> onClickHandicap.invoke(dialog, 10)}"
+                    android:selected="@{selectedHandicap == 10}"
+                    android:text="10"
+                    android:textColor="@color/selector_handicap_text"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnCancel"
+                style="@style/whiteButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:onClick="@{() -> onClickCancel.invoke(dialog)}"
+                android:padding="8dp"
+                android:text="@string/common_cancel"
+                android:textAllCaps="false"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/btnConfirm"
+                app:layout_constraintTop_toBottomOf="@id/layoutHandicapButtons2" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnConfirm"
+                style="@style/blueButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="16dp"
+                android:gravity="center"
+                android:onClick="@{() -> dialog.selectedHandicap != dialog.currentHandicap ? onClickConfirm.invoke(dialog, dialog.selectedHandicap) : null}"
+                android:padding="8dp"
+                android:text="수정"
+                android:textAllCaps="false"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="@+id/btnCancel"
+                app:layout_constraintLeft_toRightOf="@+id/btnCancel"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_goneMarginStart="20dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

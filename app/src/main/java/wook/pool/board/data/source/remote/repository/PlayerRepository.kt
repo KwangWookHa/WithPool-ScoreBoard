@@ -26,4 +26,11 @@ class PlayerRepository @Inject constructor(
                 .delete()
                 .await()
     }
+
+    suspend fun updatePlayer(documentId: String, player: Player) {
+        fireStore.collection(Constant.Collection.COLLECTION_PLAYERS)
+                .document(documentId)
+                .set(player)
+                .await()
+    }
 }

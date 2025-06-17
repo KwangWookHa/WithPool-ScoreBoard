@@ -22,10 +22,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="wook.pool.board" />
+                  <option name="mobileSdkAppId" value="1:370436067669:android:7589b99260ca616e6adfdc" />
+                  <option name="projectId" value="poolboard-5ce53" />
+                  <option name="projectNumber" value="370436067669" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

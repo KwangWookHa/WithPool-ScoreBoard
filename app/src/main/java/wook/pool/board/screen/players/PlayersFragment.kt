@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import android.widget.PopupMenu
 
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
@@ -16,6 +17,7 @@ import wook.pool.board.global.base.BaseFragment
 import wook.pool.board.global.event.EventObserver
 import wook.pool.board.screen.dialog.DefaultDialog
 import wook.pool.board.screen.dialog.AddPlayerDialog
+import wook.pool.board.screen.dialog.EditHandicapDialog
 import wook.pool.board.screen.scoreboard.ScoreBoardViewModel
 
 class PlayersFragment(override val layoutResId: Int = R.layout.fragment_players) :
@@ -30,8 +32,8 @@ class PlayersFragment(override val layoutResId: Int = R.layout.fragment_players)
             onClickPlayer = {
                 playersViewModel.setPlayer(it, args.isModeChoiceLeft)
             },
-            onLongClickPlayer = { player ->
-                showDeletePlayerDialog(player)
+            onLongClickPlayer = { player, view ->
+                showPlayerOptionsMenu(player, view)
             },
             onClickAddPlayer = {
                 showAddPlayerDialog()
@@ -88,6 +90,56 @@ class PlayersFragment(override val layoutResId: Int = R.layout.fragment_players)
                     showAddFailedDialog(message)
                 }
             })
+            updatePlayerEvent.observe(viewLifecycleOwner, EventObserver { result ->
+                val (success, message) = result
+                if (success) {
+                    showUpdateSuccessDialog(message)
+                } else {
+                    showUpdateFailedDialog(message)
+                }
+            })
+        }
+    }
+
+    private fun showPlayerOptionsMenu(player: Player, anchorView: View) {
+        hostActivityContext?.let { context ->
+            val popup = PopupMenu(context, anchorView)
+            popup.menuInflater.inflate(R.menu.menu_player_options, popup.menu)
+            
+            popup.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.action_edit_handicap -> {
+                        showEditHandicapDialog(player)
+                        true
+                    }
+                    R.id.action_delete -> {
+                        showDeletePlayerDialog(player)
+                        true
+                    }
+                    else -> false
+                }
+            }
+            
+            popup.show()
+        }
+    }
+
+    private fun showEditHandicapDialog(player: Player) {
+        hostActivityContext?.let { context ->
+            EditHandicapDialog.Builder()
+                    .setPlayerName(player.name ?: "")
+                    .setCurrentHandicap(player.handicap ?: 5)
+                    .setOnClickCancel { dialog ->
+                        dialog.dismiss()
+                    }
+                    .setOnClickConfirm { dialog, newHandicap ->
+                        if (newHandicap != player.handicap) {
+                            playersViewModel.updatePlayerHandicap(player, newHandicap)
+                        }
+                        dialog.dismiss()
+                    }
+                    .create(context)
+                    .show()
         }
     }
 
@@ -203,6 +255,35 @@ class PlayersFragment(override val layoutResId: Int = R.layout.fragment_players)
                     .setType(DefaultDialog.DialogType.DIALOG_OK)
                     .setTitle("추가 실패")
                     .setMessage(message ?: "회원 추가에 실패했습니다.")
+                    .setRightButtonText(getString(R.string.common_confirm))
+                    .setOnClickRight { dialog ->
+                        dialog.dismiss()
+                    }
+                    .create(context)
+                    .show()
+        }
+    }
+    private fun showUpdateSuccessDialog(playerName: String?) {
+        hostActivityContext?.let { context ->
+            DefaultDialog.Builder()
+                    .setType(DefaultDialog.DialogType.DIALOG_OK)
+                    .setTitle("수정 완료")
+                    .setMessage("${playerName ?: "회원"}님의 핸디캡이 수정되었습니다.")
+                    .setRightButtonText(getString(R.string.common_confirm))
+                    .setOnClickRight { dialog ->
+                        dialog.dismiss()
+                    }
+                    .create(context)
+                    .show()
+        }
+    }
+
+    private fun showUpdateFailedDialog(message: String?) {
+        hostActivityContext?.let { context ->
+            DefaultDialog.Builder()
+                    .setType(DefaultDialog.DialogType.DIALOG_OK)
+                    .setTitle("수정 실패")
+                    .setMessage(message ?: "핸디캡 수정에 실패했습니다.")
                     .setRightButtonText(getString(R.string.common_confirm))
                     .setOnClickRight { dialog ->
                         dialog.dismiss()
