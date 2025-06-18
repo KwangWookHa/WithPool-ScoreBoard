@@ -39,6 +39,11 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
         playersViewModel.playerLeftDice.observe(viewLifecycleOwner) {
             binding.inDiceProgress = false
         }
+        
+        // 테이블 번호 로드 관찰 (UI 업데이트용은 아니지만 ViewModel 초기화 확인용)
+        settingViewModel.selectedTableNumber.observe(viewLifecycleOwner) { tableNumber ->
+            // 로그로 확인하거나 필요시 추가 처리
+        }
     }
     
     private fun setupTableNumberButton() {
@@ -52,7 +57,13 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
     
     private fun showTableNumberSelectionDialog() {
         hostActivityContext?.let { context ->
-            val currentTableNumber = settingViewModel.getCurrentTableNumber()
+            // UseCase를 직접 호출하여 현재 테이블 번호를 가져옴
+            val currentTableNumber = if (settingViewModel.selectedTableNumber.value != null) {
+                settingViewModel.selectedTableNumber.value!!
+            } else {
+                // ViewModel이 아직 초기화되지 않았을 경우, UseCase를 직접 호출
+                settingViewModel.getCurrentTableNumber()
+            }
             
             SelectTableNumberDialog.Builder()
                 .setCurrentTableNumber(currentTableNumber)

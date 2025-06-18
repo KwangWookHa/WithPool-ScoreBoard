@@ -44,6 +44,15 @@ class SettingViewModel @Inject constructor(
     }
 
     fun getCurrentTableNumber(): Int {
-        return _selectedTableNumber.value ?: 1
+        // LiveData에 값이 있으면 사용, 없으면 직접 UseCase 호출
+        return _selectedTableNumber.value ?: run {
+            val tableNumber = if (checkTableNumberSetUseCase()) {
+                getTableNumberUseCase()
+            } else {
+                1 // 기본값
+            }
+            _selectedTableNumber.value = tableNumber
+            tableNumber
+        }
     }
 }
