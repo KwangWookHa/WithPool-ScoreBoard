@@ -19,6 +19,7 @@ import wook.pool.board.domain.usecase.match.UpdateNineBallMatchUseCase
 import wook.pool.board.global.base.BaseViewModel
 import wook.pool.board.global.base.ScoreLiveData
 import wook.pool.board.global.event.Event
+import wook.pool.board.domain.usecase.table.GetTableNumberUseCase // UseCase 추가
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,6 +27,7 @@ class NineBallViewModel @Inject constructor(
         private val addNineBallMatchUseCase: AddNineBallMatchUseCase,
         private val updateNineBallMatchUseCase: UpdateNineBallMatchUseCase,
         private val deleteNineBallMatchUseCase: DeleteNineBallMatchUseCase,
+        private val getTableNumberUseCase: GetTableNumberUseCase, // UseCase로 변경
 ) : BaseViewModel() {
 
     /***************************** Player Left *****************************/
@@ -190,6 +192,7 @@ class NineBallViewModel @Inject constructor(
                         NineBallMatch(
                                 gameType = GameType.GAME_9_BALL.text,
                                 adjustment = adjustment,
+                                tableNumber = getTableNumberUseCase(), // UseCase 사용
                                 isLive = true,
                                 players = listOf(playerLeft.name, playerRight.name),
                                 playerLeftName = playerLeft.name,

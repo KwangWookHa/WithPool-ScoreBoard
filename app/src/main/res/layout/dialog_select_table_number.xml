@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="wook.pool.board.screen.dialog.SelectTableNumberDialog" />
+        <import type="kotlin.jvm.functions.Function1" />
+        <import type="kotlin.jvm.functions.Function2" />
+        <import type="kotlin.Unit" />
+
+        <variable
+            name="dialog"
+            type="wook.pool.board.screen.dialog.SelectTableNumberDialog" />
+
+        <variable
+            name="currentTableNumber"
+            type="Integer" />
+
+        <variable
+            name="onClickCancel"
+            type="kotlin.jvm.functions.Function1&lt;wook.pool.board.screen.dialog.SelectTableNumberDialog, kotlin.Unit>" />
+
+        <variable
+            name="onClickConfirm"
+            type="kotlin.jvm.functions.Function2&lt;wook.pool.board.screen.dialog.SelectTableNumberDialog, Integer, kotlin.Unit>" />
+
+        <variable
+            name="onClickTableNumber"
+            type="kotlin.jvm.functions.Function2&lt;wook.pool.board.screen.dialog.SelectTableNumberDialog, Integer, kotlin.Unit>" />
+
+        <variable
+            name="selectedTableNumber"
+            type="Integer" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutDialog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_ffffff_round_24"
+            android:paddingVertical="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.7">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textTitle"
+                style="@style/notosans_bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:gravity="center"
+                android:text="테이블 번호 선택"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textTableNumberChange"
+                style="@style/notosans_regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textTitle" />
+
+            <LinearLayout
+                android:id="@+id/layoutTableNumberButtons"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textTableNumberChange">
+
+                <!-- 테이블 1번 -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btnTable1"
+                    style="@style/notosans_medium"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_handicap_button"
+                    android:gravity="center"
+                    android:onClick="@{() -> onClickTableNumber.invoke(dialog, 1)}"
+                    android:selected="@{selectedTableNumber == 1}"
+                    android:text="1번"
+                    android:textColor="@color/selector_handicap_text"
+                    android:textSize="16sp" />
+
+                <!-- 테이블 2번 -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btnTable2"
+                    style="@style/notosans_medium"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_handicap_button"
+                    android:gravity="center"
+                    android:onClick="@{() -> onClickTableNumber.invoke(dialog, 2)}"
+                    android:selected="@{selectedTableNumber == 2}"
+                    android:text="2번"
+                    android:textColor="@color/selector_handicap_text"
+                    android:textSize="16sp" />
+
+                <!-- 테이블 3번 -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btnTable3"
+                    style="@style/notosans_medium"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_handicap_button"
+                    android:gravity="center"
+                    android:onClick="@{() -> onClickTableNumber.invoke(dialog, 3)}"
+                    android:selected="@{selectedTableNumber == 3}"
+                    android:text="3번"
+                    android:textColor="@color/selector_handicap_text"
+                    android:textSize="16sp" />
+
+                <!-- 테이블 4번 -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btnTable4"
+                    style="@style/notosans_medium"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_handicap_button"
+                    android:gravity="center"
+                    android:onClick="@{() -> onClickTableNumber.invoke(dialog, 4)}"
+                    android:selected="@{selectedTableNumber == 4}"
+                    android:text="4번"
+                    android:textColor="@color/selector_handicap_text"
+                    android:textSize="16sp" />
+
+                <!-- 테이블 5번 -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btnTable5"
+                    style="@style/notosans_medium"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_handicap_button"
+                    android:gravity="center"
+                    android:onClick="@{() -> onClickTableNumber.invoke(dialog, 5)}"
+                    android:selected="@{selectedTableNumber == 5}"
+                    android:text="5번"
+                    android:textColor="@color/selector_handicap_text"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnCancel"
+                style="@style/whiteButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:onClick="@{() -> onClickCancel.invoke(dialog)}"
+                android:padding="8dp"
+                android:text="@string/common_cancel"
+                android:textAllCaps="false"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/btnConfirm"
+                app:layout_constraintTop_toBottomOf="@id/layoutTableNumberButtons" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnConfirm"
+                style="@style/blueButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="16dp"
+                android:gravity="center"
+                android:onClick="@{() -> dialog.selectedTableNumber != dialog.currentTableNumber ? onClickConfirm.invoke(dialog, dialog.selectedTableNumber) : null}"
+                android:padding="8dp"
+                android:text="변경"
+                android:textAllCaps="false"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="@+id/btnCancel"
+                app:layout_constraintLeft_toRightOf="@+id/btnCancel"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_goneMarginStart="20dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

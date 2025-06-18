@@ -44,7 +44,7 @@
     <string name="fragment_choice_player_handicap">%d(%d)</string>
     <string name="fragment_choice_player_not_set">선수 미선택</string>
     <string name="fragment_choice_player_not_set_desc">선수를 모두 선택하고 눌러주세요.</string>
-    <string name="fragment_choice_player_anycall">Anycall Mode</string>
+    <string name="fragment_choice_player_anycall">Anycall</string>
     <string name="fragment_choice_player_head_to_head_records">vs %1$s\n%2$d전 %3$d승 %4$d패</string>
     <string name="fragment_choice_player_none_head_to_head_records">최근 30일 이내\n상대 전적이 없습니다.</string>
 

@@ -5,6 +5,7 @@ import com.google.firebase.Timestamp
 data class NineBallMatch(
         val gameType: String? = null,
         val adjustment: Int? = null,
+        val tableNumber: Int? = null, // 테이블 번호 필드 추가
 
         @field:JvmField
         val isLive: Boolean? = false,

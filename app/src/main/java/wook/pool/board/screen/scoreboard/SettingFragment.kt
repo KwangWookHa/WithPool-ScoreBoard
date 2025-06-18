@@ -10,6 +10,7 @@ import wook.pool.board.R
 import wook.pool.board.databinding.FragmentSettingBinding
 import wook.pool.board.global.base.BaseFragment
 import wook.pool.board.screen.dialog.DefaultDialog
+import wook.pool.board.screen.dialog.SelectTableNumberDialog
 import wook.pool.board.screen.players.PlayersViewModel
 
 class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting) :
@@ -17,6 +18,7 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
 
     private val scoreBoardViewModel: ScoreBoardViewModel by activityViewModels()
     private val playersViewModel: PlayersViewModel by activityViewModels()
+    private val settingViewModel: SettingViewModel by activityViewModels()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -29,6 +31,7 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
                 listener = this@SettingFragment
             }
             initObserver()
+            setupTableNumberButton()
         }
     }
 
@@ -36,7 +39,34 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
         playersViewModel.playerLeftDice.observe(viewLifecycleOwner) {
             binding.inDiceProgress = false
         }
-
+    }
+    
+    private fun setupTableNumberButton() {
+        binding.imgBtnSelectTableNumber.setOnLongClickListener {
+            showTableNumberSelectionDialog()
+            true
+        }
+        
+        // 일반 클릭도 onClick에서 처리됨
+    }
+    
+    private fun showTableNumberSelectionDialog() {
+        hostActivityContext?.let { context ->
+            val currentTableNumber = settingViewModel.getCurrentTableNumber()
+            
+            SelectTableNumberDialog.Builder()
+                .setCurrentTableNumber(currentTableNumber)
+                .setOnClickCancel { dialog ->
+                    dialog.dismiss()
+                }
+                .setOnClickConfirm { dialog, selectedTableNumber ->
+                    settingViewModel.setTableNumber(selectedTableNumber)
+                    dialog.dismiss()
+                    Toast.makeText(context, "테이블 ${selectedTableNumber}번이 선택되었습니다.", Toast.LENGTH_SHORT).show()
+                }
+                .create(context)
+                .show()
+        }
     }
 
     override fun onClick(v: View?) {
@@ -57,8 +87,8 @@ class SettingFragment(override val layoutResId: Int = R.layout.fragment_setting)
                 layoutBtnClose -> {
                     activity?.finishAffinity()
                 }
-                imgBtnSelectGame -> {
-                    Toast.makeText(hostActivityContext, getString(R.string.common_coming_soon), Toast.LENGTH_SHORT).show()
+                imgBtnSelectTableNumber -> {
+                    showTableNumberSelectionDialog()
                 }
                 layoutBtnStartGame -> {
                     val matchPlayers = playersViewModel.getMatchPlayers() ?: let {
