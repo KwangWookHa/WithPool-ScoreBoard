@@ -69,7 +69,7 @@ class NineBallViewModel @Inject constructor(
         addSource(_playerLeft) { this.value = (it?.name == GUEST || _playerRight.value?.name == GUEST) }
         addSource(_playerRight) { this.value = (it?.name == GUEST || _playerLeft.value?.name == GUEST) }
     }
-    val isGuestModeValue: Boolean get() = isGuestMode.value!!
+    val isGuestModeValue: Boolean get() = isGuestMode.value == true
 
 
     val isMatchOver: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
@@ -117,7 +117,9 @@ class NineBallViewModel @Inject constructor(
                 _playerRight.postValue(it.playerRight)
                 _playerLeftAdjustedHandicap.postValue(it.playerLeft.handicap?.plus(it.adjustment))
                 _playerRightAdjustedHandicap.postValue(it.playerRight.handicap?.plus(it.adjustment))
-                initNineBallMatch(it.playerLeft, it.playerRight, it.adjustment)
+                if (it.playerLeft.name != GUEST && it.playerRight.name != GUEST) {
+                    initNineBallMatch(it.playerLeft, it.playerRight, it.adjustment)
+                }
             }
         }
     }
@@ -179,7 +181,9 @@ class NineBallViewModel @Inject constructor(
     }
 
     private fun initNineBallMatch(playerLeft: Player, playerRight: Player, adjustment: Int) {
-        if (isGuestModeValue) return
+        if (playerLeft.name == GUEST || playerRight.name == GUEST) {
+            return // Guest 모드면 DB 저장 안함
+        }
         viewModelScope.launch(ioDispatchers) {
             kotlin.runCatching {
                 addNineBallMatchUseCase.invoke(
